@@ -12,6 +12,8 @@ import android.view.MenuItem;
 
 public class EntitySelectActivity extends AppCompatActivity {
 
+    //TODO: implement EntitySelectMVC.View interface
+
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");

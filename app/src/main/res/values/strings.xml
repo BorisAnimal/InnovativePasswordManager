@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">InnovativePasswordManager</string>
+    <string name="manage_data">Manage Data</string>
+    <string name="edit_master_password">Edit Master Password</string>
+    <string name="blacklist">Blacklist</string>
+
+    //TODO: delete/rewrite unused things here, maybe all of 'em
     <string name="action_settings">Settings</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

@@ -21,6 +21,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".EditMasterPasswordActivity" />
+        <activity android:name=".EditEntryActivity"></activity>
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ public interface LoginMVC {
          * User is identified and he/she can begin using application.
          * All needed values stored on session time.
          */
-        void acceptVerification();
+        void makeTransitionToEntitySelect();
     }
 
     interface Controller {

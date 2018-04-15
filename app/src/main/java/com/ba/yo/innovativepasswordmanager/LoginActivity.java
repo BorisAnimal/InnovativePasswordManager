@@ -9,33 +9,39 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class LoginActivity extends AppCompatActivity implements EntitySelectMVC.Login {
+public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
     private FloatingActionButton masterButton;
+    private LoginMVC.Controller controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
 
+        controller = new LoginController(this);
+
         masterButton = (FloatingActionButton) findViewById(R.id.master_button);
         masterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(checkFields()){
-                    //HERE CALL LOGIN
-                    makeTransitionToEntitySelect();
-                }else{
+                if (checkFields()) {
+                    String login = ((EditText) findViewById(R.id.master_login)).getText().toString().trim();
+                    String password = ((EditText) findViewById(R.id.master_password)).getText().toString().trim();
+                    controller.check(login, password);
+                } else {
                     showNotification("Login and Password fields can not be empty.");
                 }
             }
         });
     }
-    public boolean checkFields(){
+
+    public boolean checkFields() {
         String login = ((EditText) findViewById(R.id.master_login)).getText().toString().trim();
         String password = ((EditText) findViewById(R.id.master_password)).getText().toString().trim();
         return (!login.isEmpty() && !password.isEmpty());
     }
 
-    public void makeTransitionToEntitySelect(){
+    public void makeTransitionToEntitySelect() {
         Intent intent = new Intent(LoginActivity.this, EntitySelectActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

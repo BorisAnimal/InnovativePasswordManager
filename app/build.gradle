@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.ba.yo.innovativepasswordmanager"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -39,6 +39,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 }

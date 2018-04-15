@@ -43,7 +43,7 @@ public class AuthEntryAdapter extends ArrayAdapter<AuthEntry> {
         name.setText(currentEntry.getaName());
 
         Button prop_button = (Button) listItem.findViewById(R.id.prop_button);
-        prop_button.set
+        //prop_button.setOnClickListener(new );
 
 
         return listItem;

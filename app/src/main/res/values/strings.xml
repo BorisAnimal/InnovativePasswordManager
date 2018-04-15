@@ -41,4 +41,5 @@
     <string name="change_master_password">Change Master Password</string>
     <string name="entry_icon">Entry Icon</string>
     <string name="welcome_to_ipm">Welcome to IPM!</string>
+    <string name="application_name_short">IPM</string>
 </resources>

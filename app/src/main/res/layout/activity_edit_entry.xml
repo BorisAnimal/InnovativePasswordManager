@@ -7,42 +7,43 @@
     tools:context=".EditEntryActivity">
 
     <LinearLayout
+        android:id="@+id/entity_select_layout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:padding="25px">
+        android:padding="11dp">
 
         <TextView
             android:id="@+id/loginLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Enter Login:" />
+            android:text="@string/enter_login" />
 
         <EditText
             android:id="@+id/loginField"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Login"
+            android:hint="@string/login"
             android:inputType="textPersonName"
-            android:layout_marginBottom="20px" />
+            android:layout_marginBottom="9dp" />
 
         <TextView
             android:id="@+id/passwordLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Enter Password:" />
+            android:text="@string/enter_password" />
 
         <EditText
             android:id="@+id/passwordField"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
-            android:layout_marginBottom="20px" />
+            android:layout_marginBottom="9dp" />
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -53,8 +54,8 @@
             android:id="@+id/generatePasswordButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Generate Random Password"
-            android:layout_marginBottom="20px" />
+            android:text="@string/generate_random_password"
+            android:layout_marginBottom="9dp" />
         </LinearLayout>
 
         <TextView
@@ -62,16 +63,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Add description:" />
+            android:text="@string/add_description" />
 
         <EditText
             android:id="@+id/descrField"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Description"
+            android:hint="@string/description"
             android:inputType="textPersonName"
-            android:layout_marginBottom="20px" />
+            android:layout_marginBottom="9dp" />
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -82,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryLight"
-            android:text="Add"
+            android:text="@string/add"
             android:textColor="@android:color/white"
             android:gravity="center" />
         </LinearLayout>

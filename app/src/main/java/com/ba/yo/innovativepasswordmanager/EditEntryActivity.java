@@ -12,7 +12,7 @@ public class EditEntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_entry);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add Entry");
+        setTitle(getString(R.string.add_entry));
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

@@ -9,18 +9,27 @@ import android.widget.Button;
 
 public class EditEntryActivity extends AppCompatActivity {
 
+    private String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry);
         if(getIntent().hasExtra("ENTRY_ID")){
             setTitle(getString(R.string.edit_entry));
-            int id = getIntent().getIntExtra("ENTRY_ID", -1);
+            id = getIntent().getStringExtra("ENTRY_ID");
+            Button saveButton = (Button) findViewById(R.id.addButton);
+            saveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    showNotification("Current entry ID: "+id);
+                }
+            });
         }else{
             setTitle(getString(R.string.add_entry));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Button
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){

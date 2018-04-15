@@ -89,7 +89,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         authList = new ArrayList<>();
         controller = new EntitySelectController(this);
 
-        addEntity("test","1");
+        addEntity("test","77");
     }
 
     @Override

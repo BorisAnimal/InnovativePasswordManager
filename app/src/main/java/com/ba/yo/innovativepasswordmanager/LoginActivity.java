@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
                     String login = ((EditText) findViewById(R.id.master_login)).getText().toString().trim();
                     String password = ((EditText) findViewById(R.id.master_password)).getText().toString().trim();
                     controller.check(login, password);
+                    makeTransitionToEntitySelect();
                 } else {
                     showNotification("Login and Password fields can not be empty.");
                 }

@@ -72,6 +72,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         authList = new ArrayList<>();
         controller = new EntitySelectController(this);
 
+        controller.getData();
     }
 
     @Override

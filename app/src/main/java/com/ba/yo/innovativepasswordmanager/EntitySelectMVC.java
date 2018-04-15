@@ -15,6 +15,7 @@ public interface EntitySelectMVC {
         /**
          * Remove all items from list
          */
+
         void clearList();
     }
 
@@ -23,5 +24,9 @@ public interface EntitySelectMVC {
          * Asks server for current list of accounts
          */
         void getData();
+    }
+
+    interface Login {
+        void makeTransitionToEntitySelect();
     }
 }

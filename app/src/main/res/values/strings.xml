@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">InnovativePasswordManager</string>
+    <string name="app_name">Innovative Password Manager</string>
     <string name="manage_data">Manage Data</string>
     <string name="edit_master_password">Edit Master Password</string>
     <string name="blacklist">Blacklist</string>
@@ -29,4 +29,17 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter Password:</string>
+    <string name="login">Login</string>
+    <string name="enter_login">Enter Login:</string>
+    <string name="generate_random_password">Generate Random Password</string>
+    <string name="add_description">Add description:</string>
+    <string name="description">Description</string>
+    <string name="add">Add</string>
+    <string name="add_entry">Add Entry</string>
+    <string name="change_master_password">Change Master Password</string>
+    <string name="entry_icon">Entry Icon</string>
+    <string name="welcome_to_ipm">Welcome to IPM!</string>
+    <string name="application_name_short">IPM</string>
 </resources>

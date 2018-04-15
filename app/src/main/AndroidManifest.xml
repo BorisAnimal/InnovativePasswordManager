@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".EditMasterPasswordActivity" />
-        <activity android:name=".EditEntryActivity"></activity>
+        <activity android:name=".EditEntryActivity"/>
     </application>
 
 </manifest>

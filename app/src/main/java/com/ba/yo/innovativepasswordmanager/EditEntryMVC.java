@@ -11,7 +11,7 @@ public interface EditEntryMVC {
          *
          * @param pass - target value
          */
-//        void setPassword(String pass);
+        void setPassword(String pass);
 //
 //        /**
 //         * Appends login to corresponded field

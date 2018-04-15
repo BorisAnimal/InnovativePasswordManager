@@ -2,6 +2,7 @@ package com.ba.yo.innovativepasswordmanager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 public class AuthEntryAdapter extends ArrayAdapter<AuthEntry> {
     private Context aContext;
@@ -43,7 +46,7 @@ public class AuthEntryAdapter extends ArrayAdapter<AuthEntry> {
         name.setText(currentEntry.getaName());
 
         Button prop_button = (Button) listItem.findViewById(R.id.prop_button);
-        //prop_button.setOnClickListener(new );
+
 
 
         return listItem;

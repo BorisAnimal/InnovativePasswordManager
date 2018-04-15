@@ -68,10 +68,28 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
             }
 
         });
+        showNotification("init list listen");
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
+                showNotification("Pressed "+authList.get(i).getaId());
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
+                Intent intent = new Intent(EntitySelectActivity.this, EditEntryActivity.class);
+                intent.putExtra("ENTRY_ID", authList.get(i).getaId());
+                startActivity(intent);
+                return false;
+            }
+        });
 
         authList = new ArrayList<>();
         controller = new EntitySelectController(this);
 
+        addEntity("test","1");
     }
 
     @Override

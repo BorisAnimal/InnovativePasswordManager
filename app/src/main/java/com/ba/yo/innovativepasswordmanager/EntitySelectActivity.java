@@ -34,51 +34,44 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean MUST_LOGIN = true;
-        if(MUST_LOGIN){
-            setContentView(R.layout.activity_login_screen);
+        setContentView(R.layout.activity_entity_select);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            //TODO: attach listeners to layout
-            
-        }else {
-            setContentView(R.layout.activity_entity_select);
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+        addEntry = (FloatingActionButton) findViewById(R.id.addEntry);
+        addEntry.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View view) {
+                startActivity(new Intent(EntitySelectActivity.this, EditEntryActivity.class));
+            }
+        });
 
-            addEntry = (FloatingActionButton) findViewById(R.id.addEntry);
-            addEntry.setOnClickListener(new android.view.View.OnClickListener() {
-                @Override
-                public void onClick(android.view.View view) {
-                    startActivity(new Intent(EntitySelectActivity.this, EditEntryActivity.class));
-                }
-            });
+        listView = (ListView) findViewById(R.id.entry_selector);
+        listView.setOnTouchListener(new android.view.View.OnTouchListener() {
+            float height;
 
-            listView = (ListView) findViewById(R.id.entry_selector);
-            listView.setOnTouchListener(new android.view.View.OnTouchListener() {
-                float height;
+            @Override
+            public boolean onTouch(android.view.View v, MotionEvent event) {
+                int action = event.getAction();
+                float height = event.getY();
+                if (action == MotionEvent.ACTION_DOWN) {
+                    this.height = height;
+                } else if (action == MotionEvent.ACTION_UP) {
+                    if (this.height < height) {
+                        addEntry.show();
 
-                @Override
-                public boolean onTouch(android.view.View v, MotionEvent event) {
-                    int action = event.getAction();
-                    float height = event.getY();
-                    if (action == MotionEvent.ACTION_DOWN) {
-                        this.height = height;
-                    } else if (action == MotionEvent.ACTION_UP) {
-                        if (this.height < height) {
-                            addEntry.show();
-
-                        } else if (this.height > height) {
-                            addEntry.hide();
-                        }
+                    } else if (this.height > height) {
+                        addEntry.hide();
                     }
-                    return false;
                 }
+                return false;
+            }
 
-            });
+        });
 
-            authList = new ArrayList<>();
-            controller = new EntitySelectController(this);
-        }
+        authList = new ArrayList<>();
+        controller = new EntitySelectController(this);
+
     }
 
     @Override
@@ -108,6 +101,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         aAdapter = new AuthEntryAdapter(this, authList);
         listView.setAdapter(aAdapter);
     }
+
     public void addEntity(String description, String id) {
         authList.add(new AuthEntry(R.drawable.ic_key, description, id));
         updateList();

@@ -25,4 +25,8 @@ public interface EntitySelectMVC {
          */
         void getData();
     }
+
+    interface Login {
+        void makeTransitionToEntitySelect();
+    }
 }

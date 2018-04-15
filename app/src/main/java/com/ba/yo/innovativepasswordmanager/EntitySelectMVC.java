@@ -15,6 +15,7 @@ public interface EntitySelectMVC {
         /**
          * Remove all items from list
          */
+
         void clearList();
     }
 

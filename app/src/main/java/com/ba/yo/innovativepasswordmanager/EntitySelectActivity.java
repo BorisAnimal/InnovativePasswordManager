@@ -1,7 +1,13 @@
 package com.ba.yo.innovativepasswordmanager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,25 +17,68 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class EntitySelectActivity extends AppCompatActivity {
+import java.util.ArrayList;
+
+public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View {
 
     //TODO: implement EntitySelectMVC.View interface
 
+    private ListView listView;
+    private ArrayList<AuthEntry> authList;
+    private AuthEntryAdapter aAdapter;
+    private EntitySelectMVC.Controller controller;
+    private FloatingActionButton addEntry;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_entity_select);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton addEntry = (FloatingActionButton) findViewById(R.id.addEntry);
-        addEntry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(EntitySelectActivity.this, EditEntryActivity.class));
-            }
-        });
+        boolean MUST_LOGIN = true;
+        if(MUST_LOGIN){
+            setContentView(R.layout.activity_login_screen);
 
+            //TODO: attach listeners to layout
+            
+        }else {
+            setContentView(R.layout.activity_entity_select);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            addEntry = (FloatingActionButton) findViewById(R.id.addEntry);
+            addEntry.setOnClickListener(new android.view.View.OnClickListener() {
+                @Override
+                public void onClick(android.view.View view) {
+                    startActivity(new Intent(EntitySelectActivity.this, EditEntryActivity.class));
+                }
+            });
+
+            listView = (ListView) findViewById(R.id.entry_selector);
+            listView.setOnTouchListener(new android.view.View.OnTouchListener() {
+                float height;
+
+                @Override
+                public boolean onTouch(android.view.View v, MotionEvent event) {
+                    int action = event.getAction();
+                    float height = event.getY();
+                    if (action == MotionEvent.ACTION_DOWN) {
+                        this.height = height;
+                    } else if (action == MotionEvent.ACTION_UP) {
+                        if (this.height < height) {
+                            addEntry.show();
+
+                        } else if (this.height > height) {
+                            addEntry.hide();
+                        }
+                    }
+                    return false;
+                }
+
+            });
+
+            authList = new ArrayList<>();
+            controller = new EntitySelectController(this);
+        }
     }
 
     @Override
@@ -54,4 +103,27 @@ public class EntitySelectActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void updateList() {
+        aAdapter = new AuthEntryAdapter(this, authList);
+        listView.setAdapter(aAdapter);
+    }
+    public void addEntity(String description, String id) {
+        authList.add(new AuthEntry(R.drawable.ic_key, description, id));
+        updateList();
+    }
+
+    public void clearList() {
+        authList = new ArrayList<>();
+        updateList();
+    }
+
+    public void showNotification(String notificationText) {
+        View parentLayout = findViewById(android.R.id.content);
+        Snackbar mySnackbar = Snackbar.make(parentLayout, notificationText, Snackbar.LENGTH_LONG);
+        mySnackbar.show();
+        //TODO: Fab intersection avoidance
+    }
+
+
 }

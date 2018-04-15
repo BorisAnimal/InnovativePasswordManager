@@ -12,7 +12,7 @@ public class EditMasterPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_master_password);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Add Entry");
+        setTitle(getString(R.string.change_master_password));
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

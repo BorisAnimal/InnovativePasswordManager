@@ -41,4 +41,14 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+    //https://github.com/adorsys/secure-storage-android
+    implementation "de.adorsys.android:securestoragelibrary:1.0.2"
+
+    //https://github.com/scottyab/AESCrypt-Android
+    compile 'com.yakivmospan:scytale:1.0.1'
+
 }

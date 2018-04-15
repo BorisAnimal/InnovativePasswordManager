@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Java-Ai-BOT on 4/11/2018.
  */
 
-public class EntityAccountModel {
+public class EntitySelectModel {
     @SerializedName("description")
     private String description;
 
@@ -29,7 +29,7 @@ public class EntityAccountModel {
         return id;
     }
 
-    public EntityAccountModel(String description, String id) {
+    public EntitySelectModel(String description, String id) {
         this.description = description;
         this.id = id;
     }

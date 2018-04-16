@@ -68,11 +68,11 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
             }
 
         });
-        showNotification("init list listen");
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
-                showNotification("Pressed "+authList.get(i).getaId());
+                showNotification("Send password for entry with id: "+authList.get(i).getaId());
             }
         });
 

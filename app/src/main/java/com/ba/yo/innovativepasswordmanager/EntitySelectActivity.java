@@ -89,7 +89,11 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         authList = new ArrayList<>();
         controller = new EntitySelectController(this);
 
+<<<<<<< HEAD
         addEntity("test","77");
+=======
+        controller.getData();
+>>>>>>> refs/remotes/origin/master
     }
 
     @Override

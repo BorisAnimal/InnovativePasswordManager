@@ -12,20 +12,20 @@ public interface EditEntryMVC {
          * @param pass - target value
          */
         void setPassword(String pass);
-
-        /**
-         * Appends login to corresponded field
-         *
-         * @param login - target value
-         */
-        void setLogin(String login);
-
-        /**
-         * Appends description to corresponded field
-         *
-         * @param description - target value
-         */
-        void setDescription(String description);
+//
+//        /**
+//         * Appends login to corresponded field
+//         *
+//         * @param login - target value
+//         */
+//        void setLogin(String login);
+//
+//        /**
+//         * Appends description to corresponded field
+//         *
+//         * @param description - target value
+//         */
+//        void setDescription(String description);
     }
 
     interface Controller {

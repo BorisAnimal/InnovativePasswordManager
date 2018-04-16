@@ -25,8 +25,8 @@ public class LoginController implements LoginMVC.Controller {
     @Override
     public void check(String login, String password) {
         CryptoCipher.storeMP(password);
-        Call<LoginResponseModel> call = api.checkUser(CryptoCipher.encrypt(login),
-                CryptoCipher.encrypt(password));
+        Call<LoginResponseModel> call = api.checkUser(CryptoCipher.hash256(login),
+                CryptoCipher.hash256(password));
         call.enqueue(new Callback<LoginResponseModel>() {
             @Override
             public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
@@ -34,7 +34,11 @@ public class LoginController implements LoginMVC.Controller {
                 if (response.body() != null) {
                     LoginResponseModel resp = response.body();
                     if (resp.getVerified()) {
+                        Log.e(TAG, response.message());
+                        Log.e(TAG, response.toString());
                         CryptoCipher.storeToken(resp.getSessionToken());
+                        view.showNotification("All good");
+                        view.makeTransitionToEntitySelect();
                     }
                 } else {
                     view.showNotification("Server unavailable");

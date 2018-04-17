@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager.service;
+package com.ba.yo.innovativepasswordmanager.model;
 
 import android.support.annotation.NonNull;
 import android.util.Base64;
@@ -9,7 +9,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 
-import javax.crypto.KeyGenerator;
 import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.Cipher;
 

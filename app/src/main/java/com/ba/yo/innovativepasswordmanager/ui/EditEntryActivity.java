@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.ba.yo.innovativepasswordmanager.controllers.EditEntryController;
+import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
+import com.ba.yo.innovativepasswordmanager.R;
 
 public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC.View {
     private EditEntryMVC.Controller controller;

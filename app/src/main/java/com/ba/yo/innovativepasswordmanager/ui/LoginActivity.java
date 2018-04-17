@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -6,8 +6,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+
+import com.ba.yo.innovativepasswordmanager.controllers.LoginController;
+import com.ba.yo.innovativepasswordmanager.LoginMVC;
+import com.ba.yo.innovativepasswordmanager.R;
 
 public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
     private FloatingActionButton masterButton;

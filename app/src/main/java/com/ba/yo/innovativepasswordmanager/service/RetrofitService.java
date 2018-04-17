@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.service;
 
 import com.google.gson.GsonBuilder;
 

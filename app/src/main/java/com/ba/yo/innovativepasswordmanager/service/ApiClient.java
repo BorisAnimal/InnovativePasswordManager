@@ -1,4 +1,7 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.service;
+
+import com.ba.yo.innovativepasswordmanager.controllers.EntitySelectModel;
+import com.ba.yo.innovativepasswordmanager.controllers.LoginResponseModel;
 
 import java.util.List;
 

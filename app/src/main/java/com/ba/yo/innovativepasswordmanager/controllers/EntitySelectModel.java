@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.controllers;
 
 import com.google.gson.annotations.SerializedName;
 

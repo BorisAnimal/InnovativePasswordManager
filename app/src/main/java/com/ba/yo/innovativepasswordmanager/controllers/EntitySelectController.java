@@ -1,6 +1,10 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.util.Log;
+
+import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
+import com.ba.yo.innovativepasswordmanager.service.ApiClient;
+import com.ba.yo.innovativepasswordmanager.service.RetrofitService;
 
 import java.util.List;
 

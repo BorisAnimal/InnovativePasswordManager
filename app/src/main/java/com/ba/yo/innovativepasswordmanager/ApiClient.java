@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by Java-Ai-BOT on 4/11/2018.
@@ -20,8 +21,9 @@ public interface ApiClient {
                            @Header("pass") String password, @Header("descr") String description);
 
 
-    @GET("users/check/v1.0/")
-    Call<LoginResponseModel> checkUser(@Header("login") String login, @Header("pass") String pass);
+    @GET("/CheckUser")
+    Call<LoginResponseModel> checkUser(@Query("login") String login, @Query("pass") String pass);
+//    Call<LoginResponseModel> checkUser(@Header("login") String login, @Header("pass") String pass);
 }
 
 

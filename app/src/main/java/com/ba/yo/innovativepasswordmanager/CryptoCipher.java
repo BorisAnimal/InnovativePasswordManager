@@ -26,10 +26,15 @@ public class CryptoCipher {
     private final static String TOKEN = "X_Auth_Token";
 
     @NonNull
-    public static String hash256(String data) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        md.update(data.getBytes());
-        return bytesToHex(md.digest());
+    public static String hash256(String data) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(data.getBytes());
+            return bytesToHex(md.digest());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, e.getLocalizedMessage());
+            return null;
+        }
     }
 
     @NonNull
@@ -69,10 +74,10 @@ public class CryptoCipher {
             c.init(Cipher.ENCRYPT_MODE, sks);
             encodedBytes = c.doFinal(message.getBytes());
         } catch (Exception e) {
-            Log.e("Crypto", "AES encryption error");
+            Log.e("Crypto", "AES encryption error\n" + e.getLocalizedMessage());
         }
 
-        return Base64.encodeToString(encodedBytes, Base64.DEFAULT) + "\n";
+        return Base64.encodeToString(encodedBytes, Base64.DEFAULT);// + "\n";
     }
 
     public static String decrypt(String message) {

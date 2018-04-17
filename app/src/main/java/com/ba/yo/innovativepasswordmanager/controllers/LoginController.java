@@ -2,10 +2,11 @@ package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.util.Log;
 
-import com.ba.yo.innovativepasswordmanager.service.CryptoCipher;
+import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.LoginMVC;
-import com.ba.yo.innovativepasswordmanager.service.ApiClient;
-import com.ba.yo.innovativepasswordmanager.service.RetrofitService;
+import com.ba.yo.innovativepasswordmanager.model.ApiClient;
+import com.ba.yo.innovativepasswordmanager.model.LoginResponseModel;
+import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
 import retrofit2.Call;
 import retrofit2.Callback;

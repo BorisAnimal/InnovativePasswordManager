@@ -3,8 +3,9 @@ package com.ba.yo.innovativepasswordmanager.controllers;
 import android.support.annotation.Nullable;
 
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
-import com.ba.yo.innovativepasswordmanager.service.ApiClient;
-import com.ba.yo.innovativepasswordmanager.service.RetrofitService;
+import com.ba.yo.innovativepasswordmanager.model.ApiClient;
+import com.ba.yo.innovativepasswordmanager.model.EntryModel;
+import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -15,7 +16,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.POST;
 
-import static com.ba.yo.innovativepasswordmanager.service.CryptoCipher.*;
+import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.*;
 
 /**
  * Created by Java-Ai-BOT on 4/15/2018.

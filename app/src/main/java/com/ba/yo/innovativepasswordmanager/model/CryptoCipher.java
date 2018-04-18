@@ -58,52 +58,56 @@ public class CryptoCipher {
 
 
     public static String encrypt(String message) {
-        SecretKeySpec sks = null;
-        try {
-            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-            sr.setSeed("any data used as random seed".getBytes());
-            String key = SecurePreferences.getStringValue(MP, null);
-            sks = new SecretKeySpec(key.getBytes(), "AES");
-        } catch (Exception e) {
-            Log.e("Crypto", "AES secret key spec error");
-        }
-        byte[] encodedBytes = null;
-        try {
-            Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.ENCRYPT_MODE, sks);
-            encodedBytes = c.doFinal(message.getBytes());
-        } catch (Exception e) {
-            Log.e("Crypto", "AES encryption error\n" + e.getLocalizedMessage());
-        }
-
-        return Base64.encodeToString(encodedBytes, Base64.DEFAULT);// + "\n";
+//        SecretKeySpec sks = null;
+//        try {
+//            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+//            sr.setSeed("any data used as random seed".getBytes());
+//            String key = SecurePreferences.getStringValue(MP, null);
+//            sks = new SecretKeySpec(key.getBytes(), "RC2");
+//        } catch (Exception e) {
+//            Log.e("Crypto", "RC2 secret key spec error");
+//        }
+//        byte[] encodedBytes = null;
+//        try {
+//            Cipher c = Cipher.getInstance("RC2");
+//            c.init(Cipher.ENCRYPT_MODE, sks);
+//            encodedBytes = c.doFinal(message.getBytes());
+//        } catch (Exception e) {
+//            Log.e("Crypto", "RC2 encryption error\n" + e.getLocalizedMessage());
+//        }
+//
+//        return Base64.encodeToString(encodedBytes, Base64.DEFAULT);// + "\n";
+        //TODO: remake
+        return message;
     }
 
     public static String decrypt(String message) {
-        SecretKeySpec sks = null;
-        try {
-            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-            sr.setSeed("any data used as random seed".getBytes());
-            String key = SecurePreferences.getStringValue(MP, null);
-            sks = new SecretKeySpec(key.getBytes(), "AES");
-        } catch (Exception e) {
-            Log.e("Crypto", "AES secret key spec error");
-        }
-        // Decode the encoded data with AES
-        byte[] decodedBytes = null;
-        try
-
-        {
-            Cipher c = Cipher.getInstance("AES");
-            c.init(Cipher.DECRYPT_MODE, sks);
-            decodedBytes = c.doFinal(message.getBytes());
-        } catch (
-                Exception e)
-
-        {
-            Log.e("Crypto", "AES decryption error");
-        }
-        return new String(decodedBytes);
+//        SecretKeySpec sks = null;
+//        try {
+//            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+//            sr.setSeed("any data used as random seed".getBytes());
+//            String key = SecurePreferences.getStringValue(MP, null);
+//            sks = new SecretKeySpec(key.getBytes(), "RC2");
+//        } catch (Exception e) {
+//            Log.e("Crypto", "RC2 secret key spec error");
+//        }
+//        // Decode the encoded data with RC2
+//        byte[] decodedBytes = null;
+//        try
+//
+//        {
+//            Cipher c = Cipher.getInstance("RC2");
+//            c.init(Cipher.DECRYPT_MODE, sks);
+//            decodedBytes = c.doFinal(message.getBytes());
+//        } catch (
+//                Exception e)
+//
+//        {
+//            Log.e("Crypto", "RC2 decryption error");
+//        }
+//        return new String(decodedBytes);
+        //TODO: remake
+        return message;
     }
 
     /**

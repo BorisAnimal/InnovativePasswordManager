@@ -22,7 +22,7 @@ public interface ApiClient {
 
 
     @GET("/CheckUser")
-    Call<LoginResponseModel> checkUser(@Query("login") String login, @Query("pass") String pass);
+    Call<LoginResponseModel> checkUser(@Header("login") String login, @Header("pass") String pass);
 //    Call<LoginResponseModel> checkUser(@Header("login") String login, @Header("pass") String pass);
 }
 

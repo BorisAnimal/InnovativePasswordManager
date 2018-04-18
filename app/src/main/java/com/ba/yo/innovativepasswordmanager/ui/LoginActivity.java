@@ -17,11 +17,11 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
     @BindView(R.id.master_button)
-    private FloatingActionButton masterButton;
-    @BindView(R.id.loginField)
-    private EditText loginEdit;
-    @BindView(R.id.passwordField)
-    private EditText passwordEdit;
+    FloatingActionButton masterButton;
+    @BindView(R.id.master_login)
+    EditText loginEdit;
+    @BindView(R.id.master_password)
+    EditText passwordEdit;
     private LoginMVC.Controller controller;
 
     @Override

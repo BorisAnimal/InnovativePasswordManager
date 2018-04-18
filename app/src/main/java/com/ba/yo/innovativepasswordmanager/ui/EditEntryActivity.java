@@ -16,15 +16,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC.View {
-    private EditEntryMVC.Controller controller;
+    EditEntryMVC.Controller controller;
     @BindView(R.id.addButton)
-    private Button goButton;
+    Button goButton;
     @BindView(R.id.loginField)
-    private EditText loginEd;
+    EditText loginEd;
     @BindView(R.id.passwordField)
-    private EditText passEd;
+    EditText passEd;
     @BindView(R.id.descrField)
-    private EditText descEd;
+    EditText descEd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

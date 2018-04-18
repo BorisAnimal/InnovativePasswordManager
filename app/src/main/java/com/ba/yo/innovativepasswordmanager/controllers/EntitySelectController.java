@@ -34,8 +34,8 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
             @Override
             public void onResponse(Call<List<EntitySelectModel>> call, Response<List<EntitySelectModel>> response) {
                 Log.d(TAG, response.toString());
-                Log.d(TAG, response.body().size() + "");
                 if (response.body() != null) {
+                    Log.d(TAG, response.body().size() + "");
                     List<EntitySelectModel> entities = response.body();
                     for (EntitySelectModel ent : entities) {
                         view.addEntity(ent.getDescription(), ent.getId());

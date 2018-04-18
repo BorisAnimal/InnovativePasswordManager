@@ -57,7 +57,7 @@ public class LoginController implements LoginMVC.Controller {
 
             @Override
             public void onFailure(Call<LoginResponseModel> call, Throwable t) {
-                Log.d(TAG, t.getMessage());
+                Log.e(TAG, t.getMessage());
                 view.showNotification(t.getMessage());
                 call.cancel();
             }

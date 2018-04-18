@@ -8,6 +8,8 @@ import com.ba.yo.innovativepasswordmanager.model.ApiClient;
 import com.ba.yo.innovativepasswordmanager.model.LoginResponseModel;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +30,10 @@ public class LoginController implements LoginMVC.Controller {
 
     @Override
     public void check(String login, String password) {
+        if(Objects.equals(login, "") || Objects.equals(password, "")){
+            view.showNotification("Login and Password fields can not be empty.");
+            return;
+        }
         CryptoCipher.storeMP(password);
         Call<LoginResponseModel> call = api.checkUser(CryptoCipher.hash256(login),
                 CryptoCipher.hash256(password));

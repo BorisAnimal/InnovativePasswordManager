@@ -12,8 +12,16 @@ import com.ba.yo.innovativepasswordmanager.controllers.LoginController;
 import com.ba.yo.innovativepasswordmanager.LoginMVC;
 import com.ba.yo.innovativepasswordmanager.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
+    @BindView(R.id.master_button)
     private FloatingActionButton masterButton;
+    @BindView(R.id.loginField)
+    private EditText loginEdit;
+    @BindView(R.id.passwordField)
+    private EditText passwordEdit;
     private LoginMVC.Controller controller;
 
     @Override
@@ -21,28 +29,19 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
 
+        // Bind all elements that annotated above
+        ButterKnife.bind(this);
+
         controller = new LoginController(this);
 
-        masterButton = (FloatingActionButton) findViewById(R.id.master_button);
         masterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkFields()) {
-                    String login = ((EditText) findViewById(R.id.master_login)).getText().toString().trim();
-                    String password = ((EditText) findViewById(R.id.master_password)).getText().toString().trim();
-                    controller.check(login, password);
-                    makeTransitionToEntitySelect();
-                } else {
-                    showNotification("Login and Password fields can not be empty.");
-                }
+                String login = loginEdit.getText().toString().trim();
+                String password = passwordEdit.getText().toString().trim();
+                controller.check(login, password);
             }
         });
-    }
-
-    public boolean checkFields() {
-        String login = ((EditText) findViewById(R.id.master_login)).getText().toString().trim();
-        String password = ((EditText) findViewById(R.id.master_password)).getText().toString().trim();
-        return (!login.isEmpty() && !password.isEmpty());
     }
 
     public void makeTransitionToEntitySelect() {

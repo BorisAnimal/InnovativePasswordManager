@@ -30,7 +30,7 @@ public class LoginController implements LoginMVC.Controller {
 
     @Override
     public void check(String login, String password) {
-        if(Objects.equals(login, "") || Objects.equals(password, "")){
+        if (Objects.equals(login, "") || Objects.equals(password, "")) {
             view.showNotification("Login and Password fields can not be empty.");
             return;
         }
@@ -44,8 +44,7 @@ public class LoginController implements LoginMVC.Controller {
                 if (response.body() != null) {
                     LoginResponseModel resp = response.body();
                     if (resp.getVerified()) {
-                        Log.e(TAG, response.message());
-                        Log.e(TAG, response.toString());
+                        Log.d(TAG, response.toString());
                         CryptoCipher.storeToken(resp.getSessionToken());
                         view.showNotification("All good");
                         view.makeTransitionToEntitySelect();

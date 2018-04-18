@@ -17,6 +17,8 @@ import butterknife.ButterKnife;
 
 public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC.View {
     EditEntryMVC.Controller controller;
+    @BindView(R.id.generatePasswordButton)
+    Button generateRandomPassword;
     @BindView(R.id.addButton)
     Button goButton;
     @BindView(R.id.loginField)
@@ -40,6 +42,12 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
             @Override
             public void onClick(View view) {
                 controller.commitEntry(loginEd.getText() + "", passEd.getText() + "", descEd.getText() + "");
+            }
+        });
+        generateRandomPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controller.generateRandomPassword();
             }
         });
     }

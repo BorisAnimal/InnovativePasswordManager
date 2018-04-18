@@ -1,6 +1,7 @@
 package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
@@ -65,18 +66,15 @@ public class EditEntryController implements EditEntryMVC.Controller {
         }
         model.setDescription(description);
 
-        Call<POST> call = api.postAccount(getToken(), encrypt(login), encrypt(pass), encrypt(description));
-        call.enqueue(new Callback<POST>() {
-            @Override
-            public void onResponse(Call<POST> call, Response<POST> response) {
-                view.showNotification("Successfully sent!");
-            }
+        Response response = api.postAccount(getToken(), encrypt(model.getLogin()),
+                encrypt(model.getPassword()), model.getDescription(), model.getId());
+        if (response.isSuccessful()) {
+            view.showNotification("Successfully sent!");
+        } else {
+            view.showNotification("Error accrued!\n" + response.errorBody());
+            Log.e("EditEntity", response.errorBody() + "");
+        }
 
-            @Override
-            public void onFailure(Call<POST> call, Throwable t) {
-                view.showNotification("Error accrued!\n" + t.getLocalizedMessage());
-            }
-        });
     }
 
     @Override

@@ -12,11 +12,18 @@ import com.ba.yo.innovativepasswordmanager.controllers.EditEntryController;
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC.View {
     private EditEntryMVC.Controller controller;
+    @BindView(R.id.addButton)
     private Button goButton;
+    @BindView(R.id.loginField)
     private EditText loginEd;
+    @BindView(R.id.passwordField)
     private EditText passEd;
+    @BindView(R.id.descrField)
     private EditText descEd;
 
     @Override
@@ -27,19 +34,14 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.add_entry));
 
-        goButton = findViewById(R.id.addButton);
-        loginEd = findViewById(R.id.loginField);
-        passEd = findViewById(R.id.passwordField);
-        descEd = findViewById(R.id.descrField);
-
+        ButterKnife.bind(this);
+        controller = new EditEntryController(this);
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 controller.commitEntry(loginEd.getText() + "", passEd.getText() + "", descEd.getText() + "");
             }
         });
-
-        controller = new EditEntryController(this);
     }
 
 

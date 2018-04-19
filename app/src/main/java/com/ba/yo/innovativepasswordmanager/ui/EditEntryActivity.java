@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,12 +8,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.ba.yo.innovativepasswordmanager.controllers.EditEntryController;
+import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
+import com.ba.yo.innovativepasswordmanager.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC.View {
-    private EditEntryMVC.Controller controller;
-    private Button goButton;
-    private EditText loginEd;
-    private EditText passEd;
-    private EditText descEd;
+    EditEntryMVC.Controller controller;
+    @BindView(R.id.generatePasswordButton)
+    Button generateRandomPassword;
+    @BindView(R.id.addButton)
+    Button goButton;
+    @BindView(R.id.loginField)
+    EditText loginEd;
+    @BindView(R.id.passwordField)
+    EditText passEd;
+    @BindView(R.id.descrField)
+    EditText descEd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +36,20 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.add_entry));
 
-        goButton = findViewById(R.id.addButton);
-        loginEd = findViewById(R.id.loginField);
-        passEd = findViewById(R.id.passwordField);
-        descEd = findViewById(R.id.descrField);
-
+        ButterKnife.bind(this);
+        controller = new EditEntryController(this);
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 controller.commitEntry(loginEd.getText() + "", passEd.getText() + "", descEd.getText() + "");
             }
         });
-
-        controller = new EditEntryController(this);
+        generateRandomPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                controller.generateRandomPassword();
+            }
+        });
     }
 
 

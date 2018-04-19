@@ -1,17 +1,24 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
+import com.ba.yo.innovativepasswordmanager.model.ApiClient;
+import com.ba.yo.innovativepasswordmanager.model.EntryModel;
+import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.security.SecureRandom;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.POST;
 
-import static com.ba.yo.innovativepasswordmanager.CryptoCipher.*;
+import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.*;
 
 /**
  * Created by Java-Ai-BOT on 4/15/2018.
@@ -59,17 +66,21 @@ public class EditEntryController implements EditEntryMVC.Controller {
             return;
         }
         model.setDescription(description);
-
-        Call<POST> call = api.postAccount(getToken(), encrypt(login), encrypt(pass), encrypt(description));
-        call.enqueue(new Callback<POST>() {
+        Call<ResponseBody> call = api.postAccount(getToken(), encrypt(model.getLogin()),
+                encrypt(model.getPassword()), model.getDescription(), model.getId());
+        call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<POST> call, Response<POST> response) {
-                view.showNotification("Successfully sent!");
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200)
+                    view.showNotification("Successfully sent!");
+                else
+                    view.showNotification("Error occurred: " + response.code());
             }
 
             @Override
-            public void onFailure(Call<POST> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 view.showNotification("Error accrued!\n" + t.getLocalizedMessage());
+                Log.e("EditEntity", t.getLocalizedMessage());
             }
         });
     }

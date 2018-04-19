@@ -5,12 +5,10 @@ import android.util.Log;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
 import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
-import com.ba.yo.innovativepasswordmanager.model.EntitySelectModel;
+import com.ba.yo.innovativepasswordmanager.model.EntityDescriptionModel;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
 import java.util.List;
-
-import javax.crypto.Cipher;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,15 +30,15 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
 
     @Override
     public void getData() {
-        Call<List<EntitySelectModel>> call = api.getEntityAccounts(CryptoCipher.getToken());
-        call.enqueue(new Callback<List<EntitySelectModel>>() {
+        Call<List<EntityDescriptionModel>> call = api.getAccountsDescriptions(CryptoCipher.getToken());
+        call.enqueue(new Callback<List<EntityDescriptionModel>>() {
             @Override
-            public void onResponse(Call<List<EntitySelectModel>> call, Response<List<EntitySelectModel>> response) {
+            public void onResponse(Call<List<EntityDescriptionModel>> call, Response<List<EntityDescriptionModel>> response) {
                 Log.d(TAG, response.toString());
                 if (response.body() != null) {
                     Log.d(TAG, response.body().size() + "");
-                    List<EntitySelectModel> entities = response.body();
-                    for (EntitySelectModel ent : entities) {
+                    List<EntityDescriptionModel> entities = response.body();
+                    for (EntityDescriptionModel ent : entities) {
                         view.addEntity(ent.getDescription(), ent.getId());
                     }
                 } else {
@@ -49,7 +47,7 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
             }
 
             @Override
-            public void onFailure(Call<List<EntitySelectModel>> call, Throwable t) {
+            public void onFailure(Call<List<EntityDescriptionModel>> call, Throwable t) {
                 Log.d(TAG, t.getMessage());
                 view.showNotification(t.getMessage());
                 call.cancel();

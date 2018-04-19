@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.model;
 
 import com.google.gson.GsonBuilder;
 
@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitService {
-    private static final String BASE_URL = "http://10.240.22.232:5000/";
+    private static final String BASE_URL = "http://10.0.2.2:5000/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getInstance() {

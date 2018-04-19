@@ -1,8 +1,16 @@
-package com.ba.yo.innovativepasswordmanager;
+package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.util.Log;
 
+import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
+import com.ba.yo.innovativepasswordmanager.model.ApiClient;
+import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
+import com.ba.yo.innovativepasswordmanager.model.EntitySelectModel;
+import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
+
 import java.util.List;
+
+import javax.crypto.Cipher;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,13 +32,13 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
 
     @Override
     public void getData() {
-        Call<List<EntitySelectModel>> call = api.getEntityAccounts();
+        Call<List<EntitySelectModel>> call = api.getEntityAccounts(CryptoCipher.getToken());
         call.enqueue(new Callback<List<EntitySelectModel>>() {
             @Override
             public void onResponse(Call<List<EntitySelectModel>> call, Response<List<EntitySelectModel>> response) {
                 Log.d(TAG, response.toString());
-                Log.d(TAG, response.body().size() + "");
                 if (response.body() != null) {
+                    Log.d(TAG, response.body().size() + "");
                     List<EntitySelectModel> entities = response.body();
                     for (EntitySelectModel ent : entities) {
                         view.addEntity(ent.getDescription(), ent.getId());

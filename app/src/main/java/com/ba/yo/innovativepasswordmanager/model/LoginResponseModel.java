@@ -7,22 +7,26 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class LoginResponseModel {
-    @SerializedName("verified")
-    private Boolean verified;
+    @SerializedName("non_field_errors")
+    private String errorMessage;
+
     @SerializedName("token")
     private String sessionToken;
 
-    public LoginResponseModel(Boolean verified, String sessionToken) {
-        this.verified = verified;
-        this.sessionToken = sessionToken;
+    @Override
+    public String toString() {
+        return "LoginResponseModel{" +
+                "errorMessage='" + errorMessage + '\'' +
+                ", sessionToken='" + sessionToken + '\'' +
+                '}';
     }
 
-    public Boolean getVerified() {
-        return verified;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public String getSessionToken() {
@@ -32,5 +36,4 @@ public class LoginResponseModel {
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
     }
-
 }

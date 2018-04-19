@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.security.SecureRandom;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,16 +66,23 @@ public class EditEntryController implements EditEntryMVC.Controller {
             return;
         }
         model.setDescription(description);
-
-        Response response = api.postAccount(getToken(), encrypt(model.getLogin()),
+        Call<ResponseBody> call = api.postAccount(getToken(), encrypt(model.getLogin()),
                 encrypt(model.getPassword()), model.getDescription(), model.getId());
-        if (response.isSuccessful()) {
-            view.showNotification("Successfully sent!");
-        } else {
-            view.showNotification("Error accrued!\n" + response.errorBody());
-            Log.e("EditEntity", response.errorBody() + "");
-        }
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.code() == 200)
+                    view.showNotification("Successfully sent!");
+                else
+                    view.showNotification("Error occurred: " + response.code());
+            }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                view.showNotification("Error accrued!\n" + t.getLocalizedMessage());
+                Log.e("EditEntity", t.getLocalizedMessage());
+            }
+        });
     }
 
     @Override

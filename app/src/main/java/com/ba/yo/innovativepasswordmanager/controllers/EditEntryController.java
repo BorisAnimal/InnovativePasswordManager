@@ -79,7 +79,7 @@ public class EditEntryController implements EditEntryMVC.Controller {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                view.showNotification("Error accrued!\n" + t.getLocalizedMessage());
+                view.showNotification("Error occurred!\n" + t.getLocalizedMessage());
                 Log.e("EditEntity", t.getLocalizedMessage());
             }
         });

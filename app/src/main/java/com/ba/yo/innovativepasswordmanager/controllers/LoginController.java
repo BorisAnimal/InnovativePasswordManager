@@ -1,11 +1,10 @@
 package com.ba.yo.innovativepasswordmanager.controllers;
 
-import android.app.DownloadManager;
 import android.util.Log;
 
-import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.LoginMVC;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
+import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.model.LoginResponseModel;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
@@ -22,9 +21,9 @@ import retrofit2.Response;
  */
 
 public class LoginController implements LoginMVC.Controller {
+    private final String TAG = "LoginController";
     private LoginMVC.View view;
     private ApiClient api;
-    private final String TAG = "LoginController";
 
     public LoginController(LoginMVC.View view) {
         this.view = view;

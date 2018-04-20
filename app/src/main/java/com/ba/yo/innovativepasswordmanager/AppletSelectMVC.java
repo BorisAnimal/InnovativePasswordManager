@@ -5,17 +5,22 @@ package com.ba.yo.innovativepasswordmanager;
  */
 
 public interface AppletSelectMVC {
-    interface View {
+    interface View extends Notifiable{
         /**
          * @param description - description of applet
          * @param id          - hide it in element (such in 'tag' field). Use it in intent when item selected
          */
-        void addEntity(String description, String id);
+        void addApplet(String description, String id);
 
         /**
          * Remove all items from list
          */
         void clearList();
+
+        /**
+         * Go to initial screen after success data transaction
+         */
+        void onSuccessTransfer();
     }
 
     interface Controller {

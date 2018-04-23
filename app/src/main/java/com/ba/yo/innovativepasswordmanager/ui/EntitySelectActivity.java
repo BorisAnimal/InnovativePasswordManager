@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,8 @@ import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
 
 import java.util.ArrayList;
+
+import retrofit2.http.HEAD;
 
 public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View {
 
@@ -89,11 +92,11 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         authList = new ArrayList<>();
         controller = new EntitySelectController(this);
 
-<<<<<<< HEAD
-        addEntity("test","77");
-=======
-        controller.getData();
->>>>>>> refs/remotes/origin/master
+//<<<<<<<HEAD
+//        addEntity("test","77");
+//=======
+//        controller.getData();
+//>>>>>>> refs/remotes/origin/master
     }
 
     @Override

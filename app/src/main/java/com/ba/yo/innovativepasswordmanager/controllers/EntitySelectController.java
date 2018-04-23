@@ -36,6 +36,7 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
             public void onResponse(Call<List<EntityDescriptionModel>> call, Response<List<EntityDescriptionModel>> response) {
                 Log.d(TAG, response.toString());
                 if (response.body() != null) {
+                    view.clearList();
                     Log.d(TAG, response.body().size() + "");
                     List<EntityDescriptionModel> entities = response.body();
                     for (EntityDescriptionModel ent : entities) {

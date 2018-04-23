@@ -1,4 +1,4 @@
-package com.ba.yo.innovativepasswordmanager.ui;
+package com.ba.yo.innovativepasswordmanager;
 
 import com.ba.yo.innovativepasswordmanager.Notifiable;
 

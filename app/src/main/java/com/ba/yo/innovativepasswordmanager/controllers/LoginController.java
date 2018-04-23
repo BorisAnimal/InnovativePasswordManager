@@ -51,7 +51,7 @@ public class LoginController implements LoginMVC.Controller {
                         Log.d(TAG, response.toString());
                         CryptoCipher.storeToken(resp.getSessionToken());
                         view.showNotification("All good");
-                        view.makeTransitionToEntitySelect();
+                        view.goToEntitySelectActivity();
                     } else {
                         view.showNotification("Error accurend: " + resp.getErrorMessage());
                     }

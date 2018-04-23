@@ -44,4 +44,6 @@
     <string name="application_name_short">IPM</string>
     <string name="edit_entry">Edit Entry</string>
     <string name="application_name">Innovative Password Manager</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 </resources>

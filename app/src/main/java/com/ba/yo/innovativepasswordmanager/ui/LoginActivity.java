@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.ba.yo.innovativepasswordmanager.Transition;
 import com.ba.yo.innovativepasswordmanager.controllers.LoginController;
 import com.ba.yo.innovativepasswordmanager.LoginMVC;
 import com.ba.yo.innovativepasswordmanager.R;
@@ -44,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
         });
     }
 
-    public void makeTransitionToEntitySelect() {
+    public void goToEntitySelectActivity() {
         Intent intent = new Intent(LoginActivity.this, EntitySelectActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

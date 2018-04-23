@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +32,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     private AuthEntryAdapter aAdapter;
     private EntitySelectMVC.Controller controller;
     private FloatingActionButton addEntry;
+    private int previousDistanceFromFirstCellToTop;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -50,26 +52,38 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         });
 
         listView = (ListView) findViewById(R.id.entry_selector);
-        listView.setOnTouchListener(new android.view.View.OnTouchListener() {
-            float height;
-
+//        listView.setOnTouchListener(new android.view.View.OnTouchListener() {
+//            float height;
+//
+//            @Override
+//            public boolean onTouch(android.view.View v, MotionEvent event) {
+//                int action = event.getAction();
+//                float height = event.getY();
+//                if (action == MotionEvent.ACTION_DOWN) {
+//                    this.height = height;
+//                } else if (action == MotionEvent.ACTION_UP) {
+//                    if (this.height < height) {
+//                        addEntry.show();
+//
+//                    } else if (this.height > height) {
+//                        addEntry.hide();
+//                    }
+//                }
+//                return false;
+//            }
+//
+//        });
+        
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public boolean onTouch(android.view.View v, MotionEvent event) {
-                int action = event.getAction();
-                float height = event.getY();
-                if (action == MotionEvent.ACTION_DOWN) {
-                    this.height = height;
-                } else if (action == MotionEvent.ACTION_UP) {
-                    if (this.height < height) {
-                        addEntry.show();
-
-                    } else if (this.height > height) {
-                        addEntry.hide();
-                    }
-                }
-                return false;
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                showNotification("State changed!");
             }
 
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+            }
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

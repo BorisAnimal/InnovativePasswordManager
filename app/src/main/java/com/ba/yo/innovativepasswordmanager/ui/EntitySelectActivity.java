@@ -91,12 +91,13 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
         authList = new ArrayList<>();
         controller = new EntitySelectController(this);
+        controller.getData();
+    }
 
-//<<<<<<<HEAD
-//        addEntity("test","77");
-//=======
-//        controller.getData();
-//>>>>>>> refs/remotes/origin/master
+    @Override
+    protected void onResume() {
+        super.onResume();
+        controller.getData();
     }
 
     @Override

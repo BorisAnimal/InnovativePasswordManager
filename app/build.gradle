@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    mavenCentral()
+}
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -26,6 +30,9 @@ android {
             path "CMakeLists.txt"
         }
     }
+}
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -54,7 +61,4 @@ dependencies {
 
     compile 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    implementation 'org.junit.jupiter:junit-jupiter-api'
-    implementation 'org.junit.jupiter:junit-jupiter-api'
-    implementation 'org.testng:testng:6.9.6'
 }

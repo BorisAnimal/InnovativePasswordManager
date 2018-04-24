@@ -17,6 +17,16 @@ import retrofit2.http.POST;
  */
 
 public interface ApiClient {
+
+    /**
+     * @param accountsJson - jsoned array of @AccountModel 's
+     * @return response from server
+     */
+    @POST("users/changepass")
+    Call<ResponseBody> changeMasterPassowrd(@Header("token") String token,
+                                            @Header("password") String newMasterPassword,
+                                            @Body String accountsJson);
+
     @POST("accounts/transfer")
     Call<ResponseBody> sendDataToApplet(@Header("token") String token, String accountID, String appletID);
 

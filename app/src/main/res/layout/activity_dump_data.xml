@@ -35,20 +35,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RadioButton android:id="@+id/selector_save_as_file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/save_as_file" />
             <RadioButton
                 android:id="@+id/selector_telegram"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:enabled="false"
                 android:text="@string/telegram" />
             <RadioButton android:id="@+id/selector_email"
                 android:layout_width="wrap_content"
+                android:enabled="false"
                 android:layout_height="wrap_content"
                 android:text="@string/email" />
-            <RadioButton android:id="@+id/selector_ftp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ftp" />
+
         </RadioGroup>
 
         <TextView
@@ -86,6 +89,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:enabled="false"
             android:hint="@string/address"
             android:inputType="textPassword" />
 

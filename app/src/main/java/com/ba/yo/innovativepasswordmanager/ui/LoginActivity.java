@@ -44,13 +44,19 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
             }
         });
     }
-
+    /**
+     * Proceed to main activity, i.e. EntitySelect
+     */
     public void goToEntitySelectActivity() {
         Intent intent = new Intent(LoginActivity.this, EntitySelectActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
+    /**
+     * Show notification in the bottom of activity as a "Snackbar"
+     * @param notificationText - string that user should read
+     */
     public void showNotification(String notificationText) {
         View parentLayout = findViewById(android.R.id.content);
         Snackbar mySnackbar = Snackbar.make(parentLayout, notificationText, Snackbar.LENGTH_LONG);

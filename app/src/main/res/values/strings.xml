@@ -67,4 +67,5 @@
     <string name="repeat_new_master_password">Repeat New Master-Password</string>
     <string name="new_master_password">New Master-Password</string>
     <string name="save">Save</string>
+    <string name="save_as_file">Save as File</string>
 </resources>

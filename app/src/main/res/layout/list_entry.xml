@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants">
 
+
     <ImageView
         android:id="@+id/imageView_poster"
         android:layout_width="30dp"
@@ -19,8 +20,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/imageView_poster"
+        android:layout_toStartOf="@+id/prop_button"
         android:layout_margin="20dp"
         android:textSize="20sp"
+
         android:layout_centerInParent="true"
         android:textStyle="bold"/>
 
@@ -34,5 +37,6 @@
         android:layout_centerInParent="true"
         android:layout_marginEnd="20dp"
         android:background="@drawable/ic_dots" />
+
 
 </RelativeLayout>

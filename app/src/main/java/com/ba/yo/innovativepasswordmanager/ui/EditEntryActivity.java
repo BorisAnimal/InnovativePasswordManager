@@ -12,6 +12,8 @@ import com.ba.yo.innovativepasswordmanager.controllers.EditEntryController;
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.R;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,16 +30,33 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
     @BindView(R.id.descrField)
     EditText descEd;
 
+    private String id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry);
 
+        //TODO: check if there could be nullptr
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(getString(R.string.add_entry));
+
+
+        if(getIntent().hasExtra("ENTRY_ID")){
+            Bundle extras = getIntent().getExtras();
+            if(extras!=null){
+                this.id = extras.getString("ENTRY_ID");
+                setTitle(getString(R.string.edit_entry));
+                //TODO: fill existing fields
+            }
+
+        }else{
+            setTitle(getString(R.string.add_entry));
+        }
 
         ButterKnife.bind(this);
         controller = new EditEntryController(this);
+
+        //TODO: Decide using ID whether to create new or edit existing entity
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,6 +71,15 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         });
     }
 
+    public void setExisting(String username, String password, String description){
+        EditText usernameField = (EditText) findViewById(R.id.loginField);
+        EditText passwordField = (EditText) findViewById(R.id.passwordField);
+        EditText descriptionField = (EditText) findViewById(R.id.descrField);
+
+        usernameField.setText(username);
+        passwordField.setText(password);
+        descriptionField.setText(description);
+    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();

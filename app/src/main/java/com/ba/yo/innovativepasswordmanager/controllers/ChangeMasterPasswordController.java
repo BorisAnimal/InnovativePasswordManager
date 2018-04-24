@@ -7,4 +7,8 @@ import com.ba.yo.innovativepasswordmanager.ChangeMasterPasswordMVP;
  */
 
 public class ChangeMasterPasswordController implements ChangeMasterPasswordMVP.Controller {
+    @Override
+    public void changeMasterPassword() {
+
+    }
 }

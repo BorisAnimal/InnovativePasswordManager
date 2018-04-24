@@ -1,8 +1,10 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.MotionEvent;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ba.yo.innovativepasswordmanager.AuthEntryAdapterCallback;
 import com.ba.yo.innovativepasswordmanager.controllers.EntitySelectController;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 
 import retrofit2.http.HEAD;
 
-public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View {
+public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View, AuthEntryAdapterCallback {
 
     //TODO: implement EntitySelectMVC.View interface
 
@@ -32,7 +35,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     private AuthEntryAdapter aAdapter;
     private EntitySelectMVC.Controller controller;
     private FloatingActionButton addEntry;
-    private int previousDistanceFromFirstCellToTop;
+    private int previousVisibleItem;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -52,54 +55,31 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         });
 
         listView = (ListView) findViewById(R.id.entry_selector);
-//        listView.setOnTouchListener(new android.view.View.OnTouchListener() {
-//            float height;
-//
-//            @Override
-//            public boolean onTouch(android.view.View v, MotionEvent event) {
-//                int action = event.getAction();
-//                float height = event.getY();
-//                if (action == MotionEvent.ACTION_DOWN) {
-//                    this.height = height;
-//                } else if (action == MotionEvent.ACTION_UP) {
-//                    if (this.height < height) {
-//                        addEntry.show();
-//
-//                    } else if (this.height > height) {
-//                        addEntry.hide();
-//                    }
-//                }
-//                return false;
-//            }
-//
-//        });
-        
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-                showNotification("State changed!");
+                //showNotification(Integer.toString(previousVisibleItem));
             }
 
             @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (previousVisibleItem != firstVisibleItem) {
+                    if (previousVisibleItem < firstVisibleItem) {
+                        addEntry.hide();
+                    } else {
+                        addEntry.show();
+                    }
 
+                    previousVisibleItem = firstVisibleItem;
+                }
             }
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
-                showNotification("Send password for entry with id: "+authList.get(i).getaId());
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
-                Intent intent = new Intent(EntitySelectActivity.this, EditEntryActivity.class);
-                intent.putExtra("ENTRY_ID", authList.get(i).getaId());
-                startActivity(intent);
-                return false;
+                showNotification("Send password for entry with id: " + authList.get(i).getaId());
             }
         });
 
@@ -139,6 +119,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
     private void updateList() {
         aAdapter = new AuthEntryAdapter(this, authList);
+        aAdapter.setCallback(this);
         listView.setAdapter(aAdapter);
     }
 
@@ -159,5 +140,42 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         //TODO: Fab intersection avoidance
     }
 
+    private AlertDialog AskOption(String entityDescription, String id)
+    {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+                //set message, title, and icon
+                .setTitle("Delete")
+                .setMessage("Do you want to delete \""+entityDescription+"\"?")
+                .setIcon(R.drawable.ic_key)
 
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //DELETE ENTITY WITH ID->String
+                        //controller.delete(id);
+                        dialog.dismiss();
+                    }
+
+                })
+
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
+
+    }
+    public void deleteEntity(String name, String id){
+        AlertDialog confirm = AskOption(name, id);
+        confirm.show();
+    }
+    public void goToEditEntityActivity(String id){
+        Intent intent = new Intent(EntitySelectActivity.this, EditEntryActivity.class);
+        intent.putExtra("ENTRY_ID", id);
+        startActivity(intent);
+    }
 }

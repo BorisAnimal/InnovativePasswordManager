@@ -46,4 +46,5 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="edit_entry">Edit Entry</string>
+    <string name="select_applet">Select Applet</string>
 </resources>

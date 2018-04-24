@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.view.MotionEvent;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,8 +22,6 @@ import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
 
 import java.util.ArrayList;
-
-import retrofit2.http.HEAD;
 
 public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View, AuthEntryAdapterCallback {
 
@@ -59,7 +56,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
-                //showNotification(Integer.toString(previousVisibleItem));
+
             }
 
             @Override
@@ -79,7 +76,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
-                showNotification("Send password for entry with id: " + authList.get(i).getaId());
+                goToAppletSelectActivity(authList.get(i).getaId());
             }
         });
 
@@ -133,16 +130,36 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         updateList();
     }
 
-    public void showNotification(String notificationText) {
+    /**
+     * Show notification in the bottom of activity as a "Snackbar"
+     * @param message - string that user should read
+     */
+    public void showNotification(String message) {
         View parentLayout = findViewById(android.R.id.content);
-        Snackbar mySnackbar = Snackbar.make(parentLayout, notificationText, Snackbar.LENGTH_LONG);
+        Snackbar mySnackbar = Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG);
         mySnackbar.show();
         //TODO: Fab intersection avoidance
     }
 
+    /**
+     * Show confirmation
+     * @param name
+     * @param id
+     */
+    public void deleteEntity(String name, String id){
+        AlertDialog confirm = AskOption(name, id);
+        confirm.show();
+    }
+
+    /**
+     * Construct confirmation dialog for entity deletion procedure
+     * @param entityDescription
+     * @param id
+     * @return
+     */
     private AlertDialog AskOption(String entityDescription, String id)
     {
-        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+        return new AlertDialog.Builder(this)
                 //set message, title, and icon
                 .setTitle("Delete")
                 .setMessage("Do you want to delete \""+entityDescription+"\"?")
@@ -166,15 +183,21 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
                     }
                 })
                 .create();
-        return myQuittingDialogBox;
 
     }
-    public void deleteEntity(String name, String id){
-        AlertDialog confirm = AskOption(name, id);
-        confirm.show();
-    }
+
+    /**
+     * Make transition to EditEntity field, that happens when user selects certain Auth entry.
+     * When entry is selected its ID is taken to next activity by which editor will identify entity on server.
+     * @param id ID of selected entity
+     */
     public void goToEditEntityActivity(String id){
         Intent intent = new Intent(EntitySelectActivity.this, EditEntryActivity.class);
+        intent.putExtra("ENTRY_ID", id);
+        startActivity(intent);
+    }
+    public void goToAppletSelectActivity(String id){
+        Intent intent = new Intent(EntitySelectActivity.this, AppletSelectActivity.class);
         intent.putExtra("ENTRY_ID", id);
         startActivity(intent);
     }

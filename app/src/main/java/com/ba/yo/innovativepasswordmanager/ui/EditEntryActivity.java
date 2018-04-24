@@ -1,6 +1,7 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -30,23 +31,33 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
     @BindView(R.id.descrField)
     EditText descEd;
 
-    private String id;
+    private String entityId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry);
 
-        //TODO: check if there could be nullptr
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*
+         * Activate back button on top of activity
+         */
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-
+        /*
+         * Check presence of any extras
+         * Their presence would mean that the entity with given ID should be edited
+         * Otherwise new entity should be created
+         */
         if(getIntent().hasExtra("ENTRY_ID")){
             Bundle extras = getIntent().getExtras();
             if(extras!=null){
-                this.id = extras.getString("ENTRY_ID");
+                entityId = extras.getString("ENTRY_ID");
                 setTitle(getString(R.string.edit_entry));
-                //TODO: fill existing fields
+
+                //TODO: fill existing fields with data from server by id
             }
 
         }else{
@@ -56,7 +67,10 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         ButterKnife.bind(this);
         controller = new EditEntryController(this);
 
+
         //TODO: Decide using ID whether to create new or edit existing entity
+
+
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,6 +85,12 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         });
     }
 
+    /**
+     * Fill field in current activity fields
+     * @param username - value to fill in username field
+     * @param password - value to fill in password field
+     * @param description - value to fill in description field
+     */
     public void setExisting(String username, String password, String description){
         EditText usernameField = (EditText) findViewById(R.id.loginField);
         EditText passwordField = (EditText) findViewById(R.id.passwordField);
@@ -81,11 +101,20 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         descriptionField.setText(description);
     }
 
+    /**
+     * Handler for "back" button on top of activity
+     * @param item
+     * @return
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return true;
     }
 
+    /**
+     * Show notification in the bottom of activity as a "Snackbar"
+     * @param message - string that user should read
+     */
     @Override
     public void showNotification(String message) {
         View parentLayout = findViewById(android.R.id.content);
@@ -93,6 +122,10 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         mySnackbar.show();
     }
 
+    /**
+     * Assign value to password field
+     * @param pass - target value
+     */
     @Override
     public void setPassword(String pass) {
         passEd.setText(pass);

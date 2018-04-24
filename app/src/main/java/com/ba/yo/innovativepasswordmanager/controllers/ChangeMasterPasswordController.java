@@ -67,7 +67,7 @@ public class ChangeMasterPasswordController implements ChangeMasterPasswordMVP.C
                     //send data and new hashed password to server
                     String accountsJson = new Gson().toJson(entities);
                     Call<ResponseBody> submitCall = api.changeMasterPassowrd(CryptoCipher.getToken(),
-                            newMP, accountsJson);
+                            CryptoCipher.hash256(newMP), accountsJson);
                     submitCall.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

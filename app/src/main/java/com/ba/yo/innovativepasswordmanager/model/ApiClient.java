@@ -18,6 +18,9 @@ import retrofit2.http.POST;
 
 public interface ApiClient {
 
+    @GET("accounts/get")
+    Call<AccountModel> getAccount(@Header("token") String token, @Header("accountID") String accountID);
+
     /**
      * @param accountsJson - jsoned array of @AccountModel 's
      * @return response from server

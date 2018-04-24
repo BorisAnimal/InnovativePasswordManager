@@ -56,20 +56,16 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
             if(extras!=null){
                 entityId = extras.getString("ENTRY_ID");
                 setTitle(getString(R.string.edit_entry));
-
-                //TODO: fill existing fields with data from server by id
+                
+                controller = new EditEntryController(this, entityId);
             }
 
         }else{
             setTitle(getString(R.string.add_entry));
+            controller = new EditEntryController(this);
         }
 
         ButterKnife.bind(this);
-        controller = new EditEntryController(this);
-
-
-        //TODO: Decide using ID whether to create new or edit existing entity
-
 
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override

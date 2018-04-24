@@ -5,7 +5,7 @@ package com.ba.yo.innovativepasswordmanager;
  */
 
 public interface EditEntryMVC {
-    interface View extends Notifiable {
+    interface View extends Notifiable, Transition {
         /**
          * Appends password to corresponded field
          *

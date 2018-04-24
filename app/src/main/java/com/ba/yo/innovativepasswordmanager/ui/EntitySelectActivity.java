@@ -25,8 +25,6 @@ import java.util.ArrayList;
 
 public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View, AuthEntryAdapterCallback {
 
-    //TODO: implement EntitySelectMVC.View interface
-
     private ListView listView;
     private ArrayList<AuthEntry> authList;
     private AuthEntryAdapter aAdapter;
@@ -38,11 +36,17 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_entity_select);
+
+        /**
+         * Construct top menu (ActionBar)
+         */
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /**
+         *  Assign button handlers
+         */
         addEntry = (FloatingActionButton) findViewById(R.id.addEntry);
         addEntry.setOnClickListener(new android.view.View.OnClickListener() {
             @Override
@@ -85,6 +89,9 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         controller.getData();
     }
 
+    /**
+     * Called when activity is shown again after being hidden by some editor activity
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -98,33 +105,52 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         return true;
     }
 
+    /**
+     * Handle option menu actions
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.edit_master_password) {
             startActivity(new Intent(EntitySelectActivity.this, EditMasterPasswordActivity.class));
             return true;
+
+        } else if (id == R.id.manage_data) {
+            startActivity(new Intent(EntitySelectActivity.this, ManageDataSelectActivity.class));
+            return true;
+
+        } else if (id == R.id.blacklist){
+            showNotification("Feature in development.");
         }
+
 
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Update data for the list in activity
+     */
     private void updateList() {
         aAdapter = new AuthEntryAdapter(this, authList);
         aAdapter.setCallback(this);
         listView.setAdapter(aAdapter);
     }
 
+    /**
+     * Add new entity to current list in activity
+     *
+     * @param description - description of the entity
+     * @param id          - hide it in element. Use it in intent when item selected
+     */
     public void addEntity(String description, String id) {
         authList.add(new AuthEntry(R.drawable.ic_key, description, id));
         updateList();
     }
 
+    /**
+     * Delete all items from current list in activity
+     */
     public void clearList() {
         authList = new ArrayList<>();
         updateList();
@@ -132,6 +158,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
     /**
      * Show notification in the bottom of activity as a "Snackbar"
+     *
      * @param message - string that user should read
      */
     public void showNotification(String message) {
@@ -142,34 +169,35 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     }
 
     /**
-     * Show confirmation
-     * @param name
-     * @param id
+     * Show confirmation for entry deletion
+     *
+     * @param name desription of the entity
+     * @param id   id of the entity
      */
-    public void deleteEntity(String name, String id){
+    public void deleteEntity(String name, String id) {
         AlertDialog confirm = AskOption(name, id);
         confirm.show();
     }
 
     /**
      * Construct confirmation dialog for entity deletion procedure
-     * @param entityDescription
-     * @param id
-     * @return
+     *
+     * @param entityDescription description of the entity
+     * @param id                id of the entity
+     * @return constructed window ui
      */
-    private AlertDialog AskOption(String entityDescription, String id)
-    {
+    private AlertDialog AskOption(String entityDescription, String id) {
         return new AlertDialog.Builder(this)
                 //set message, title, and icon
                 .setTitle("Delete")
-                .setMessage("Do you want to delete \""+entityDescription+"\"?")
+                .setMessage("Do you want to delete \"" + entityDescription + "\"?")
                 .setIcon(R.drawable.ic_key)
 
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //DELETE ENTITY WITH ID->String
-                        //controller.delete(id);
+                        //TODO: DELETE ENTITY WITH ID->String
+                        //id is controller.delete(id);
                         dialog.dismiss();
                     }
 
@@ -187,16 +215,24 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     }
 
     /**
-     * Make transition to EditEntity field, that happens when user selects certain Auth entry.
+     * Make transition to EditEntity activity, that happens when user selects certain Auth entry menu.
      * When entry is selected its ID is taken to next activity by which editor will identify entity on server.
+     *
      * @param id ID of selected entity
      */
-    public void goToEditEntityActivity(String id){
+    public void goToEditEntityActivity(String id) {
         Intent intent = new Intent(EntitySelectActivity.this, EditEntryActivity.class);
         intent.putExtra("ENTRY_ID", id);
         startActivity(intent);
     }
-    public void goToAppletSelectActivity(String id){
+
+    /**
+     * Make transition to AppletSelect activity, that happens when user selects certain Auth entry.
+     * When entry is selected its ID is taken to next activity by which applet-selector will determine user intention.
+     *
+     * @param id ID of selected applet
+     */
+    public void goToAppletSelectActivity(String id) {
         Intent intent = new Intent(EntitySelectActivity.this, AppletSelectActivity.class);
         intent.putExtra("ENTRY_ID", id);
         startActivity(intent);

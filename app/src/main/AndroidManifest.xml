@@ -29,7 +29,10 @@
         </activity>
         <activity android:name=".ui.EditMasterPasswordActivity" />
         <activity android:name=".ui.EditEntryActivity" />
-        <activity android:name=".ui.AppletSelectActivity"></activity>
+        <activity android:name=".ui.AppletSelectActivity" />
+        <activity android:name=".ui.ManageDataSelectActivity" />
+        <activity android:name=".ui.DumpDataActivity" />
+        <activity android:name=".ui.DeleteDataActivity"></activity>
     </application>
 
 </manifest>

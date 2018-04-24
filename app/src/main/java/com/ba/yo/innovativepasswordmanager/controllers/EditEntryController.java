@@ -27,9 +27,9 @@ import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.getToken;
 public class EditEntryController implements EditEntryMVC.Controller {
     private EditEntryMVC.View view;
     @Nullable
-    private EntryModel model;
+    private String modelId;
     private ApiClient api;
-
+    private EntryModel model;
     /**
      * When we create entry
      */
@@ -41,9 +41,9 @@ public class EditEntryController implements EditEntryMVC.Controller {
     /**
      * When we edit entry
      */
-    public EditEntryController(EditEntryMVC.View view, EntryModel model) {
+    public EditEntryController(EditEntryMVC.View view, String id) {
         this.view = view;
-        this.model = model;
+        this.modelId = id;
         api = RetrofitService.getInstance().create(ApiClient.class);
     }
 

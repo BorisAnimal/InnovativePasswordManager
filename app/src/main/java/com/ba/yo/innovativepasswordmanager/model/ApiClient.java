@@ -27,8 +27,11 @@ public interface ApiClient {
                                             @Header("password") String newMasterPassword,
                                             @Body String accountsJson);
 
+    @FormUrlEncoded
     @POST("accounts/transfer")
-    Call<ResponseBody> sendDataToApplet(@Header("token") String token, String accountID, String appletID);
+    Call<ResponseBody> sendDataToApplet(@Header("token") String token,
+                                        @Field("accountID") String accountID,
+                                        @Field("appletID") String appletID);
 
     /**
      * Deletes all data from system. So this needs some verification such as @password in request

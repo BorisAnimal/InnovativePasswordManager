@@ -1,18 +1,12 @@
 package com.ba.yo.innovativepasswordmanager.model;
 
 import android.support.annotation.NonNull;
-import android.util.Base64;
 import android.util.Log;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.Cipher;
-
-import de.adorsys.android.securestoragelibrary.*;
+import de.adorsys.android.securestoragelibrary.SecurePreferences;
 
 /**
  * Created by Java-Ai-BOT on 4/15/2018.
@@ -50,6 +44,10 @@ public class CryptoCipher {
 
     public static void storeToken(String token) {
         SecurePreferences.setValue(TOKEN, token);
+    }
+
+    public static boolean checkMP(String mPass) {
+        return mPass != null && mPass.equals(SecurePreferences.getStringValue(MP, ""));
     }
 
     public static String getToken() {

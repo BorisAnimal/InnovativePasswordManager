@@ -16,9 +16,9 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.POST;
 
-import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.*;
+import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.encrypt;
+import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.getToken;
 
 /**
  * Created by Java-Ai-BOT on 4/15/2018.
@@ -67,13 +67,13 @@ public class EditEntryController implements EditEntryMVC.Controller {
         }
         model.setDescription(description);
         Call<ResponseBody> call = api.postAccount(getToken(), encrypt(model.getLogin()),
-                encrypt(model.getPassword()), model.getDescription(), model.getId());
+                encrypt(model.getPassword()), model.getDescription());
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code() == 200)
+                if (response.code() == 200) {
                     view.showNotification("Successfully sent!");
-                else
+                } else
                     view.showNotification("Error occurred: " + response.code());
             }
 

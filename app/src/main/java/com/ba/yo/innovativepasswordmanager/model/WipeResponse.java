@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 public class WipeResponse {
     @SerializedName("applets_deleted")
     private int applets_deleted;
+    @SerializedName("accounts_deleted")
+    private int accounts_deleted;
 
     public int getApplets_deleted() {
         return applets_deleted;
@@ -32,6 +34,4 @@ public class WipeResponse {
         this.accounts_deleted = accounts_deleted;
     }
 
-    @SerializedName("accounts_deleted")
-    private int accounts_deleted;
 }

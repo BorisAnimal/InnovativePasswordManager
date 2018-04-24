@@ -11,6 +11,26 @@ public class AccountModel {
     private String description;
     @SerializedName("login")
     private String login;
+    @SerializedName("password")
+    private String password;
+    @SerializedName("id")
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public AccountModel(String description, String login, String password, String id) {
+
+        this.description = description;
+        this.login = login;
+        this.password = password;
+        this.id = id;
+    }
 
     public AccountModel(String description, String login, String password) {
         this.description = description;
@@ -42,7 +62,4 @@ public class AccountModel {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    @SerializedName("password")
-    private String password;
 }

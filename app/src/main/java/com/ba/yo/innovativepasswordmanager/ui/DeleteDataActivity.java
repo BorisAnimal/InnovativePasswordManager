@@ -14,13 +14,14 @@ import android.widget.TextView;
 
 import com.ba.yo.innovativepasswordmanager.R;
 import com.ba.yo.innovativepasswordmanager.WipeDataMVC;
+import com.ba.yo.innovativepasswordmanager.controllers.DeleteDataController;
 
 public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC.View {
 
     private EditText password;
     private Button delete;
     private TextView label;
-
+    private WipeDataMVC.Controller controller;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +34,8 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        //create controller
+        controller = new DeleteDataController();
         /*
          * Get references from activity into variables
          */
@@ -59,7 +62,7 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
             @Override
             public void onClick(View view) {
                 //TODO: action on button click
-                //using password.getText()
+                controller.fullWipe(password.getText().toString());
             }
         });
     }

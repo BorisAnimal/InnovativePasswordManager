@@ -56,7 +56,7 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
             if(extras!=null){
                 entityId = extras.getString("ENTRY_ID");
                 setTitle(getString(R.string.edit_entry));
-                
+
                 controller = new EditEntryController(this, entityId);
             }
 
@@ -99,8 +99,6 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
 
     /**
      * Handler for "back" button on top of activity
-     * @param item
-     * @return
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         goToEntitySelectActivity();
@@ -108,7 +106,7 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
     }
 
     /**
-     *
+     * Return to previous activity, i.e. EntitySelect
      */
     @Override
     public void goToEntitySelectActivity() {

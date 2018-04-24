@@ -6,6 +6,10 @@ public interface DumpDataMVC {
     }
 
     interface Controller {
-
+        /**
+         * Make complete dump of user data
+         * @param password master password for confirmation
+         */
+        void makeDump(String password);
     }
 }

@@ -10,6 +10,10 @@ public interface WipeDataMVC {
     }
 
     interface Controller {
-
+        /**
+         *
+         * @param password Master password confirmation
+         */
+        void fullWipe(String password);
     }
 }

@@ -11,7 +11,7 @@ public interface LoginMVC {
 
     interface Controller {
         /**
-         * Get information from user and asks server if such user really exists in our system
+         * Get information from user and ask server if such user really exists in the system
          *
          * @param login    - login
          * @param password - password

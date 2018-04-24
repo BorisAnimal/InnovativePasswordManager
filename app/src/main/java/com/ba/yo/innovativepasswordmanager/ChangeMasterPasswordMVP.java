@@ -5,7 +5,7 @@ package com.ba.yo.innovativepasswordmanager;
  */
 
 public interface ChangeMasterPasswordMVP {
-    interface View extends Notifiable {
+    interface View extends Notifiable, Transition {
         String getOldMP();
 
         String getNewMP();

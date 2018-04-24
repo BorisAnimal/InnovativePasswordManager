@@ -1,10 +1,6 @@
 package com.ba.yo.innovativepasswordmanager;
 
-/**
- * Created by Java-Ai-BOT on 4/19/2018.
- */
-
-public interface WipeDataMVC {
+public interface DumpDataMVC {
     interface View extends Notifiable, Transition {
 
     }

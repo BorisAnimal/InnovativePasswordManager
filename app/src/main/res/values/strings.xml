@@ -47,4 +47,24 @@
     <string name="delete">Delete</string>
     <string name="edit_entry">Edit Entry</string>
     <string name="select_applet">Select Applet</string>
+    <string name="dump_all_data">Dump all data</string>
+    <string name="delete_all_data">Delete all data</string>
+    <string name="type_master_password">Type master-password</string>
+    <string name="i_know_what_i_m_doing">I know what I\'m doing</string>
+    <string name="master_password_data_delete">Master-Password</string>
+    <string name="send">Send</string>
+    <string name="delete_all_your_stored_data">Delete all your stored data</string>
+    <string name="dump_all_your_stored_data">Dump all your stored data</string>
+    <string name="ftp">FTP</string>
+    <string name="email">Email</string>
+    <string name="telegram">Telegram</string>
+    <string name="json">JSON</string>
+    <string name="csv">CSV</string>
+    <string name="service">Service:</string>
+    <string name="format">Format:</string>
+    <string name="destination">Destination:</string>
+    <string name="address">Address</string>
+    <string name="repeat_new_master_password">Repeat New Master-Password</string>
+    <string name="new_master_password">New Master-Password</string>
+    <string name="save">Save</string>
 </resources>

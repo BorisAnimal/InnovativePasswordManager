@@ -5,12 +5,8 @@ package com.ba.yo.innovativepasswordmanager;
  */
 
 public interface LoginMVC {
-    interface View extends Notifiable {
-        /**
-         * User is identified and he/she can begin using application.
-         * All needed values stored on session time.
-         */
-        void makeTransitionToEntitySelect();
+    interface View extends Notifiable, Transition {
+
     }
 
     interface Controller {

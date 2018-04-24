@@ -26,6 +26,14 @@ public interface EditEntryMVC {
 //         * @param description - target value
 //         */
 //        void setDescription(String description);
+        /**
+         * Appends password to corresponded field
+         *
+         * @param username - value to fill in username field
+         * @param password - value to fill in password field
+         * @param description - value to fill in description field
+         */
+        void setExisting(String username, String password, String description);
     }
 
     interface Controller {

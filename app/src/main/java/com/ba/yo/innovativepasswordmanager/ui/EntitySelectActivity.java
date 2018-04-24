@@ -1,9 +1,11 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.support.v7.app.AlertDialog;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.support.design.widget.FloatingActionButton;
@@ -14,15 +16,14 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ba.yo.innovativepasswordmanager.AuthEntryAdapterCallback;
 import com.ba.yo.innovativepasswordmanager.controllers.EntitySelectController;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
 
 import java.util.ArrayList;
 
-import retrofit2.http.HEAD;
-
-public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View {
+public class EntitySelectActivity extends AppCompatActivity implements EntitySelectMVC.View, AuthEntryAdapterCallback {
 
     //TODO: implement EntitySelectMVC.View interface
 
@@ -31,6 +32,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     private AuthEntryAdapter aAdapter;
     private EntitySelectMVC.Controller controller;
     private FloatingActionButton addEntry;
+    private int previousVisibleItem;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -50,53 +52,43 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         });
 
         listView = (ListView) findViewById(R.id.entry_selector);
-        listView.setOnTouchListener(new android.view.View.OnTouchListener() {
-            float height;
 
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public boolean onTouch(android.view.View v, MotionEvent event) {
-                int action = event.getAction();
-                float height = event.getY();
-                if (action == MotionEvent.ACTION_DOWN) {
-                    this.height = height;
-                } else if (action == MotionEvent.ACTION_UP) {
-                    if (this.height < height) {
-                        addEntry.show();
+            public void onScrollStateChanged(AbsListView absListView, int i) {
 
-                    } else if (this.height > height) {
-                        addEntry.hide();
-                    }
-                }
-                return false;
             }
 
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (previousVisibleItem != firstVisibleItem) {
+                    if (previousVisibleItem < firstVisibleItem) {
+                        addEntry.hide();
+                    } else {
+                        addEntry.show();
+                    }
+
+                    previousVisibleItem = firstVisibleItem;
+                }
+            }
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
-                showNotification("Send password for entry with id: "+authList.get(i).getaId());
-            }
-        });
-
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
-                Intent intent = new Intent(EntitySelectActivity.this, EditEntryActivity.class);
-                intent.putExtra("ENTRY_ID", authList.get(i).getaId());
-                startActivity(intent);
-                return false;
+                goToAppletSelectActivity(authList.get(i).getaId());
             }
         });
 
         authList = new ArrayList<>();
         controller = new EntitySelectController(this);
+        controller.getData();
+    }
 
-//<<<<<<<HEAD
-//        addEntity("test","77");
-//=======
-//        controller.getData();
-//>>>>>>> refs/remotes/origin/master
+    @Override
+    protected void onResume() {
+        super.onResume();
+        controller.getData();
     }
 
     @Override
@@ -124,6 +116,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
     private void updateList() {
         aAdapter = new AuthEntryAdapter(this, authList);
+        aAdapter.setCallback(this);
         listView.setAdapter(aAdapter);
     }
 
@@ -137,12 +130,75 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         updateList();
     }
 
-    public void showNotification(String notificationText) {
+    /**
+     * Show notification in the bottom of activity as a "Snackbar"
+     * @param message - string that user should read
+     */
+    public void showNotification(String message) {
         View parentLayout = findViewById(android.R.id.content);
-        Snackbar mySnackbar = Snackbar.make(parentLayout, notificationText, Snackbar.LENGTH_LONG);
+        Snackbar mySnackbar = Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG);
         mySnackbar.show();
         //TODO: Fab intersection avoidance
     }
 
+    /**
+     * Show confirmation
+     * @param name
+     * @param id
+     */
+    public void deleteEntity(String name, String id){
+        AlertDialog confirm = AskOption(name, id);
+        confirm.show();
+    }
 
+    /**
+     * Construct confirmation dialog for entity deletion procedure
+     * @param entityDescription
+     * @param id
+     * @return
+     */
+    private AlertDialog AskOption(String entityDescription, String id)
+    {
+        return new AlertDialog.Builder(this)
+                //set message, title, and icon
+                .setTitle("Delete")
+                .setMessage("Do you want to delete \""+entityDescription+"\"?")
+                .setIcon(R.drawable.ic_key)
+
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //DELETE ENTITY WITH ID->String
+                        //controller.delete(id);
+                        dialog.dismiss();
+                    }
+
+                })
+
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+
+    }
+
+    /**
+     * Make transition to EditEntity field, that happens when user selects certain Auth entry.
+     * When entry is selected its ID is taken to next activity by which editor will identify entity on server.
+     * @param id ID of selected entity
+     */
+    public void goToEditEntityActivity(String id){
+        Intent intent = new Intent(EntitySelectActivity.this, EditEntryActivity.class);
+        intent.putExtra("ENTRY_ID", id);
+        startActivity(intent);
+    }
+    public void goToAppletSelectActivity(String id){
+        Intent intent = new Intent(EntitySelectActivity.this, AppletSelectActivity.class);
+        intent.putExtra("ENTRY_ID", id);
+        startActivity(intent);
+    }
 }

@@ -5,7 +5,7 @@ package com.ba.yo.innovativepasswordmanager;
  */
 
 public interface AppletSelectMVC {
-    interface View extends Notifiable{
+    interface View extends Notifiable, Transition{
         /**
          * @param description - description of applet
          * @param id          - hide it in element (such in 'tag' field). Use it in intent when item selected

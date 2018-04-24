@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    mavenCentral()
+}
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -26,6 +30,9 @@ android {
             path "CMakeLists.txt"
         }
     }
+}
+repositories {
+    mavenCentral()
 }
 
 dependencies {

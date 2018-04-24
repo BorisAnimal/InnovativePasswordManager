@@ -1,6 +1,7 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,6 +12,8 @@ import android.widget.EditText;
 import com.ba.yo.innovativepasswordmanager.controllers.EditEntryController;
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.R;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,16 +31,46 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
     @BindView(R.id.descrField)
     EditText descEd;
 
+    private String entityId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_entry);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle(getString(R.string.add_entry));
+        /*
+         * Activate back button on top of activity
+         */
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        /*
+         * Check presence of any extras
+         * Their presence would mean that the entity with given ID should be edited
+         * Otherwise new entity should be created
+         */
+        if(getIntent().hasExtra("ENTRY_ID")){
+            Bundle extras = getIntent().getExtras();
+            if(extras!=null){
+                entityId = extras.getString("ENTRY_ID");
+                setTitle(getString(R.string.edit_entry));
+
+                //TODO: fill existing fields with data from server by id
+            }
+
+        }else{
+            setTitle(getString(R.string.add_entry));
+        }
 
         ButterKnife.bind(this);
         controller = new EditEntryController(this);
+
+
+        //TODO: Decide using ID whether to create new or edit existing entity
+
+
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,12 +85,36 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         });
     }
 
+    /**
+     * Fill field in current activity fields
+     * @param username - value to fill in username field
+     * @param password - value to fill in password field
+     * @param description - value to fill in description field
+     */
+    public void setExisting(String username, String password, String description){
+        EditText usernameField = (EditText) findViewById(R.id.loginField);
+        EditText passwordField = (EditText) findViewById(R.id.passwordField);
+        EditText descriptionField = (EditText) findViewById(R.id.descrField);
 
+        usernameField.setText(username);
+        passwordField.setText(password);
+        descriptionField.setText(description);
+    }
+
+    /**
+     * Handler for "back" button on top of activity
+     * @param item
+     * @return
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return true;
     }
 
+    /**
+     * Show notification in the bottom of activity as a "Snackbar"
+     * @param message - string that user should read
+     */
     @Override
     public void showNotification(String message) {
         View parentLayout = findViewById(android.R.id.content);
@@ -65,6 +122,10 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         mySnackbar.show();
     }
 
+    /**
+     * Assign value to password field
+     * @param pass - target value
+     */
     @Override
     public void setPassword(String pass) {
         passEd.setText(pass);

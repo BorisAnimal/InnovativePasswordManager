@@ -1,6 +1,7 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -11,21 +12,27 @@ import android.widget.EditText;
 import com.ba.yo.innovativepasswordmanager.ChangeMasterPasswordMVP;
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.R;
+import com.ba.yo.innovativepasswordmanager.controllers.ChangeMasterPasswordController;
 
 public class EditMasterPasswordActivity extends AppCompatActivity implements ChangeMasterPasswordMVP.View {
     private EditText oldPassword;
     private EditText newPassword;
     private EditText newPasswordRepeat;
     private Button changePassButton;
+    private ChangeMasterPasswordMVP.Controller controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_master_password);
 
         /*
-         * Activate back button on top of activity
+         * Set up action bar on top of activity: enable "back" button and set title
          */
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
         setTitle(getString(R.string.change_master_password));
 
         /*
@@ -45,6 +52,11 @@ public class EditMasterPasswordActivity extends AppCompatActivity implements Cha
                 //TODO: call editing procedure (also use getOldMP(), getNewMP(), getNewMPRepeat())
             }
         });
+
+        /*
+         * Create controller
+         */
+        controller = new ChangeMasterPasswordController(this);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

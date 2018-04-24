@@ -35,7 +35,8 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
         }
 
         //create controller
-        controller = new DeleteDataController();
+        controller = new DeleteDataController(this);
+
         /*
          * Get references from activity into variables
          */

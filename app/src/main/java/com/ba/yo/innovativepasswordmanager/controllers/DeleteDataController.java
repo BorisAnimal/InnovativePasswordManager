@@ -14,6 +14,8 @@ import retrofit2.Response;
 
 public class DeleteDataController implements WipeDataMVC.Controller {
 
+    //TODO: call view.goToEntitySelectActivity() on successful operation
+
     private WipeDataMVC.View view;
     private ApiClient api;
     private final String TAG = "WIPE_CONTROLLER";

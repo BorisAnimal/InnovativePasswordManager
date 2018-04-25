@@ -28,6 +28,7 @@ public class EditEntryController implements EditEntryMVC.Controller {
     private ApiClient api;
     private AccountModel model;
 
+    //TODO: call view.goToEntitySelectActivity() on successful operation
     /**
      * When we create entry
      */

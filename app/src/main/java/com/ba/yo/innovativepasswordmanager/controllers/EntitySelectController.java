@@ -56,4 +56,8 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
         });
     }
 
+    @Override
+    public void deleteEntity(String id) {
+        view.showNotification("Deleting entry, id: "+id);
+    }
 }

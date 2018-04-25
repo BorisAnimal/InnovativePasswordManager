@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.EntitySelectActivity"
             android:label="@string/application_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.LoginActivity"
@@ -27,12 +28,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.EditMasterPasswordActivity" />
-        <activity android:name=".ui.EditEntryActivity" />
-        <activity android:name=".ui.AppletSelectActivity" />
-        <activity android:name=".ui.ManageDataSelectActivity" />
-        <activity android:name=".ui.DumpDataActivity" />
-        <activity android:name=".ui.DeleteDataActivity"></activity>
+        <activity android:name=".ui.EditMasterPasswordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.EditEntryActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AppletSelectActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ManageDataSelectActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DumpDataActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DeleteDataActivity" android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

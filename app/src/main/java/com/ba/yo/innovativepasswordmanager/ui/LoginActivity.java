@@ -1,12 +1,20 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextClock;
+import android.widget.TextView;
 
 import com.ba.yo.innovativepasswordmanager.Transition;
 import com.ba.yo.innovativepasswordmanager.controllers.LoginController;
@@ -23,6 +31,8 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
     EditText loginEdit;
     @BindView(R.id.master_password)
     EditText passwordEdit;
+    private TextView mainLabel;
+    private TextView registerLabel;
     private LoginMVC.Controller controller;
 
     @Override
@@ -43,6 +53,14 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
                 controller.check(login, password);
             }
         });
+
+        /*
+         * Setup text on page
+         */
+        mainLabel = (TextView) findViewById(R.id.app_label);
+        registerLabel = (TextView) findViewById(R.id.btn_create_account);
+        mainLabel.setText(Html.fromHtml(getString(R.string.welcome_label)));
+        registerLabel.setText(Html.fromHtml(getString(R.string.sign_up_message)));
     }
     /**
      * Proceed to main activity, i.e. EntitySelect

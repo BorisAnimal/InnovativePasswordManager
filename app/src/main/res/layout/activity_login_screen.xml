@@ -5,23 +5,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/AppTheme.NoActionBar">
+    android:theme="@style/AppTheme.NoActionBar"
+    android:background="@drawable/gradient">
 
 
     <RelativeLayout
+        android:id="@+id/background"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/app_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="107dp"
+            android:layout_alignBottom="@id/master_login"
+            android:gravity="start"
+            android:layout_marginTop="110dp"
             android:text="@string/welcome_to_ipm"
-            android:textSize="30dp" />
+            android:textSize="30sp" />
 
         <EditText
             android:id="@+id/master_login"
@@ -30,7 +34,7 @@
             android:layout_above="@+id/master_password"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:hint="Login"
+            android:hint="@string/login"
             android:inputType="textPersonName" />
 
         <EditText
@@ -39,9 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="215dp"
             android:ems="10"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
 
 
@@ -56,7 +61,15 @@
             android:focusable="true"
             app:srcCompat="@drawable/ic_arrow" />
 
-
+        <TextView
+            android:id="@+id/btn_create_account"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="60dp"
+            android:text=""
+            android:textSize="15sp" />
 
 
     </RelativeLayout>

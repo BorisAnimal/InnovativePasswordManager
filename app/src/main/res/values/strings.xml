@@ -40,7 +40,7 @@
     <string name="add_entry">Add Entry</string>
     <string name="change_master_password">Change Master Password</string>
     <string name="entry_icon">Entry Icon</string>
-    <string name="welcome_to_ipm">Welcome to IPM!</string>
+    <string name="welcome_to_ipm"></string>
     <string name="application_name_short">IPM</string>
     <string name="application_name">Innovative Password Manager</string>
     <string name="edit">Edit</string>
@@ -68,4 +68,7 @@
     <string name="new_master_password">New Master-Password</string>
     <string name="save">Save</string>
     <string name="save_as_file">Save as File</string>
+    <string name="welcome_label"><![CDATA[Welcome to<br><span><Big><b>Innovative</b></Big></span><br>Password Manager]]></string>
+    <string name="sign_up_message"><![CDATA[Haven\'t got account? <b>Sign up</b>]]></string>
+    <string name="empty_entity_list_message"><![CDATA[<big><it>Nothing here yet<br>Click </it><b>+</b><it> to add new entry</it></big>]]></string>
 </resources>

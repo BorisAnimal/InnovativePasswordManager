@@ -51,7 +51,7 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
             @Override
             public void onItemClick(AdapterView<?> adapterView, android.view.View view, int i, long l) {
                 String appletId = appletList.get(i).getapId();
-                //TODO: handle sending password
+                controller.sendDataToApplet(appletId, entityId);
                 showNotification("We have Entity: " + entityId + ", and Applet: " + appletId);
             }
         });
@@ -59,9 +59,7 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
         // Assign key containers of activity
         appletList = new ArrayList<>();
         controller = new AppletSelectController(this);
-
-        addApplet("hello1", "some_id");
-        addApplet("hello2", "some_id_2");
+        controller.getData();
     }
 
     /**
@@ -70,7 +68,7 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
     @Override
     protected void onResume() {
         super.onResume();
-        //TODO: handle functionality for "controller.getData()"
+       controller.getData();
     }
 
     /**

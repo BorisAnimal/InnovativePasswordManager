@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme"
         tools:replace="icon, label">
         <activity
+            android:screenOrientation="portrait"
             android:name=".ui.EntitySelectActivity"
             android:label="@string/application_name"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -27,7 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.EditMasterPasswordActivity" />
+        <activity android:name=".ui.EditMasterPasswordActivity"
+            />
         <activity android:name=".ui.EditEntryActivity" />
         <activity android:name=".ui.AppletSelectActivity" />
         <activity android:name=".ui.ManageDataSelectActivity" />

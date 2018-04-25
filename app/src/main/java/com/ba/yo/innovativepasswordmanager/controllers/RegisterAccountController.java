@@ -2,9 +2,12 @@ package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.util.Log;
 
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.RegisterAccountMVC;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
+
+import java.security.NoSuchAlgorithmException;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -43,7 +46,13 @@ public class RegisterAccountController implements RegisterAccountMVC.Controller 
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     view.showNotification("Successfully registered");
-                    view.returnToLoginScreen(login, password);
+                    try {
+                        view.returnToLoginScreen(CryptoCipher.hash256(login),
+                                CryptoCipher.hash256(password));
+                    } catch (NoSuchAlgorithmException e) {
+                        Log.e(TAG, "onResponse: " + e);
+                        view.showNotification("Crypto error occurred");
+                    }
                 } else {
                     view.showNotification("Error occurred: " + response.code());
                 }

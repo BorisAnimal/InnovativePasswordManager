@@ -47,7 +47,7 @@ public interface ApiClient {
      * @return response from server
      */
     @POST("accounts/wipe")
-    Call<ResponseBody> wipeAllData(@Header("token") String token, @Header("password") String password);
+    Call<WipeResponse> wipeAllData(@Header("token") String token, @Header("password") String password);
 
     @POST("accounts/dump")
     Call<List<AccountModel>> getDataDump(@Header("token") String token);

@@ -71,4 +71,9 @@
     <string name="welcome_label"><![CDATA[Welcome to<br><span><Big><b>Innovative</b></Big></span><br>Password Manager]]></string>
     <string name="sign_up_message"><![CDATA[Haven\'t got account? <b>Sign up</b>]]></string>
     <string name="empty_entity_list_message"><![CDATA[<big><it>Nothing here yet<br>Click </it><b>+</b><it> to add new entry</it></big>]]></string>
+    <string name="title_activity_register_account">Sign up</string>
+    <string name="save_edit">Save</string>
+    <string name="login_register">Login</string>
+    <string name="pass_register">Password</string>
+    <string name="register_account">Register Account</string>
 </resources>

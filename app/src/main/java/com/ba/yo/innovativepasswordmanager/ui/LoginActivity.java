@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -20,6 +21,8 @@ import com.ba.yo.innovativepasswordmanager.Transition;
 import com.ba.yo.innovativepasswordmanager.controllers.LoginController;
 import com.ba.yo.innovativepasswordmanager.LoginMVC;
 import com.ba.yo.innovativepasswordmanager.R;
+
+import org.apache.commons.lang3.ObjectUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +64,13 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
         registerLabel = (TextView) findViewById(R.id.btn_create_account);
         mainLabel.setText(Html.fromHtml(getString(R.string.welcome_label)));
         registerLabel.setText(Html.fromHtml(getString(R.string.sign_up_message)));
+
+        registerLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToRegisterActivity();
+            }
+        });
     }
     /**
      * Proceed to main activity, i.e. EntitySelect
@@ -72,6 +82,14 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
     }
 
     /**
+     * Open registration form, that is needed for new users
+     */
+    private void goToRegisterActivity() {
+        Intent intent = new Intent(LoginActivity.this, RegisterAccountActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    /**
      * Show notification in the bottom of activity as a "Snackbar"
      * @param notificationText - string that user should read
      */
@@ -79,5 +97,36 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
         View parentLayout = findViewById(android.R.id.content);
         Snackbar mySnackbar = Snackbar.make(parentLayout, notificationText, Snackbar.LENGTH_LONG);
         mySnackbar.show();
+    }
+
+    /**
+     * Handle return values from register activity
+     * @param data intent that was constructed in register activity, contains parameters
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            try{
+                String returnLogin = data.getStringExtra("LOGIN");
+                String returnPass = data.getStringExtra("PASSWORD");
+                setExisting(returnLogin, returnPass);
+            }catch (NullPointerException e){
+                Log.d("ACTIVITY_TRANSITION","Register Activity return null data.");
+            }
+        }else if(resultCode==RESULT_CANCELED){
+            Log.d("ACTIVITY_TRANSITION", "Registration cancelled");
+        }
+    }
+
+    /**
+     * Set existing values in activity
+     * @param login login value
+     * @param pasword password value
+     */
+    @Override
+    public void setExisting(String login, String pasword) {
+        loginEdit.setText(login);
+        passwordEdit.setText(pasword);
     }
 }

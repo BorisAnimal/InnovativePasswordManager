@@ -10,3 +10,4 @@
 /.idea/*
 *.zip
 app/src/main/java/com/ba/yo/innovativepasswordmanager/model/RetrofitService.java
+app/src/main/java/com/ba/yo/innovativepasswordmanager/model/RetrofitService.java

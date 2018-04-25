@@ -14,11 +14,11 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CipherTests {
     private static String DEF_MESSAGE = "Hello, world!";
     private static String DEF_PASSWORD = "very_strong_pass";
-    private static final String DEF_MESSAGE_ENCRYPTED = "7F64B7E00868D43E40229AD4D935F0E0";
+    private static final String DEF_MESSAGE_ENCRYPTED = "7f64b7e00868d43e40229ad4d935f0e0";
 
 
     @Test
-    public void defaultInput() throws CryptoUtils.EncryptionException, CryptoUtils.DecryptionException {
+    public void defaultInput() throws CryptoUtils.DecryptionException {
         String encrypted = CryptoUtils.encrypt(DEF_PASSWORD, DEF_MESSAGE);
         Assert.assertEquals(encrypted, DEF_MESSAGE_ENCRYPTED);
 
@@ -32,7 +32,7 @@ public class CipherTests {
         Assert.assertEquals(decrypted, DEF_MESSAGE);
     }
 
-    private void encryptAndDecrypt(String password, String message) throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    private void encryptAndDecrypt(String password, String message) throws CryptoUtils.DecryptionException {
         String encrypted = CryptoUtils.encrypt(password, message);
         String decrypted = CryptoUtils.decrypt(password, encrypted);
 //        Assert.assertEquals(decrypted, message);  // DOES NOT WORK WITH LONG INPUT
@@ -40,7 +40,7 @@ public class CipherTests {
     }
 
     @Test
-    public void nullPassword() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void nullPassword() throws CryptoUtils.DecryptionException {
         try {
             encryptAndDecrypt(null, DEF_MESSAGE);
         } catch (NullPointerException e) {
@@ -50,7 +50,7 @@ public class CipherTests {
     }
 
     @Test
-    public void nullMessage() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void nullMessage() throws CryptoUtils.DecryptionException {
         try {
             encryptAndDecrypt(DEF_PASSWORD, null);
         } catch (NullPointerException e) {
@@ -60,7 +60,7 @@ public class CipherTests {
     }
 
     @Test
-    public void nullPasswordAndMessage() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void nullPasswordAndMessage() throws CryptoUtils.DecryptionException {
         try {
             encryptAndDecrypt(null, null);
         } catch (NullPointerException e) {
@@ -70,22 +70,22 @@ public class CipherTests {
     }
 
     @Test
-    public void emptyPassword() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void emptyPassword() throws CryptoUtils.DecryptionException {
         encryptAndDecrypt("", DEF_MESSAGE);
     }
 
     @Test
-    public void emptyMessage() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void emptyMessage() throws CryptoUtils.DecryptionException {
         encryptAndDecrypt(DEF_PASSWORD, "");
     }
 
     @Test
-    public void emptyPasswordAndMessage() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void emptyPasswordAndMessage() throws CryptoUtils.DecryptionException {
         encryptAndDecrypt("", "");
     }
 
     @Test
-    public void longPassword() throws CryptoUtils.EncryptionException, CryptoUtils.DecryptionException {
+    public void longPassword() throws CryptoUtils.DecryptionException {
         StringBuilder passBuilder = new StringBuilder();
         for (int i = 0; i < 500; i++) {
             passBuilder.append(DEF_PASSWORD);
@@ -94,7 +94,7 @@ public class CipherTests {
     }
 
     @Test
-    public void longMessage() throws CryptoUtils.EncryptionException, CryptoUtils.DecryptionException {
+    public void longMessage() throws CryptoUtils.DecryptionException {
         StringBuilder message = new StringBuilder();
         for (int i = 0; i < 500; i++) {
             message.append(DEF_MESSAGE);
@@ -103,7 +103,7 @@ public class CipherTests {
     }
 
     @Test
-    public void longPasswordAndMessage() throws CryptoUtils.EncryptionException, CryptoUtils.DecryptionException {
+    public void longPasswordAndMessage() throws CryptoUtils.DecryptionException {
         StringBuilder passBuilder = new StringBuilder();
         for (int i = 0; i < 500; i++) {
             passBuilder.append(DEF_PASSWORD);
@@ -116,17 +116,17 @@ public class CipherTests {
     }
 
     @Test
-    public void randomPassword() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void randomPassword() throws CryptoUtils.DecryptionException {
         encryptAndDecrypt(getRandomString(), DEF_MESSAGE);
     }
 
     @Test
-    public void randomMessage() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void randomMessage() throws CryptoUtils.DecryptionException {
         encryptAndDecrypt(DEF_PASSWORD, getRandomString());
     }
 
     @Test
-    public void randomPasswordAndMessage() throws CryptoUtils.DecryptionException, CryptoUtils.EncryptionException {
+    public void randomPasswordAndMessage() throws CryptoUtils.DecryptionException {
         encryptAndDecrypt(getRandomString(), getRandomString());
     }
 

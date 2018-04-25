@@ -1,16 +1,15 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.ba.yo.innovativepasswordmanager.ChangeMasterPasswordMVP;
-import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.R;
 import com.ba.yo.innovativepasswordmanager.controllers.ChangeMasterPasswordController;
 
@@ -50,6 +49,7 @@ public class EditMasterPasswordActivity extends AppCompatActivity implements Cha
             @Override
             public void onClick(View view) {
                 //TODO: call editing procedure (also use getOldMP(), getNewMP(), getNewMPRepeat())
+                controller.changeMasterPassword();
             }
         });
 
@@ -74,6 +74,7 @@ public class EditMasterPasswordActivity extends AppCompatActivity implements Cha
 
     /**
      * Get current value from old master password field
+     *
      * @return String value of password
      */
     @Override
@@ -83,6 +84,7 @@ public class EditMasterPasswordActivity extends AppCompatActivity implements Cha
 
     /**
      * Get current value from master password field
+     *
      * @return String value of password
      */
     @Override
@@ -92,6 +94,7 @@ public class EditMasterPasswordActivity extends AppCompatActivity implements Cha
 
     /**
      * Get current value from master password(repeat) field
+     *
      * @return String value of password
      */
     @Override
@@ -101,6 +104,7 @@ public class EditMasterPasswordActivity extends AppCompatActivity implements Cha
 
     /**
      * Show notification in the bottom of activity as a "Snackbar"
+     *
      * @param message - string that user should read
      */
     @Override

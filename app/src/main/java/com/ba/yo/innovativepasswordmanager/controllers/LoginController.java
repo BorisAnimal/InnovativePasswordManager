@@ -37,6 +37,7 @@ public class LoginController implements LoginMVC.Controller {
             view.showNotification("Login and Password fields can not be empty.");
             return;
         }
+        Log.d(TAG, login + "~" + password);
         CryptoCipher.storeMP(password);
         try {
             Call<LoginResponseModel> call = api.checkUser(RequestBody.create(

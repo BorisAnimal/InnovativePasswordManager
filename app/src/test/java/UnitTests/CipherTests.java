@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CipherTests {
     private static String DEF_MESSAGE = "Hello, world!";
     private static String DEF_PASSWORD = "very_strong_pass";
-    private static final String DEF_MESSAGE_ENCRYPTED = "7F64B7E00868D43E40229AD4D935F0E0";
+    private static final String DEF_MESSAGE_ENCRYPTED = "7f64b7e00868d43e40229ad4d935f0e0";
 
 
     @Test

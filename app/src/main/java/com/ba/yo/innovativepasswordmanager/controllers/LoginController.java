@@ -2,12 +2,13 @@ package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.util.Log;
 
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.LoginMVC;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
-import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.model.LoginResponseModel;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -37,36 +38,41 @@ public class LoginController implements LoginMVC.Controller {
             return;
         }
         CryptoCipher.storeMP(password);
-        Call<LoginResponseModel> call = api.checkUser(RequestBody.create(
-                MediaType.parse("application/json"), toJson(CryptoCipher.hash256(login),
-                        CryptoCipher.hash256(password))));
-        call.enqueue(new Callback<LoginResponseModel>() {
-            @Override
-            public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
-                Log.d(TAG, response.toString());
-                if (response.body() != null) {
-                    LoginResponseModel resp = response.body();
-                    Log.d(TAG, resp + "");
-                    if (resp.getErrorMessage() == null || resp.getErrorMessage().contains("null")) {
-                        Log.d(TAG, response.toString());
-                        CryptoCipher.storeToken(resp.getSessionToken());
-                        view.showNotification("All good");
-                        view.goToEntitySelectActivity();
+        try {
+            Call<LoginResponseModel> call = api.checkUser(RequestBody.create(
+                    MediaType.parse("application/json"), toJson(CryptoCipher.hash256(login),
+                            CryptoCipher.hash256(password))));
+            call.enqueue(new Callback<LoginResponseModel>() {
+                @Override
+                public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
+                    Log.d(TAG, response.toString());
+                    if (response.body() != null) {
+                        LoginResponseModel resp = response.body();
+                        Log.d(TAG, resp + "");
+                        if (resp.getErrorMessage() == null || resp.getErrorMessage().contains("null")) {
+                            Log.d(TAG, response.toString());
+                            CryptoCipher.storeToken(resp.getSessionToken());
+                            view.showNotification("All good");
+                            view.goToEntitySelectActivity();
+                        } else {
+                            view.showNotification("Error accurend: " + resp.getErrorMessage());
+                        }
                     } else {
-                        view.showNotification("Error accurend: " + resp.getErrorMessage());
+                        view.showNotification("Server unavailable");
                     }
-                } else {
-                    view.showNotification("Server unavailable");
                 }
-            }
 
-            @Override
-            public void onFailure(Call<LoginResponseModel> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                view.showNotification(t.getMessage());
-                call.cancel();
-            }
-        });
+                @Override
+                public void onFailure(Call<LoginResponseModel> call, Throwable t) {
+                    Log.e(TAG, t.getMessage());
+                    view.showNotification(t.getMessage());
+                    call.cancel();
+                }
+            });
+        } catch (NoSuchAlgorithmException ex) {
+            Log.e(TAG, "Crypto exception: " + ex.getLocalizedMessage());
+            view.showNotification("Crypto exception");
+        }
     }
 
     private String toJson(String login, String password) {

@@ -2,9 +2,9 @@ package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.util.Log;
 
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
-import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.model.EntityDescriptionModel;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 

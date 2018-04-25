@@ -1,96 +1,137 @@
 package com.ba.yo.innovativepasswordmanager.Cipher;
 
-import java.security.*;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 public class CryptoUtils {
-    private static final String ALGORITHM = "RSA";
-    private static KeyPair key;
+    private static final String CYPHER_ALGO = "AES";
+    private static final String RANDOM_ALGO = "SHA1PRNG";
 
-    public static void setKeyword(String keyword) {
+
+    public static String hash256(String input) throws NoSuchAlgorithmException {
+        return toHex(MessageDigest.getInstance("SHA-256").digest(input.getBytes(StandardCharsets.UTF_8)));
+    }
+
+
+    /**
+     * Get closely undecipherable representation of the string according to the key.
+     *
+     * @param key     Key for cyphering the message (important to store somewhere or memorize)
+     * @param message Message to encrypt
+     * @return Encrypted version of message (maybe decrypted using 'decrypt' method)
+     */
+    public static String encrypt(String key, String message) {
+        if (key == null || message == null) {
+            throw new NullPointerException();
+        }
+        return toHex(encrypt(getRawKey(key.getBytes()), message.getBytes()));
+    }
+
+    /**
+     * Get the original representation of the string according to the key.
+     *
+     * @param key       Key for cyphering the message (important to store somewhere or memorize)
+     * @param encrypted Encrypted version of the original message
+     * @return Original message as it was before encryption using method 'encrypt'
+     * @throws DecryptionException Error during decryption
+     */
+    public static String decrypt(String key, String encrypted) throws DecryptionException {
+        if (key == null || encrypted == null) {
+            throw new NullPointerException();
+        }
+        return new String(decrypt(getRawKey(key.getBytes()), toByte(encrypted)));
+    }
+
+    private static byte[] getRawKey(byte[] seed) {
         try {
-            final KeyPairGenerator keyGen = KeyPairGenerator.getInstance(ALGORITHM);
-            keyGen.initialize(1024, new SecureRandom(keyword.getBytes()));
-            key = keyGen.generateKeyPair();
-        } catch (Exception e) {
+
+            KeyGenerator keyGen = KeyGenerator.getInstance(CYPHER_ALGO);
+            SecureRandom sr = SecureRandom.getInstance(RANDOM_ALGO);
+            sr.setSeed(seed);
+            keyGen.init(128, sr);  // 192 and 256 bits may not be available
+            return keyGen.generateKey().getEncoded();
+
+        } catch (NoSuchAlgorithmException e) {
+            // only if algorithm name will be changed in a wrong way
             e.printStackTrace();
+            System.exit(-1);
+            return new byte[]{};  // unreachable
         }
     }
 
-    public static byte[] encryptBytes(byte[] text) throws NoKeyException {
-        if (key == null) {
-            throw new NoKeyException();
-        }
-        byte[] cipherText = null;
+    private static byte[] encrypt(byte[] rawKey, byte[] message) {
         try {
-            final Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, key.getPublic());
-            cipherText = cipher.doFinal(text);
-        } catch (Exception e) {
+
+            Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(rawKey, CYPHER_ALGO));
+            return cipher.doFinal(message);
+
+        } catch (NoSuchAlgorithmException
+                | NoSuchPaddingException
+                | InvalidKeyException
+                | IllegalBlockSizeException
+                | BadPaddingException e) {
+            // only if algorithm name will be changed in a wrong way
             e.printStackTrace();
+            System.exit(-1);
+            return new byte[]{};  // unreachable
         }
-        return cipherText;
     }
 
-    public static String encrypt(String text) throws NoKeyException {
-        return bytesToHex(encryptBytes(text.getBytes()));
-    }
-
-    public static byte[] decryptBytes(byte[] text) throws NoKeyException {
-        if (key == null) {
-            throw new NoKeyException();
-        }
-        byte[] dectyptedText = null;
+    private static byte[] decrypt(byte[] rawKey, byte[] encrypted) throws DecryptionException {
         try {
-            final Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, key.getPrivate());
-            dectyptedText = cipher.doFinal(text);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+
+            Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
+            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(rawKey, CYPHER_ALGO));
+            return cipher.doFinal(encrypted);
+
+        } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+            throw new DecryptionException();
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            // only if algorithm name will be changed in a wrong way
+            e.printStackTrace();
+            System.exit(-1);
+            return new byte[]{};  // unreachable
         }
-        return dectyptedText;
     }
 
-    public static String decrypt(String text) throws NoKeyException {
-        return new String(decryptBytes(hexToBytes(text)));
+    private static byte[] toByte(String hexString) {
+        int len = hexString.length() / 2;
+        byte[] res = new byte[len];
+        for (int i = 0; i < len; i++)
+            res[i] = Integer.valueOf(hexString.substring(2 * i, 2 * i + 2), 16).byteValue();
+        return res;
     }
 
-    public static String bytesToHex(byte b[]) {
-        String hs = "", stmp;
-        for (int n = 0; n < b.length; n++) {
-            stmp = java.lang.Integer.toHexString(b[n] & 0xff);
-            if (stmp.length() == 1)
-                hs = hs + "0" + stmp;
-            else
-                hs = hs + stmp;
+    private static String toHex(byte[] buf) {
+        if (buf == null)
+            return "";
+        StringBuffer res = new StringBuffer(2 * buf.length);
+        for (byte aBuf : buf) {
+            appendHex(res, aBuf);
         }
-        return hs.toLowerCase();
+        return res.toString();
     }
 
-    public static byte[] hexToBytes(String str) {
-        int len = str.length();
-        if (len % 2 != 0) return null;
-        byte r[] = new byte[len / 2];
-        int k = 0;
-        for (int i = 0; i < str.length() - 1; i += 2) {
-            r[k] = hexToByte(str.charAt(i), str.charAt(i + 1));
-            k++;
-        }
-        return r;
+    private final static String HEX = "0123456789ABCDEF";
+
+    private static void appendHex(StringBuffer sb, byte b) {
+        sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
     }
 
-    private static byte hexToByte(char a1, char a2) {
-        int k;
-        if (a1 >= '0' && a1 <= '9') k = a1 - 48;
-        else if (a1 >= 'a' && a1 <= 'f') k = (a1 - 97) + 10;
-        else if (a1 >= 'A' && a1 <= 'F') k = (a1 - 65) + 10;
-        else k = 0;
-        k <<= 4;
-        if (a2 >= '0' && a2 <= '9') k += a2 - 48;
-        else if (a2 >= 'a' && a2 <= 'f') k += (a2 - 97) + 10;
-        else if (a2 >= 'A' && a2 <= 'F') k += (a2 - 65) + 10;
-        else k += 0;
-        return (byte) (k & 0xff);
+    /**
+     * Error of CryptoUtils.decrypt method
+     */
+    public static class DecryptionException extends Exception {
     }
 }

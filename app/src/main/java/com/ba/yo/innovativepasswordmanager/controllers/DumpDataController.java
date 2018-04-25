@@ -3,10 +3,11 @@ package com.ba.yo.innovativepasswordmanager.controllers;
 import android.os.Environment;
 import android.util.Log;
 
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher;
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoUtils;
 import com.ba.yo.innovativepasswordmanager.DumpDataMVC;
 import com.ba.yo.innovativepasswordmanager.model.AccountModel;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
-import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 import com.google.gson.Gson;
 
@@ -47,39 +48,41 @@ public class DumpDataController implements DumpDataMVC.Controller {
             @Override
             public void onResponse(retrofit2.Call<List<AccountModel>> call, Response<List<AccountModel>> response) {
                 Log.d(TAG, response.toString());
-                if (response.body() != null && response.code() == 200) {
-                    Log.d(TAG, "List size: " + response.body().size());
-                    List<AccountModel> entities = response.body();
-                    Log.d(TAG, "Start deciphering:");
-                    StringBuilder sb = new StringBuilder(entities.size());
-                    for (AccountModel a : entities) {
-                        //decipher all data
-                        a.setLogin(CryptoCipher.decrypt(a.getLogin()));
-                        a.setPassword(CryptoCipher.decrypt(a.getPassword()));
+                try {
+                    if (response.body() != null && response.code() == 200) {
+                        Log.d(TAG, "List size: " + response.body().size());
+                        List<AccountModel> entities = response.body();
+                        Log.d(TAG, "Start deciphering:");
+                        StringBuilder sb = new StringBuilder(entities.size());
+                        for (AccountModel a : entities) {
+                            //decipher all data
+                            a.setLogin(CryptoCipher.decrypt(a.getLogin()));
+                            a.setPassword(CryptoCipher.decrypt(a.getPassword()));
+                        }
+                        try {
+                            if (!view.checkPermission())
+                                view.askPermission();
+                            String txt = new Gson().toJson(entities);
+                            Log.d(TAG, txt);
+                            String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                                    + "/dump.txt";
+                            Log.d(TAG, "Path: " + path);
+                            File file = new File(path);
+                            if (file.exists())
+                                file.delete();
+                            FileOutputStream stream = new FileOutputStream(file);
+                            stream.write(txt.getBytes());
+                            stream.flush();
+                            stream.close();
+                            view.showNotification("Saved");
+                        } catch (IOException e) {
+                            view.showNotification("Error while writing to file\n" + e.getLocalizedMessage());
+                            Log.e(TAG, e.getLocalizedMessage() + "");
+                        }
                     }
-                    try {
-                        if (!view.checkPermission())
-                            view.askPermission();
-                        String txt = new Gson().toJson(entities);
-                        Log.d(TAG, txt);
-                        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                                + "/dump.txt";
-                        Log.d(TAG, "Path: " + path);
-//                        new Gson().toJson(entities, new FileWriter(
-//                                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-//                                        + "/dump.txt"));
-                        File file = new File(path);
-                        if (file.exists())
-                            file.delete();
-                        FileOutputStream stream = new FileOutputStream(file);
-                        stream.write(txt.getBytes());
-                        stream.flush();
-                        stream.close();
-                        view.showNotification("Saved");
-                    } catch (IOException e) {
-                        view.showNotification("Error while writing to file\n" + e.getLocalizedMessage());
-                        Log.e(TAG, e.getLocalizedMessage() + "");
-                    }
+                } catch (CryptoUtils.DecryptionException ex) {
+                    Log.e(TAG, "Decryption exception: " + ex.getLocalizedMessage());
+                    view.showNotification("Crypto exception");
                 }
             }
 

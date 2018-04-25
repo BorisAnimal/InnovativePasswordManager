@@ -5,7 +5,6 @@ import android.util.Log;
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.model.AccountModel;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
-import com.ba.yo.innovativepasswordmanager.model.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,8 +16,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.encrypt;
-import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.getToken;
+import static com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher.encrypt;
+import static com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher.getToken;
 
 /**
  * Created by Java-Ai-BOT on 4/15/2018.
@@ -44,7 +43,7 @@ public class EditEntryController implements EditEntryMVC.Controller {
         this.view = view;
         api = RetrofitService.getInstance().create(ApiClient.class);
 
-        Call<AccountModel> call = api.getAccount(CryptoCipher.getToken(), id);
+        Call<AccountModel> call = api.getAccount(getToken(), id);
         call.enqueue(new Callback<AccountModel>() {
             @Override
             public void onResponse(Call<AccountModel> call, Response<AccountModel> response) {

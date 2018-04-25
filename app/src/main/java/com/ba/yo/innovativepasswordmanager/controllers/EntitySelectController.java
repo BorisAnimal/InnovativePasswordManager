@@ -71,6 +71,8 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
                 Log.d(TAG, response.toString());
                 if (response.body() != null) {
                     ResponseBody resp = response.body();
+                    view.clearList();
+                    getData();
                     Log.d(TAG, resp + "");
                 } else {
                     view.showNotification("Server error");

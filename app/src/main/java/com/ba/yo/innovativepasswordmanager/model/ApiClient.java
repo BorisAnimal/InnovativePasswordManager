@@ -19,23 +19,23 @@ import retrofit2.http.POST;
 public interface ApiClient {
 
     @FormUrlEncoded
-    @POST("accounts/delete")
+    @POST("accounts/delete/")
     Call<ResponseBody> deleteAccount(@Header("token") String token, @Field("accountID") String accountID);
 
-    @GET("accounts/get")
+    @GET("accounts/get/")
     Call<AccountModel> getAccount(@Header("token") String token, @Header("accountID") String accountID);
 
     /**
      * @param accountsJson - jsoned array of @AccountModel 's
      * @return response from server
      */
-    @POST("users/changepass")
+    @POST("users/changepass/")
     Call<ResponseBody> changeMasterPassowrd(@Header("token") String token,
                                             @Header("password") String newMasterPassword,
                                             @Body String accountsJson);
 
     @FormUrlEncoded
-    @POST("accounts/transfer")
+    @POST("accounts/transfer/")
     Call<ResponseBody> sendDataToApplet(@Header("token") String token,
                                         @Field("accountID") String accountID,
                                         @Field("appletID") String appletID);
@@ -47,10 +47,10 @@ public interface ApiClient {
      * @param password - hashed master password
      * @return response from server
      */
-    @POST("accounts/wipe")
+    @POST("accounts/wipe/")
     Call<WipeResponse> wipeAllData(@Header("token") String token, @Header("password") String password);
 
-    @POST("accounts/dump")
+    @POST("accounts/dump/")
     Call<List<AccountModel>> getDataDump(@Header("token") String token);
 
     /**

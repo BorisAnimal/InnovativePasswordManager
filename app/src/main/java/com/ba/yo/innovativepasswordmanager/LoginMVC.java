@@ -6,7 +6,10 @@ package com.ba.yo.innovativepasswordmanager;
 
 public interface LoginMVC {
     interface View extends Notifiable, Transition {
-
+        /**
+         * Set values in fields
+         */
+        void setExisting(String login, String pasword);
     }
 
     interface Controller {

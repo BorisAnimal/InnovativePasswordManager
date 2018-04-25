@@ -22,14 +22,13 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
     EditEntryMVC.Controller controller;
     @BindView(R.id.generatePasswordButton)
     Button generateRandomPassword;
-    @BindView(R.id.addButton)
-    Button goButton;
     @BindView(R.id.loginField)
     EditText loginEd;
     @BindView(R.id.passwordField)
     EditText passEd;
     @BindView(R.id.descrField)
     EditText descEd;
+    private Button goButton;
 
     private String entityId;
 
@@ -46,6 +45,7 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        goButton = (Button) findViewById(R.id.addButton);
         /*
          * Check presence of any extras
          * Their presence would mean that the entity with given ID should be edited
@@ -56,7 +56,7 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
             if(extras!=null){
                 entityId = extras.getString("ENTRY_ID");
                 setTitle(getString(R.string.edit_entry));
-
+                goButton.setText(R.string.save_edit);
                 controller = new EditEntryController(this, entityId);
             }
 

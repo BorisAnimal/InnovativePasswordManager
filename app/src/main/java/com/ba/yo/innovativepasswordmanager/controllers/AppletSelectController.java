@@ -44,7 +44,7 @@ public class AppletSelectController implements AppletSelectMVC.Controller {
                         view.addApplet(applet.getDescription(), applet.getId());
                     }
                 } else {
-                    view.showNotification("Server unavailable");
+                    view.showNotification("Server error");
                 }
             }
 

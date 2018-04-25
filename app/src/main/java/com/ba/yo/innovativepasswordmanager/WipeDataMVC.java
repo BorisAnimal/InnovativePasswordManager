@@ -6,14 +6,12 @@ package com.ba.yo.innovativepasswordmanager;
 
 public interface WipeDataMVC {
     interface View extends Notifiable, Transition {
+        boolean isCheckboxChecked();
 
+        String getMasterPassword();
     }
 
     interface Controller {
-        /**
-         *
-         * @param password Master password confirmation
-         */
-        void fullWipe(String password);
+        void fullWipe();
     }
 }

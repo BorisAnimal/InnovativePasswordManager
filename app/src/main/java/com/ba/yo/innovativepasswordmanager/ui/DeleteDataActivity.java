@@ -1,9 +1,9 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +22,7 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
     private Button delete;
     private TextView label;
     private WipeDataMVC.Controller controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,7 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
         setTitle(getString(R.string.manage_data));
 
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -63,17 +64,18 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
             @Override
             public void onClick(View view) {
                 //TODO: action on button click
-                controller.fullWipe(password.getText().toString());
+                controller.fullWipe();
             }
         });
     }
 
     /**
      * Hide or show elements to make them inaccessible/accessible by user
+     *
      * @param state boolean state; True for visible, False otherwise
      */
-    private void setElementsVisibility(boolean state){
-        int decision = state?View.VISIBLE:View.INVISIBLE;
+    private void setElementsVisibility(boolean state) {
+        int decision = state ? View.VISIBLE : View.INVISIBLE;
         label.setVisibility(decision);
         password.setVisibility(decision);
         delete.setVisibility(decision);
@@ -81,6 +83,7 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
 
     /**
      * Handler for "back" button on top of activity
+     *
      * @param item
      * @return
      */
@@ -99,6 +102,7 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
 
     /**
      * Show notification in the bottom of activity as a "Snackbar"
+     *
      * @param message - string that user should read
      */
     @Override
@@ -106,5 +110,17 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
         View parentLayout = findViewById(android.R.id.content);
         Snackbar mySnackbar = Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG);
         mySnackbar.show();
+    }
+
+    @Override
+    public boolean isCheckboxChecked() {
+        //TODO:
+        return false;
+    }
+
+    @Override
+    public String getMasterPassword() {
+        //TODO:
+        return null;
     }
 }

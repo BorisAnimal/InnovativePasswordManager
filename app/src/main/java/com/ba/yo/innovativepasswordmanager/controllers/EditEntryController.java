@@ -1,11 +1,10 @@
 package com.ba.yo.innovativepasswordmanager.controllers;
 
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
+import com.ba.yo.innovativepasswordmanager.model.AccountModel;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
-import com.ba.yo.innovativepasswordmanager.model.EntryModel;
 import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,8 +16,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.encrypt;
-import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.getToken;
+import static com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher.encrypt;
+import static com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher.getToken;
 
 /**
  * Created by Java-Ai-BOT on 4/15/2018.
@@ -26,10 +25,9 @@ import static com.ba.yo.innovativepasswordmanager.model.CryptoCipher.getToken;
 
 public class EditEntryController implements EditEntryMVC.Controller {
     private EditEntryMVC.View view;
-    @Nullable
-    private String modelId;
     private ApiClient api;
-    private EntryModel model;
+    private AccountModel model;
+
     /**
      * When we create entry
      */
@@ -41,17 +39,34 @@ public class EditEntryController implements EditEntryMVC.Controller {
     /**
      * When we edit entry
      */
-    public EditEntryController(EditEntryMVC.View view, String id) {
+    public EditEntryController(final EditEntryMVC.View view, String id) {
         this.view = view;
-        this.modelId = id;
         api = RetrofitService.getInstance().create(ApiClient.class);
+
+        Call<AccountModel> call = api.getAccount(getToken(), id);
+        call.enqueue(new Callback<AccountModel>() {
+            @Override
+            public void onResponse(Call<AccountModel> call, Response<AccountModel> response) {
+                if (response.code() == 200 && response.body() != null) {
+                    model = response.body();
+                    view.setExisting(model.getLogin(), model.getPassword(), model.getDescription());
+                } else
+                    view.showNotification("Error occurred: " + response.code());
+            }
+
+            @Override
+            public void onFailure(Call<AccountModel> call, Throwable t) {
+                view.showNotification("Error occurred!\n" + t.getLocalizedMessage());
+                Log.e("EditEntity", t.getLocalizedMessage());
+            }
+        });
     }
 
     @Override
     public void commitEntry(String login, String pass, String description) {
         //We post new model instance
         if (model == null) {
-            model = new EntryModel();
+            model = new AccountModel();
         }
         if (login != null)
             model.setLogin(login);
@@ -66,8 +81,14 @@ public class EditEntryController implements EditEntryMVC.Controller {
             return;
         }
         model.setDescription(description);
-        Call<ResponseBody> call = api.postAccount(getToken(), encrypt(model.getLogin()),
-                encrypt(model.getPassword()), model.getDescription());
+        Call<ResponseBody> call;
+        if (model.getId() != "") {
+            call = api.postAccount(getToken(), encrypt(model.getLogin()),
+                    encrypt(model.getPassword()), model.getDescription(), model.getId());
+        } else {
+            call = api.postAccount(getToken(), encrypt(model.getLogin()),
+                    encrypt(model.getPassword()), model.getDescription());
+        }
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

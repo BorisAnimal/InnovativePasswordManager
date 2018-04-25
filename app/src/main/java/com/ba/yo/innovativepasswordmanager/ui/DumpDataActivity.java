@@ -1,9 +1,13 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +22,7 @@ public class DumpDataActivity extends AppCompatActivity implements DumpDataMVC.V
     private DumpDataMVC.Controller controller;
     private EditText passwordField;
     private Button dumpButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +36,7 @@ public class DumpDataActivity extends AppCompatActivity implements DumpDataMVC.V
          * Activate back button on top of activity
          */
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar!=null){
+        if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         /*
@@ -46,7 +51,7 @@ public class DumpDataActivity extends AppCompatActivity implements DumpDataMVC.V
         dumpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                controller.makeDump(passwordField.getText().toString());
+                controller.makeDump();
             }
         });
 
@@ -56,7 +61,7 @@ public class DumpDataActivity extends AppCompatActivity implements DumpDataMVC.V
     }
 
     /**
-     *  Return to previous activity, i.e. EntitySelect
+     * Return to previous activity, i.e. EntitySelect
      */
     @Override
     public void goToEntitySelectActivity() {
@@ -64,7 +69,6 @@ public class DumpDataActivity extends AppCompatActivity implements DumpDataMVC.V
     }
 
     /**
-     *
      * @param message - string that user should read
      */
     @Override
@@ -76,11 +80,31 @@ public class DumpDataActivity extends AppCompatActivity implements DumpDataMVC.V
 
     /**
      * Handler for "back" button on top of activity
+     *
      * @param item
      * @return
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
         return true;
+    }
+
+    @Override
+    public String getPassword() {
+        return passwordField.getText().toString();
+    }
+
+    @Override
+    public boolean checkPermission() {
+        if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Log.e("Permission error","You have permission");
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void askPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 }

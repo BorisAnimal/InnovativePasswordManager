@@ -16,6 +16,9 @@ public class AccountModel {
     @SerializedName("id")
     private String id;
 
+    public AccountModel() {
+    }
+
     public String getId() {
         return id;
     }

@@ -3,7 +3,6 @@ package com.ba.yo.innovativepasswordmanager.ui;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
@@ -15,15 +14,16 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.view.View;
+
 
 import com.ba.yo.innovativepasswordmanager.AuthEntryAdapterCallback;
-import com.ba.yo.innovativepasswordmanager.controllers.EntitySelectController;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
+import com.ba.yo.innovativepasswordmanager.controllers.EntitySelectController;
 
 import java.util.ArrayList;
 
@@ -145,7 +145,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
             startActivity(new Intent(EntitySelectActivity.this, ManageDataSelectActivity.class));
             return true;
 
-        } else if (id == R.id.blacklist){
+        } else if (id == R.id.blacklist) {
             showNotification("Feature in development.");
         }
 
@@ -223,7 +223,8 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        controller.deleteEntity(id);
+                        controller.deleteAccount(id);
+
                         dialog.dismiss();
                     }
 
@@ -262,5 +263,9 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         Intent intent = new Intent(EntitySelectActivity.this, AppletSelectActivity.class);
         intent.putExtra("ENTRY_ID", id);
         startActivity(intent);
+    }
+
+    public void highlightLogin(){
+
     }
 }

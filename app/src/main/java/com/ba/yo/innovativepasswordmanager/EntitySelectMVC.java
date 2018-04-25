@@ -27,8 +27,8 @@ public interface EntitySelectMVC {
 
         /**
          * Delete entity form server by ID
-         * @param id Id of the entity
+         * @param accountId of the entity
          */
-        void deleteEntity(String id);
+        void deleteAccount(String accountId);
     }
 }

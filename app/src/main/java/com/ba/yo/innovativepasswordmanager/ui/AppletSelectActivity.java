@@ -100,13 +100,6 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
         updateList();
     }
 
-    /**
-     *
-     */
-    @Override
-    public void onSuccessTransfer() {
-
-    }
 
     /**
      * Close current activity and go to previous, i.e.

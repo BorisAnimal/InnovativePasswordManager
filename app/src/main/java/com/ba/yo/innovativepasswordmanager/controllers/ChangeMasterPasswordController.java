@@ -27,8 +27,6 @@ public class ChangeMasterPasswordController implements ChangeMasterPasswordMVP.C
     private ApiClient api;
     private final String TAG = "CHANGE_MP";
 
-    //TODO: call view.goToEntitySelectActivity() on successful operation
-
     public ChangeMasterPasswordController(ChangeMasterPasswordMVP.View view) {
         this.view = view;
         api = RetrofitService.getInstance().create(ApiClient.class);
@@ -80,6 +78,7 @@ public class ChangeMasterPasswordController implements ChangeMasterPasswordMVP.C
                                 if (response.body() != null && response.code() == 200) {
                                     view.showNotification("Success");
                                     Log.d(TAG, "Response body: " + response.body().toString());
+                                    view.goToEntitySelectActivity();
                                 }
                             }
 

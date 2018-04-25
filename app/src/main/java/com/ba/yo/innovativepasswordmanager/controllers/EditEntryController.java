@@ -28,7 +28,7 @@ public class EditEntryController implements EditEntryMVC.Controller {
     private ApiClient api;
     private AccountModel model;
 
-    //TODO: call view.goToEntitySelectActivity() on successful operation
+
     /**
      * When we create entry
      */
@@ -95,6 +95,7 @@ public class EditEntryController implements EditEntryMVC.Controller {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.code() == 200) {
                     view.showNotification("Successfully sent!");
+                    view.goToEntitySelectActivity();
                 } else
                     view.showNotification("Error occurred: " + response.code());
             }

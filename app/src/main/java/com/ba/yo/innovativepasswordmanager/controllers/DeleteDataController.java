@@ -13,9 +13,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DeleteDataController implements WipeDataMVC.Controller {
-
-    //TODO: call view.goToEntitySelectActivity() on successful operation
-
     private WipeDataMVC.View view;
     private ApiClient api;
     private final String TAG = "WIPE_CONTROLLER";
@@ -48,9 +45,10 @@ public class DeleteDataController implements WipeDataMVC.Controller {
                         if (resp != null) {
                             view.showNotification(String.format("Removed "
                                     + resp.getAccounts_deleted() + " accounts."));
+                            view.goToEntitySelectActivity();
                         }
                     } else {
-                        view.showNotification("Server unavailable");
+                        view.showNotification("Server error");
                     }
                 }
 

@@ -16,11 +16,6 @@ public interface AppletSelectMVC {
          * Remove all items from list
          */
         void clearList();
-
-        /**
-         * Go to initial screen after success data transaction
-         */
-        void onSuccessTransfer();
     }
 
     interface Controller {

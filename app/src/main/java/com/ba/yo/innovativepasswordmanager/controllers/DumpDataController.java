@@ -24,8 +24,6 @@ public class DumpDataController implements DumpDataMVC.Controller {
     private ApiClient api;
     private final String TAG = "DUMP_DATA";
 
-    //TODO: call view.goToEntitySelectActivity() on successful operation
-
     public DumpDataController(DumpDataMVC.View view) {
         this.view = view;
         api = RetrofitService.getInstance().create(ApiClient.class);
@@ -77,6 +75,7 @@ public class DumpDataController implements DumpDataMVC.Controller {
                             stream.flush();
                             stream.close();
                             view.showNotification("Saved");
+                            view.goToEntitySelectActivity();
                         } catch (IOException e) {
                             view.showNotification("Error while writing to file\n" + e.getLocalizedMessage());
                             Log.e(TAG, e.getLocalizedMessage() + "");

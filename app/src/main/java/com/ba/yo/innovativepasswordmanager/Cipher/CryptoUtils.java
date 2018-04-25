@@ -1,19 +1,22 @@
 package com.ba.yo.innovativepasswordmanager.Cipher;
 
 import javax.crypto.*;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
 public class CryptoUtils {
-    private static final String CYPHER_ALGO = "AES";
+    private static final String CYPHER_ALGO = "AES/GCM/NoPadding";
+    private static final String CYPHER_SEC_KEY_ALGO = "AES";
     private static final String RANDOM_ALGO = "PBKDF2WithHmacSHA1";
     private static final byte[] SALT = {-74, -57, 117, 106, -69, 125, 88, 62, 56, -11, -110, 21,
             -51, -117, -71, 3, -90, -75, -19, 38, -34, 93, 40, -21};
     private static final int ITERATIONS = 1000;
-    private static final int KEY_LENGTH = 24;
+    private static final int KEY_LENGTH = 32;
 
     /**
      * Example of CryptoUtils class usage.
@@ -49,7 +52,7 @@ public class CryptoUtils {
         if (key == null || message == null) {
             throw new NullPointerException();
         }
-        return toHex(encrypt(getRawKey(key.toCharArray()), message.getBytes()));
+        return toHex(encrypt(getKeySpec(key.toCharArray()), message.getBytes()));
     }
 
     /**
@@ -64,29 +67,34 @@ public class CryptoUtils {
         if (key == null || encrypted == null) {
             throw new NullPointerException();
         }
-        return new String(decrypt(getRawKey(key.toCharArray()), toByte(encrypted)));
+        return new String(decrypt(getKeySpec(key.toCharArray()), toByte(encrypted)));
     }
 
-    private static byte[] getRawKey(char[] seed) {
+    private static SecretKeySpec getKeySpec(char[] seed) {
         try {
 
             PBEKeySpec spec = new PBEKeySpec(seed, SALT, ITERATIONS, KEY_LENGTH * 8);
             SecretKeyFactory skf = SecretKeyFactory.getInstance(RANDOM_ALGO);
-            return skf.generateSecret(spec).getEncoded();
+            return new SecretKeySpec(skf.generateSecret(spec).getEncoded(), CYPHER_SEC_KEY_ALGO);
 
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
             System.exit(-1);
-            return new byte[]{};  // unreachable
+            return null;  // unreachable
         }
     }
 
-    private static byte[] encrypt(byte[] rawKey, byte[] message) {
+    private static byte[] encrypt(SecretKeySpec keySpec, byte[] message) {
         try {
 
             Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
-            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(rawKey, CYPHER_ALGO));
-            return cipher.doFinal(message);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec);
+            byte[] iv = cipher.getIV();
+            byte[] cipherText = cipher.doFinal(message);
+            byte[] res = new byte[12 + message.length + 16];
+            System.arraycopy(iv, 0, res, 0, 12);
+            System.arraycopy(cipherText, 0, res, 12, cipherText.length);
+            return res;
 
         } catch (InvalidKeyException
                 | IllegalBlockSizeException
@@ -99,17 +107,17 @@ public class CryptoUtils {
         }
     }
 
-    private static byte[] decrypt(byte[] rawKey, byte[] encrypted) throws DecryptionException {
+    private static byte[] decrypt(SecretKeySpec keySpec, byte[] encrypted) throws DecryptionException {
         try {
 
             Cipher cipher = Cipher.getInstance(CYPHER_ALGO);
-            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(rawKey, CYPHER_ALGO));
-            return cipher.doFinal(encrypted);
+            GCMParameterSpec params = new GCMParameterSpec(128, encrypted, 0, 12);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, params);
+            return cipher.doFinal(encrypted, 12, encrypted.length - 12);
 
         } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
-            System.out.println(e.getLocalizedMessage());
             throw new DecryptionException();
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidAlgorithmParameterException e) {
             // only if algorithm name will be changed in a wrong way
             e.printStackTrace();
             System.exit(-1);
@@ -135,7 +143,7 @@ public class CryptoUtils {
         return res.toString();
     }
 
-    private final static String HEX = "0123456789ABCDEF";
+    private final static String HEX = "0123456789abcdef";
 
     private static void appendHex(StringBuffer sb, byte b) {
         sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));

@@ -2,14 +2,15 @@ package com.ba.yo.innovativepasswordmanager;
 
 public interface DumpDataMVC {
     interface View extends Notifiable, Transition {
-
+        String getPassword();
+        boolean checkPermission();
+        void askPermission();
     }
 
     interface Controller {
         /**
          * Make complete dump of user data
-         * @param password master password for confirmation
          */
-        void makeDump(String password);
+        void makeDump();
     }
 }

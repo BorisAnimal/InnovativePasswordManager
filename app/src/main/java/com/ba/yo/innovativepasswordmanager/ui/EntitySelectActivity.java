@@ -3,27 +3,26 @@ package com.ba.yo.innovativepasswordmanager.ui;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.ba.yo.innovativepasswordmanager.AuthEntryAdapterCallback;
-import com.ba.yo.innovativepasswordmanager.controllers.EntitySelectController;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
+import com.ba.yo.innovativepasswordmanager.controllers.EntitySelectController;
 
 import java.util.ArrayList;
 
@@ -107,11 +106,12 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
     /**
      * Show or hide "No entries" message, used when entry list is empty. So user would know that there is no errors.
+     *
      * @param state boolean value; True for visisble, False for invisible
      */
-    private void setEmptyMessageNotificationVisibility(boolean state){
-        labelEmpty.setVisibility(state?View.VISIBLE:View.INVISIBLE);
-        imgEmpty.setVisibility(state?View.VISIBLE:View.INVISIBLE);
+    private void setEmptyMessageNotificationVisibility(boolean state) {
+        labelEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
+        imgEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**
@@ -145,7 +145,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
             startActivity(new Intent(EntitySelectActivity.this, ManageDataSelectActivity.class));
             return true;
 
-        } else if (id == R.id.blacklist){
+        } else if (id == R.id.blacklist) {
             showNotification("Feature in development.");
         }
 
@@ -222,8 +222,12 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-
-                        controller.deleteEntity(id);
+                        //controller.deleteEntity(id);
+                        //TODO: DELETE ENTITY WITH ID->String
+                        //TODO: я свою часть заимплементил
+                        //controller.deleteAccount([here]);
+                        
+                        //id is controller.delete(id);
                         dialog.dismiss();
                     }
 

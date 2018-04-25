@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,8 +19,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.view.View;
-
-
 import com.ba.yo.innovativepasswordmanager.AuthEntryAdapterCallback;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
@@ -107,11 +106,12 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
     /**
      * Show or hide "No entries" message, used when entry list is empty. So user would know that there is no errors.
+     *
      * @param state boolean value; True for visisble, False for invisible
      */
-    private void setEmptyMessageNotificationVisibility(boolean state){
-        labelEmpty.setVisibility(state?View.VISIBLE:View.INVISIBLE);
-        imgEmpty.setVisibility(state?View.VISIBLE:View.INVISIBLE);
+    private void setEmptyMessageNotificationVisibility(boolean state) {
+        labelEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
+        imgEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**

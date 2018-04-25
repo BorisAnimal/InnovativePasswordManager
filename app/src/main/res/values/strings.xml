@@ -77,4 +77,7 @@
     <string name="pass_register">Password</string>
     <string name="register_account">Register Account</string>
     <string name="icon">Icon</string>
+    <string name="applet_download_link">Applet Download Link</string>
+    <string name="link_copied">Link copied to clipboard</string>
+    <string name="applet_link">https://github.com/BorisAnimal/dj_serv</string>
 </resources>

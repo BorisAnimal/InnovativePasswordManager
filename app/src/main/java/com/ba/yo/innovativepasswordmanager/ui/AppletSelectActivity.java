@@ -1,13 +1,22 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.ba.yo.innovativepasswordmanager.AppletSelectMVC;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
@@ -19,6 +28,11 @@ import java.util.ArrayList;
 public class AppletSelectActivity extends AppCompatActivity implements AppletSelectMVC.View {
 
     private ListView listView;
+    private ImageView iconEmpty;
+    private TextView messageEmpty;
+    private TextView messageEmptyCopy;
+    private RelativeLayout messageWrapper;
+
     private ArrayList<AppletEntry> appletList;
     private AppletEntryAdapter apAdapter;
     private AppletSelectMVC.Controller controller;
@@ -56,10 +70,69 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
             }
         });
 
+        //Get references from activity
+        messageEmpty = (TextView) findViewById(R.id.applet_message_empty);
+        messageEmptyCopy = (TextView) findViewById(R.id.applet_message_empty_copy);
+        messageWrapper = (RelativeLayout) findViewById(R.id.applet_message_wrapper);
+
+        // Add handlers for applet download links
+        messageEmpty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                linkBrowser();
+            }
+        });
+
+        messageEmptyCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                linkClipboard();
+            }
+        });
+
         // Assign key containers of activity
         appletList = new ArrayList<>();
+
+        iconEmpty = (ImageView) findViewById(R.id.applet_empty_img);
+        messageEmpty.setText(Html.fromHtml("<big><b>No applets found</b><br><u>Click here to open site</u></big>"));
+        messageEmptyCopy.setText(Html.fromHtml("<big><b>or</b><br><u>Here to copy link</u></big>"));
+
+        //create controller
         controller = new AppletSelectController(this);
         controller.getData();
+    }
+
+    /**
+     * Show or hide "No entries" message, used when entry list is empty. So user would know that there is no errors.
+     *
+     * @param state boolean value; True for visisble, False for invisible
+     */
+    private void setEmptyMessageNotificationVisibility(boolean state) {
+        int value = state ? View.VISIBLE : View.GONE;
+        messageWrapper.setVisibility(value);
+        iconEmpty.setVisibility(value);
+        messageEmpty.setVisibility(value);
+        messageEmptyCopy.setVisibility(value);
+    }
+
+    /**
+     * Open applet download link in default browser
+     */
+    private void linkBrowser(){
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.applet_link)));
+        startActivity(browserIntent);
+    }
+
+    /**
+     * Copy applet download link to clipboard
+     */
+    private void linkClipboard(){
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(getString(R.string.applet_download_link), getString(R.string.applet_link));
+        if(clipboard!=null){
+            clipboard.setPrimaryClip(clip);
+            showNotification(getString(R.string.link_copied));
+        }
     }
 
     /**
@@ -77,6 +150,7 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
     private void updateList() {
         apAdapter = new AppletEntryAdapter(this, appletList);
         listView.setAdapter(apAdapter);
+        setEmptyMessageNotificationVisibility(apAdapter.isEmpty());
     }
 
     /**
@@ -126,8 +200,6 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
     /**
      * Handler for "back" button on top of activity
      *
-     * @param item
-     * @return
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();

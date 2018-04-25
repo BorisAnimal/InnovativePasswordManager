@@ -49,7 +49,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /**
+        /*
          *  Assign button handlers
          */
         addEntry = (FloatingActionButton) findViewById(R.id.addEntry);
@@ -62,6 +62,9 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
 
         listView = (ListView) findViewById(R.id.entry_selector);
 
+        /*
+         * Assign handler for Fab button behaviour on list scroll
+         */
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
@@ -110,8 +113,8 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
      * @param state boolean value; True for visisble, False for invisible
      */
     private void setEmptyMessageNotificationVisibility(boolean state) {
-        labelEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
-        imgEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
+        labelEmpty.setVisibility(state ? View.VISIBLE : View.GONE);
+        imgEmpty.setVisibility(state ? View.VISIBLE : View.GONE);
     }
 
     /**
@@ -178,8 +181,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
      * Delete all items from current list in activity
      */
     public void clearList() {
-        authList = new ArrayList<>();
-        updateList();
+        authList.clear();
     }
 
     /**

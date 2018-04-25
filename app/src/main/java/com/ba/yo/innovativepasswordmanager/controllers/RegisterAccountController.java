@@ -40,30 +40,33 @@ public class RegisterAccountController implements RegisterAccountMVC.Controller 
             view.showNotification("Password can not be empty");
             return;
         }
-        Call<ResponseBody> call = api.signup(login, password);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.code() == 200) {
-                    view.showNotification("Successfully registered");
-                    try {
-                        view.returnToLoginScreen(CryptoCipher.hash256(login),
-                                CryptoCipher.hash256(password));
-                    } catch (NoSuchAlgorithmException e) {
-                        Log.e(TAG, "onResponse: " + e);
-                        view.showNotification("Crypto error occurred");
-                    }
-                } else {
-                    view.showNotification("Error occurred: " + response.code());
-                }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                view.showNotification("Error occurred!\n" + t.getLocalizedMessage());
-                Log.e(TAG, t.getLocalizedMessage());
-            }
-        });
+        try {
+            Call<ResponseBody> call = api.signup(CryptoCipher.hash256(login),
+                    CryptoCipher.hash256(password));
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.code() == 200) {
+                        view.showNotification("Successfully registered");
+                        view.returnToLoginScreen(login, password);
+
+                    } else {
+                        view.showNotification("Error occurred: " + response.code());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    view.showNotification("Error occurred!\n" + t.getLocalizedMessage());
+                    Log.e(TAG, t.getLocalizedMessage());
+                }
+            });
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "onResponse: " + e);
+            view.showNotification("Crypto error occurred");
+        }
+
     }
 
 }

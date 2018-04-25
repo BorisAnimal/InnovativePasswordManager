@@ -182,6 +182,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
      */
     public void clearList() {
         authList.clear();
+        updateList();
     }
 
     /**

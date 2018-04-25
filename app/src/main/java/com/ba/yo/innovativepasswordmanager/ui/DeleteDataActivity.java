@@ -18,9 +18,10 @@ import com.ba.yo.innovativepasswordmanager.controllers.DeleteDataController;
 
 public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC.View {
 
+    //TODO: добавь сюда же Checkbox.
     private EditText password;
     private Button delete;
-    private TextView label;
+    private TextView label; //TODO: это выпили
     private WipeDataMVC.Controller controller;
 
     @Override

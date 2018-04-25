@@ -2,6 +2,8 @@ package com.ba.yo.innovativepasswordmanager.controllers;
 
 import android.util.Log;
 
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher;
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoUtils;
 import com.ba.yo.innovativepasswordmanager.EditEntryMVC;
 import com.ba.yo.innovativepasswordmanager.model.AccountModel;
 import com.ba.yo.innovativepasswordmanager.model.ApiClient;
@@ -27,6 +29,7 @@ public class EditEntryController implements EditEntryMVC.Controller {
     private EditEntryMVC.View view;
     private ApiClient api;
     private AccountModel model;
+    private final String TAG = "EDIT_ENTITY";
 
 
     /**
@@ -50,7 +53,18 @@ public class EditEntryController implements EditEntryMVC.Controller {
             public void onResponse(Call<AccountModel> call, Response<AccountModel> response) {
                 if (response.code() == 200 && response.body() != null) {
                     model = response.body();
-                    view.setExisting(model.getLogin(), model.getPassword(), model.getDescription());
+                    try {
+                        Log.d(TAG, model.getLogin());
+                        String login = CryptoCipher.decrypt(model.getLogin());
+                        Log.d(TAG, login);
+                        Log.d(TAG, model.getPassword());
+                        String password = CryptoCipher.decrypt(model.getPassword());
+                        Log.d(TAG, password);
+                        view.setExisting(login, password, model.getDescription());
+                    } catch (CryptoUtils.DecryptionException e) {
+                        Log.e(TAG, e + "");
+                        view.showNotification("Crypto error");
+                    }
                 } else
                     view.showNotification("Error occurred: " + response.code());
             }

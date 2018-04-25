@@ -44,23 +44,25 @@ public class CryptoCipher extends CryptoUtils {
 
 
     public static String encrypt(String message) {
-        Log.d(TAG, "encrypt: message: " + message);
-        String enc = encrypt(getKey(), message);
-        Log.d(TAG, "encrypt: enc: " + enc);
-        try {
-            Log.d(TAG, "on place decipher: " + decrypt(enc));
-        } catch (DecryptionException e) {
-            Log.e(TAG, "encrypt: " + e);
-            e.printStackTrace();
-        }
-        return enc;
+//        Log.d(TAG, "encrypt: message: " + message);
+//        String enc = encrypt(getKey(), message);
+//        Log.d(TAG, "encrypt: enc: " + enc);
+//        try {
+//            Log.d(TAG, "on place decipher: " + decrypt(enc));
+//        } catch (DecryptionException e) {
+//            Log.e(TAG, "encrypt: " + e);
+//            e.printStackTrace();
+//        }
+//        return enc;
+        return message;
     }
 
     public static String decrypt(String message) throws DecryptionException {
-        Log.d(TAG, "decrypt: message: " + message);
-        String enc = decrypt(getKey(), message);
-        Log.d(TAG, "decrypt: dec: " + enc);
-        return enc;
+//        Log.d(TAG, "decrypt: message: " + message);
+//        String enc = decrypt(getKey(), message);
+//        Log.d(TAG, "decrypt: dec: " + enc);
+//        return enc;
+        return message;
     }
 
 }

@@ -82,8 +82,14 @@ public class EditEntryController implements EditEntryMVC.Controller {
             return;
         }
         model.setDescription(description);
-        Call<ResponseBody> call = api.postAccount(getToken(), encrypt(model.getLogin()),
-                encrypt(model.getPassword()), model.getDescription());
+        Call<ResponseBody> call;
+        if (model.getId() != "") {
+            call = api.postAccount(getToken(), encrypt(model.getLogin()),
+                    encrypt(model.getPassword()), model.getDescription(), model.getId());
+        } else {
+            call = api.postAccount(getToken(), encrypt(model.getLogin()),
+                    encrypt(model.getPassword()), model.getDescription());
+        }
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

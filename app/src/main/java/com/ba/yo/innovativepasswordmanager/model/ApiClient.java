@@ -95,7 +95,9 @@ public interface ApiClient {
     Call<LoginResponseModel> checkUser(@Body RequestBody params);
     //@Header("login") String login, @Header("pass") String pass);
 
-
+    @FormUrlEncoded
+    @POST("users/signup/")
+    Call<ResponseBody> signup(@Field("login") String login, @Field("password") String password);
 }
 
 

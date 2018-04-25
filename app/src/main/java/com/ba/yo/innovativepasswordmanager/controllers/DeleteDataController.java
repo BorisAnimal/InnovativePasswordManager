@@ -14,6 +14,8 @@ import retrofit2.Response;
 
 public class DeleteDataController implements WipeDataMVC.Controller {
 
+    //TODO: call view.goToEntitySelectActivity() on successful operation
+
     private WipeDataMVC.View view;
     private ApiClient api;
     private final String TAG = "WIPE_CONTROLLER";
@@ -25,7 +27,7 @@ public class DeleteDataController implements WipeDataMVC.Controller {
 
     @Override
     public void fullWipe() {
-        if (!view.isCheckboxChecked()) {
+        if (!view.allowedToWipe()) {
             view.showNotification("Provide full delete acceptances");
             return;
         }
@@ -62,5 +64,9 @@ public class DeleteDataController implements WipeDataMVC.Controller {
         } else {
             view.showNotification("Password is incorrect!");
         }
+    }
+
+    public void confirmWipe(boolean state){
+        view.setElementsVisibility(state);
     }
 }

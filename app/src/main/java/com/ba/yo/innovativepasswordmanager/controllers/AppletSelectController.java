@@ -25,6 +25,8 @@ public class AppletSelectController implements AppletSelectMVC.Controller {
     private ApiClient api;
     private final String TAG = "SELECT_APPLET";
 
+    //TODO: call view.goToEntitySelectActivity() on successful operation
+
     public AppletSelectController(AppletSelectMVC.View view) {
         this.view = view;
         api = RetrofitService.getInstance().create(ApiClient.class);

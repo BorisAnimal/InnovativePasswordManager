@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/message_empty_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:layout_centerInParent="true"
+            android:text="" />
+
+        <ImageView
+            android:id="@+id/message_empty_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:scaleX="-1"
+            android:visibility="invisible"
+            android:layout_below="@+id/message_empty_text"
+            app:srcCompat="@drawable/ic_pointer" />
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

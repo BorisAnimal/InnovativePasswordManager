@@ -84,6 +84,5 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
                 call.cancel();
             }
         });
-
     }
 }

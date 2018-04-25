@@ -25,6 +25,10 @@ public interface EntitySelectMVC {
          */
         void getData();
 
+        /**
+         * Delete entity form server by ID
+         * @param accountId of the entity
+         */
         void deleteAccount(String accountId);
     }
 }

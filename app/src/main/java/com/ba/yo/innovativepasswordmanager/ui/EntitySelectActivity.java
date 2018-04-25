@@ -4,18 +4,21 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
 import com.ba.yo.innovativepasswordmanager.AuthEntryAdapterCallback;
 import com.ba.yo.innovativepasswordmanager.EntitySelectMVC;
 import com.ba.yo.innovativepasswordmanager.R;
@@ -31,6 +34,8 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
     private EntitySelectMVC.Controller controller;
     private FloatingActionButton addEntry;
     private int previousVisibleItem;
+    private TextView labelEmpty;
+    private ImageView imgEmpty;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -84,9 +89,29 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
             }
         });
 
+        /*
+         * Setup values
+         */
         authList = new ArrayList<>();
+        labelEmpty = (TextView) findViewById(R.id.message_empty_text);
+        imgEmpty = (ImageView) findViewById(R.id.message_empty_img);
+        labelEmpty.setText(Html.fromHtml(getString(R.string.empty_entity_list_message)));
+
+        /*
+         * Create controller
+         */
         controller = new EntitySelectController(this);
         controller.getData();
+    }
+
+    /**
+     * Show or hide "No entries" message, used when entry list is empty. So user would know that there is no errors.
+     *
+     * @param state boolean value; True for visisble, False for invisible
+     */
+    private void setEmptyMessageNotificationVisibility(boolean state) {
+        labelEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
+        imgEmpty.setVisibility(state ? View.VISIBLE : View.INVISIBLE);
     }
 
     /**
@@ -135,6 +160,7 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         aAdapter = new AuthEntryAdapter(this, authList);
         aAdapter.setCallback(this);
         listView.setAdapter(aAdapter);
+        setEmptyMessageNotificationVisibility(aAdapter.isEmpty());
     }
 
     /**
@@ -186,21 +212,19 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
      * @param id                id of the entity
      * @return constructed window ui
      */
-    private AlertDialog AskOption(String entityDescription, String id) {
+    private AlertDialog AskOption(String entityDescription, final String id) {
         return new AlertDialog.Builder(this)
                 //set message, title, and icon
                 .setTitle("Delete")
-                .setMessage("Do you want to delete \"" + entityDescription + "\"?")
+                .setMessage(Html.fromHtml("Do you want to delete <b>" + entityDescription + "</b>?"))
                 .setIcon(R.drawable.ic_key)
 
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //TODO: DELETE ENTITY WITH ID->String
-                        //TODO: я свою часть заимплементил
-                        //controller.deleteAccount([here]);
 
-                        //id is controller.delete(id);
+                        controller.deleteAccount(id);
+
                         dialog.dismiss();
                     }
 
@@ -240,4 +264,5 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         intent.putExtra("ENTRY_ID", id);
         startActivity(intent);
     }
+
 }

@@ -74,7 +74,7 @@ public class DumpDataController implements DumpDataMVC.Controller {
                             stream.write(txt.getBytes());
                             stream.flush();
                             stream.close();
-                            view.showNotification("Saved");
+                            view.showNotification("Saved to Downloads");
                             view.goToEntitySelectActivity();
                         } catch (IOException e) {
                             view.showNotification("Error while writing to file\n" + e.getLocalizedMessage());

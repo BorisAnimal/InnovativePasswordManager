@@ -22,8 +22,8 @@ public class MainGuiTests {
     @Test
     public void shouldBeAbleToLogin()
     {
-        onView(withId(R.id.master_login)).perform(typeText("username"));
-        onView(withId(R.id.master_password)).perform(typeText("userpassword"));
+        onView(withId(R.id.master_login)).perform(typeText("abc"));
+        onView(withId(R.id.master_password)).perform(typeText("qweee123"));
         onView(withId(R.id.master_button)).perform(click());
         //onView(withId(R.id.action_sort)).check(matches(isDisplayed()));
     }

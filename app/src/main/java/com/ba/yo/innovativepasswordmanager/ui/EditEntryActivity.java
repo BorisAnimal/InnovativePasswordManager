@@ -122,7 +122,6 @@ public class EditEntryActivity extends AppCompatActivity implements EditEntryMVC
         View parentLayout = findViewById(android.R.id.content);
         Snackbar mySnackbar = Snackbar.make(parentLayout, message, Snackbar.LENGTH_LONG);
         mySnackbar.show();
-        //TODO: improve fab button animation
     }
 
     /**

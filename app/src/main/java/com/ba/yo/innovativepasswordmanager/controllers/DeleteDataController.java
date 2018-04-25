@@ -25,7 +25,7 @@ public class DeleteDataController implements WipeDataMVC.Controller {
 
     @Override
     public void fullWipe() {
-        if (!view.isCheckboxChecked()) {
+        if (!view.allowedToWipe()) {
             view.showNotification("Provide full delete acceptances");
             return;
         }
@@ -62,5 +62,9 @@ public class DeleteDataController implements WipeDataMVC.Controller {
         } else {
             view.showNotification("Password is incorrect!");
         }
+    }
+
+    public void confirmWipe(boolean state){
+        view.setElementsVisibility(state);
     }
 }

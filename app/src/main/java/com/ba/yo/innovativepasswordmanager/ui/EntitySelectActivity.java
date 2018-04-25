@@ -265,7 +265,4 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         startActivity(intent);
     }
 
-    public void highlightLogin(){
-
-    }
 }

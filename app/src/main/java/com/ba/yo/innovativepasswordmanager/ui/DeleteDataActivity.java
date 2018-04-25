@@ -18,10 +18,10 @@ import com.ba.yo.innovativepasswordmanager.controllers.DeleteDataController;
 
 public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC.View {
 
-    //TODO: добавь сюда же Checkbox.
+    private CheckBox userConfirnment;
     private EditText password;
     private Button delete;
-    private TextView label; //TODO: это выпили
+    private TextView label;
     private WipeDataMVC.Controller controller;
 
     @Override
@@ -42,19 +42,19 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
         /*
          * Get references from activity into variables
          */
-        CheckBox chk_delete = (CheckBox) findViewById(R.id.chk_delete);
         password = (EditText) findViewById(R.id.password_delete);
         delete = (Button) findViewById(R.id.btn_delete);
         label = (TextView) findViewById(R.id.label_delete);
+        userConfirnment = (CheckBox) findViewById(R.id.chk_delete);
         setElementsVisibility(false);
 
         /*
          * Assign handler for confirnment checkbox
          */
-        chk_delete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        userConfirnment.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                setElementsVisibility(b);
+                controller.confirmWipe(b);
             }
         });
 
@@ -64,7 +64,6 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: action on button click
                 controller.fullWipe();
             }
         });
@@ -75,7 +74,7 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
      *
      * @param state boolean state; True for visible, False otherwise
      */
-    private void setElementsVisibility(boolean state) {
+    public void setElementsVisibility(boolean state) {
         int decision = state ? View.VISIBLE : View.INVISIBLE;
         label.setVisibility(decision);
         password.setVisibility(decision);
@@ -84,9 +83,6 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
 
     /**
      * Handler for "back" button on top of activity
-     *
-     * @param item
-     * @return
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();
@@ -113,15 +109,21 @@ public class DeleteDataActivity extends AppCompatActivity implements WipeDataMVC
         mySnackbar.show();
     }
 
+    /**
+     * Check if user has confirmed full wipe
+     * @return True if he did
+     */
     @Override
-    public boolean isCheckboxChecked() {
-        //TODO:
-        return false;
+    public boolean allowedToWipe() {
+        return userConfirnment.isChecked();
     }
 
+    /**
+     * Return value from master password field that will need to be checked in order to do a complete wipe
+     * @return String value of password field
+     */
     @Override
     public String getMasterPassword() {
-        //TODO:
-        return null;
+        return password.getText().toString();
     }
 }

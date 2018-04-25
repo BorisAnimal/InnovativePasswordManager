@@ -10,6 +10,7 @@ import com.ba.yo.innovativepasswordmanager.model.RetrofitService;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,4 +57,33 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
         });
     }
 
+    @Override
+    public void deleteAccount(String accountId) {
+        if (accountId == null) {
+            Log.e(TAG, "Wrong id while delete");
+            view.showNotification("wrong id!");
+            return;
+        }
+        Call<ResponseBody> call = api.deleteAccount(CryptoCipher.getToken(), accountId);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d(TAG, response.toString());
+                if (response.body() != null) {
+                    ResponseBody resp = response.body();
+                    Log.d(TAG, resp + "");
+                } else {
+                    view.showNotification("Server unavailable");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d(TAG, t.getMessage());
+                view.showNotification(t.getMessage());
+                call.cancel();
+            }
+        });
+
+    }
 }

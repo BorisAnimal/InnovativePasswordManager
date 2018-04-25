@@ -24,5 +24,7 @@ public interface EntitySelectMVC {
          * Asks server for current list of accounts
          */
         void getData();
+
+        void deleteAccount(String accountId);
     }
 }

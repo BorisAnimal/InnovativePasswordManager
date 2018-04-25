@@ -1,27 +1,42 @@
 package com.ba.yo.innovativepasswordmanager.Cipher;
 
-import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
+import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class CryptoUtils {
     private static final String CYPHER_ALGO = "AES";
-    private static final String RANDOM_ALGO = "SHA1PRNG";
+    private static final String RANDOM_ALGO = "PBKDF2WithHmacSHA1";
+    private static final byte[] SALT = {-74, -57, 117, 106, -69, 125, 88, 62, 56, -11, -110, 21,
+            -51, -117, -71, 3, -90, -75, -19, 38, -34, 93, 40, -21};
+    private static final int ITERATIONS = 1000;
+    private static final int KEY_LENGTH = 24;
 
+    /**
+     * Example of CryptoUtils class usage.
+     *
+     * @param args System arguments (unused)
+     * @throws DecryptionException Error during decryption
+     */
+    public static void main(String[] args) throws DecryptionException {
+        System.out.println("========== CryptoUtils example of usage ==========");
+        String MESSAGE = "Hello, world!";
+        String PASSWORD = "complicated_password";
+        System.out.println("Message: \"" + MESSAGE + "\"");
+        System.out.println("Password: \"" + PASSWORD + "\"");
 
-    public static String hash256(String input) throws NoSuchAlgorithmException {
-        return toHex(MessageDigest.getInstance("SHA-256").digest(input.getBytes(StandardCharsets.UTF_8)));
+        String encrypted = encrypt(PASSWORD, MESSAGE);
+        System.out.println("Encrypted data: " + encrypted);
+
+        String decrypted = decrypt(PASSWORD, encrypted);
+        System.out.println("Decrypted data: \"" + decrypted + "\"");
+
+        System.out.println("Equal: " + String.valueOf(MESSAGE.equals(decrypted)));
+        System.out.println("==================================================");
     }
-
 
     /**
      * Get closely undecipherable representation of the string according to the key.
@@ -34,7 +49,7 @@ public class CryptoUtils {
         if (key == null || message == null) {
             throw new NullPointerException();
         }
-        return toHex(encrypt(getRawKey(key.getBytes()), message.getBytes()));
+        return toHex(encrypt(getRawKey(key.toCharArray()), message.getBytes()));
     }
 
     /**
@@ -49,20 +64,17 @@ public class CryptoUtils {
         if (key == null || encrypted == null) {
             throw new NullPointerException();
         }
-        return new String(decrypt(getRawKey(key.getBytes()), toByte(encrypted)));
+        return new String(decrypt(getRawKey(key.toCharArray()), toByte(encrypted)));
     }
 
-    private static byte[] getRawKey(byte[] seed) {
+    private static byte[] getRawKey(char[] seed) {
         try {
 
-            KeyGenerator keyGen = KeyGenerator.getInstance(CYPHER_ALGO);
-            SecureRandom sr = SecureRandom.getInstance(RANDOM_ALGO);
-            sr.setSeed(seed);
-            keyGen.init(128, sr);  // 192 and 256 bits may not be available
-            return keyGen.generateKey().getEncoded();
+            PBEKeySpec spec = new PBEKeySpec(seed, SALT, ITERATIONS, KEY_LENGTH * 8);
+            SecretKeyFactory skf = SecretKeyFactory.getInstance(RANDOM_ALGO);
+            return skf.generateSecret(spec).getEncoded();
 
-        } catch (NoSuchAlgorithmException e) {
-            // only if algorithm name will be changed in a wrong way
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
             System.exit(-1);
             return new byte[]{};  // unreachable
@@ -76,12 +88,11 @@ public class CryptoUtils {
             cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(rawKey, CYPHER_ALGO));
             return cipher.doFinal(message);
 
-        } catch (NoSuchAlgorithmException
-                | NoSuchPaddingException
-                | InvalidKeyException
+        } catch (InvalidKeyException
                 | IllegalBlockSizeException
-                | BadPaddingException e) {
-            // only if algorithm name will be changed in a wrong way
+                | BadPaddingException
+                | NoSuchAlgorithmException
+                | NoSuchPaddingException e) {
             e.printStackTrace();
             System.exit(-1);
             return new byte[]{};  // unreachable
@@ -113,7 +124,7 @@ public class CryptoUtils {
         return res;
     }
 
-    private static String toHex(byte[] buf) {
+    protected static String toHex(byte[] buf) {
         if (buf == null)
             return "";
         StringBuffer res = new StringBuffer(2 * buf.length);
@@ -123,7 +134,7 @@ public class CryptoUtils {
         return res.toString();
     }
 
-    private final static String HEX = "0123456789abcdef";
+    private final static String HEX = "0123456789ABCDEF";
 
     private static void appendHex(StringBuffer sb, byte b) {
         sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));

@@ -39,6 +39,7 @@ public class AppletSelectController implements AppletSelectMVC.Controller {
                 Log.d(TAG, response.toString());
                 if (response.body() != null) {
                     Log.d(TAG, response.body().size() + "");
+                    view.clearList();
                     List<AppletDescriptionModel> applets = response.body();
                     for (AppletDescriptionModel applet : applets) {
                         view.addApplet(applet.getDescription(), applet.getId());

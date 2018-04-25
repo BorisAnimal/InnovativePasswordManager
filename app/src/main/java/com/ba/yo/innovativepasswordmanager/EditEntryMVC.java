@@ -12,25 +12,12 @@ public interface EditEntryMVC {
          * @param pass - target value
          */
         void setPassword(String pass);
-//
-//        /**
-//         * Appends login to corresponded field
-//         *
-//         * @param login - target value
-//         */
-//        void setLogin(String login);
-//
-//        /**
-//         * Appends description to corresponded field
-//         *
-//         * @param description - target value
-//         */
-//        void setDescription(String description);
+
         /**
          * Appends password to corresponded field
          *
-         * @param username - value to fill in username field
-         * @param password - value to fill in password field
+         * @param username    - value to fill in username field
+         * @param password    - value to fill in password field
          * @param description - value to fill in description field
          */
         void setExisting(String username, String password, String description);

@@ -18,6 +18,7 @@ import retrofit2.http.POST;
 
 public interface ApiClient {
 
+    @FormUrlEncoded
     @POST("accounts/delete")
     Call<ResponseBody> deleteAccount(@Header("token") String token, @Field("accountID") String accountID);
 

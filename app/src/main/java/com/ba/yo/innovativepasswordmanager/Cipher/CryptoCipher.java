@@ -1,5 +1,7 @@
 package com.ba.yo.innovativepasswordmanager.Cipher;
 
+import android.util.Log;
+
 import de.adorsys.android.securestoragelibrary.SecurePreferences;
 
 /**
@@ -12,7 +14,9 @@ public class CryptoCipher extends CryptoUtils {
     private final static String TOKEN = "X_Auth_Token";
 
     private static String getKey() {
-        return SecurePreferences.getStringValue(MP, null);
+        String key = SecurePreferences.getStringValue(MP, null);
+        Log.d(TAG, "getKey: " + key);
+        return key;
     }
 
     public static void storeMP(String mPass) {
@@ -40,11 +44,23 @@ public class CryptoCipher extends CryptoUtils {
 
 
     public static String encrypt(String message) {
-        return encrypt(getKey(), message);
+        Log.d(TAG, "encrypt: message: " + message);
+        String enc = encrypt(getKey(), message);
+        Log.d(TAG, "encrypt: enc: " + enc);
+        try {
+            Log.d(TAG, "on place decipher: " + decrypt(enc));
+        } catch (DecryptionException e) {
+            Log.e(TAG, "encrypt: " + e);
+            e.printStackTrace();
+        }
+        return enc;
     }
 
     public static String decrypt(String message) throws DecryptionException {
-        return decrypt(getKey(), message);
+        Log.d(TAG, "decrypt: message: " + message);
+        String enc = decrypt(getKey(), message);
+        Log.d(TAG, "decrypt: dec: " + enc);
+        return enc;
     }
 
 }

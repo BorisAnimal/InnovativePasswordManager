@@ -59,7 +59,7 @@ public class LoginController implements LoginMVC.Controller {
                             view.showNotification("Error accurend: " + resp.getErrorMessage());
                         }
                     } else {
-                        view.showNotification("Server unavailable");
+                        view.showNotification("Server error");
                     }
                 }
 

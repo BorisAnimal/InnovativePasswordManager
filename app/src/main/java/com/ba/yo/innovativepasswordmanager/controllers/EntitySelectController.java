@@ -44,7 +44,7 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
                         view.addEntity(ent.getDescription(), ent.getId());
                     }
                 } else {
-                    view.showNotification("Server unavailable");
+                    view.showNotification("Server error");
                 }
             }
 
@@ -73,7 +73,7 @@ public class EntitySelectController implements EntitySelectMVC.Controller {
                     ResponseBody resp = response.body();
                     Log.d(TAG, resp + "");
                 } else {
-                    view.showNotification("Server unavailable");
+                    view.showNotification("Server error");
                 }
             }
 

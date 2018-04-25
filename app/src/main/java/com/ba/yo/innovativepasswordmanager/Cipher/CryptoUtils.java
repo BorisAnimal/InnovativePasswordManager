@@ -107,6 +107,7 @@ public class CryptoUtils {
             return cipher.doFinal(encrypted);
 
         } catch (InvalidKeyException | IllegalBlockSizeException | BadPaddingException e) {
+            System.out.println(e.getLocalizedMessage());
             throw new DecryptionException();
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             // only if algorithm name will be changed in a wrong way

@@ -1,21 +1,15 @@
-package UnitTests;
-
 import com.ba.yo.innovativepasswordmanager.Cipher.CryptoUtils;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.internal.runners.JUnit4ClassRunner;
-import org.junit.runner.RunWith;
+import org.testng.annotations.Test;
+import org.testng.Assert;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
-@RunWith(JUnit4ClassRunner.class)
-public class CipherTests {
+public class CryptoUtilsTests {
     private static String DEF_MESSAGE = "Hello, world!";
     private static String DEF_PASSWORD = "very_strong_pass";
     private static final String DEF_MESSAGE_ENCRYPTED = "1BF57F854ECB95FE48A3A9183B12BA9D";
-
 
     @Test
     public void defaultInput() throws CryptoUtils.DecryptionException {
@@ -30,6 +24,26 @@ public class CipherTests {
     public void decryptDefaultInput() throws CryptoUtils.DecryptionException {
         String decrypted = CryptoUtils.decrypt(DEF_PASSWORD, DEF_MESSAGE_ENCRYPTED);
         Assert.assertEquals(decrypted, DEF_MESSAGE);
+    }
+
+    @Test
+    public void decryptWithWrongPassword() {
+        try {
+            CryptoUtils.decrypt("some_wrong_pass", DEF_MESSAGE_ENCRYPTED);
+        } catch (CryptoUtils.DecryptionException e) {
+            return;
+        }
+        Assert.fail();
+    }
+
+    @Test
+    public void decryptWithRandomPassword() {
+        try {
+            CryptoUtils.decrypt(getRandomString(), DEF_MESSAGE_ENCRYPTED);
+        } catch (CryptoUtils.DecryptionException e) {
+            return;
+        }
+        Assert.fail();
     }
 
     private void encryptAndDecrypt(String password, String message) throws CryptoUtils.DecryptionException {
@@ -139,111 +153,3 @@ public class CipherTests {
         return str.toString();
     }
 }
-
-//import com.ba.yo.innovativepasswordmanager.Cipher.CryptoUtils;
-//
-//import org.junit.Test;
-//
-//import static org.junit.Assert.*;
-//
-///**
-// * Created by Java-Ai-BOT on 4/20/2018.
-// */
-//
-////@RunWith(MockitoJUnitRunner.class)
-//public class CipherTests {
-//
-//    @Test
-//    public void decryptEquality() throws NoKeyException {
-//        // given:
-//        final String MP = "password11";
-//        final String MSG = "Some user's message";
-//        CryptoUtils.setKeyword(MP);
-//
-//        // when:
-//        String crypted = CryptoUtils.encrypt(MSG);
-//
-//        // then:
-//        assertNotEquals(MSG, crypted);
-//        assertEquals(MSG, CryptoUtils.decrypt(crypted));
-//    }
-//
-//
-//    @Test
-//    public void keyGenerationEquality() throws NoKeyException {
-//        // given:
-//        final String MP = "password11";
-//        final String MSG = "Some user's message";
-//        CryptoUtils.setKeyword(MP);
-//
-//        // when:
-//        String msg1 = CryptoUtils.encrypt(MSG);
-//        CryptoUtils.setKeyword(MP);
-//        String msg2 = CryptoUtils.encrypt(MSG);
-//
-//        // then:
-//        assertFalse(msg1 == msg2);
-//        assertEquals(CryptoUtils.decrypt(msg1), CryptoUtils.decrypt(msg2));
-//    }
-//
-//    @Test
-//    public void symetricEncryptionEquality() throws NoKeyException {
-//        // given:
-//        final String MP = "password11";
-//        final String MSG = "Some user's message";
-//        CryptoUtils.setKeyword(MP);
-//
-//        // when:
-//        String msg1 = CryptoUtils.encrypt(MSG);
-//        String msg2 = CryptoUtils.encrypt(MSG);
-//
-//        // then:
-//        assertFalse(msg1 == msg2); //links not equal
-//        assertEquals(CryptoUtils.decrypt(msg1), CryptoUtils.decrypt(msg2));
-//    }
-//
-//
-//    @Test
-//    public void cryptoMessageDifference() throws NoKeyException {
-//        // given:
-//        final String MP = "password11";
-//        final String MSG = "Some user's message";
-//        final String tmpMSG = "Some other message";
-//        CryptoUtils.setKeyword(MP);
-//
-//        // when:
-//        String msg1 = CryptoUtils.encrypt(MSG);
-//        String msg2 = CryptoUtils.encrypt(tmpMSG);
-//
-//        // then:
-//        assertNotEquals(msg1, msg2);
-//    }
-//
-//
-//    @Test
-//    public void keyDependence() throws NoKeyException {
-//        // given:
-//        final String MP = "password11";
-//        final String MSG = "Some user's message";
-//        final String tmpMP = "Some other message";
-//        CryptoUtils.setKeyword(MP);
-//
-//        // when:
-//        String msg1 = CryptoUtils.encrypt(MSG);
-//        String dec1 = CryptoUtils.decrypt(msg1);
-//        CryptoUtils.setKeyword(tmpMP);
-//        String msg2 = CryptoUtils.encrypt(MSG);
-//        String dec2 = CryptoUtils.decrypt(msg2);
-//
-//        System.out.println(msg1);
-//        System.out.println(msg2);
-//        System.out.println(dec1);
-//        System.out.println(dec2);
-//
-//        // then:
-//        assertNotEquals(msg1, msg2);
-//        assertNotEquals(CryptoUtils.decrypt(msg1), CryptoUtils.decrypt(msg2));
-//        assertEquals(dec1, dec2);
-//        assertEquals(dec1, MSG);
-//    }
-//}

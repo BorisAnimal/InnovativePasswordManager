@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10sp"
-            android:text="In case you need to extract all your data with stored Authentication Entries, you can easily choose service and destination. Or just save to device."
+            android:text="@string/manage_select_text"
             android:textSize="20sp" />
 
         <Button
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
 
             android:padding="10sp"
-            android:text="If you want to quickly wipe all your data leaving no traces in the system, use this option:"
+            android:text="@string/wipe_select_text"
             android:textSize="20sp" />
 
         <Button

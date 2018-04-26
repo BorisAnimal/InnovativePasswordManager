@@ -118,7 +118,7 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
     /**
      * Open applet download link in default browser
      */
-    private void linkBrowser(){
+    private void linkBrowser() {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.applet_link)));
         startActivity(browserIntent);
     }
@@ -126,10 +126,10 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
     /**
      * Copy applet download link to clipboard
      */
-    private void linkClipboard(){
+    private void linkClipboard() {
         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText(getString(R.string.applet_download_link), getString(R.string.applet_link));
-        if(clipboard!=null){
+        if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
             showNotification(getString(R.string.link_copied));
         }
@@ -141,7 +141,7 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
     @Override
     protected void onResume() {
         super.onResume();
-       controller.getData();
+        controller.getData();
     }
 
     /**
@@ -199,7 +199,6 @@ public class AppletSelectActivity extends AppCompatActivity implements AppletSel
 
     /**
      * Handler for "back" button on top of activity
-     *
      */
     public boolean onOptionsItemSelected(MenuItem item) {
         finish();

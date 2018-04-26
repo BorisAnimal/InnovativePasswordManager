@@ -117,8 +117,5 @@
             android:text=""
             android:textSize="15sp" />
 
-
-
-
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

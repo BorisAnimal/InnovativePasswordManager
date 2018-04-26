@@ -54,12 +54,8 @@ public class EditEntryController implements EditEntryMVC.Controller {
                 if (response.code() == 200 && response.body() != null) {
                     model = response.body();
                     try {
-                        Log.d(TAG, model.getLogin());
                         String login = CryptoCipher.decrypt(model.getLogin());
-                        Log.d(TAG, login);
-                        Log.d(TAG, model.getPassword());
                         String password = CryptoCipher.decrypt(model.getPassword());
-                        Log.d(TAG, password);
                         view.setExisting(login, password, model.getDescription());
                     } catch (CryptoUtils.DecryptionException e) {
                         Log.e(TAG, e + "");
@@ -83,16 +79,16 @@ public class EditEntryController implements EditEntryMVC.Controller {
         if (model == null) {
             model = new AccountModel();
         }
-        if (login != null)
+        if (login != null && login.length() > 4)
             model.setLogin(login);
         else {
-            view.showNotification("Enter login!");
+            view.showNotification("Enter long login!");
             return;
         }
-        if (pass != null)
+        if (pass != null && pass.length() > 4)
             model.setPassword(pass);
         else {
-            view.showNotification("Enter password!");
+            view.showNotification("Enter long password!");
             return;
         }
         model.setDescription(description);

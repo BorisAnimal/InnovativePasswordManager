@@ -37,7 +37,7 @@ public class ChangeMasterPasswordController implements ChangeMasterPasswordMVP.C
         //Checking
         final String oldMP = view.getOldMP();
         final String newMP = view.getNewMP();
-        if (newMP == null || !newMP.equals(view.getNewMPRepeat())) {
+        if (newMP == null || newMP.length() < 4 || !newMP.equals(view.getNewMPRepeat())) {
             view.showNotification("New password repeated wrong");
             return;
         }

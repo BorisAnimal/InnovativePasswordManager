@@ -35,7 +35,7 @@ public class DumpDataController implements DumpDataMVC.Controller {
     @Override
     public void makeDump() {
         String password = view.getPassword();
-        if (password == null) {
+        if (password == null || password.length() < 1) {
             view.showNotification("Enter correct password!");
             return;
         }

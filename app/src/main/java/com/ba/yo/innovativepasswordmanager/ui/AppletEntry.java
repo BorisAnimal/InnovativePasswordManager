@@ -5,6 +5,9 @@ public class AppletEntry {
     private int apImageDrawable;
     private String apName, apId;
 
+    /**
+     * Container for Applet entry in list
+     */
     public AppletEntry(int aImageDrawable, String aName, String aId){
         this.apImageDrawable = aImageDrawable;
         this.apName = aName;

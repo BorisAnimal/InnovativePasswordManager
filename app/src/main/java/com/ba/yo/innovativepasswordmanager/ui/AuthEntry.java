@@ -5,7 +5,10 @@ public class AuthEntry {
     private int aImageDrawable;
     private String aName, aId;
 
-    public AuthEntry(int aImageDrawable, String aName, String aId){
+    /**
+     * Container for Auth entry in list
+     */
+    public AuthEntry(int aImageDrawable, String aName, String aId) {
         this.aImageDrawable = aImageDrawable;
         this.aName = aName;
         this.aId = aId;

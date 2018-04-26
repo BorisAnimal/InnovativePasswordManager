@@ -22,8 +22,11 @@ public class AppletEntryAdapter extends ArrayAdapter<AppletEntry> {
     private Context apContext;
     private List<AppletEntry> appletList = new ArrayList<>();
 
+    /**
+     * Adapter for the applet list
+     */
     public AppletEntryAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<AppletEntry> list) {
-        super(context, 0 , list);
+        super(context, 0, list);
         apContext = context;
         appletList = list;
     }
@@ -32,14 +35,13 @@ public class AppletEntryAdapter extends ArrayAdapter<AppletEntry> {
     @Override
     public View getView(int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
-        if(listItem == null)
-            listItem = LayoutInflater.from(apContext).inflate(R.layout.list_applet_entry,parent,false);
+        if (listItem == null)
+            listItem = LayoutInflater.from(apContext).inflate(R.layout.list_applet_entry, parent, false);
 
         final AppletEntry currentEntry = appletList.get(position);
 
-        ImageView image = (ImageView)listItem.findViewById(R.id.imageView_poster);
+        ImageView image = (ImageView) listItem.findViewById(R.id.imageView_poster);
         image.setImageResource(currentEntry.getapImageDrawable());
-
 
         TextView name = (TextView) listItem.findViewById(R.id.textView_name);
         name.setText(currentEntry.getapName());

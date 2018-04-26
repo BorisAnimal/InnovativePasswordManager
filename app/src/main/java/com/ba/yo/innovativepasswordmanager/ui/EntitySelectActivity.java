@@ -1,11 +1,13 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.annotation.SuppressLint;
+import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.util.Log;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -105,6 +107,8 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
          */
         controller = new EntitySelectController(this);
         controller.getData();
+        //if(ProcessLifecycleOwner.get().getLifecycle().)
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(new FocusObserver(this));
     }
 
     /**
@@ -267,5 +271,4 @@ public class EntitySelectActivity extends AppCompatActivity implements EntitySel
         intent.putExtra("ENTRY_ID", id);
         startActivity(intent);
     }
-
 }

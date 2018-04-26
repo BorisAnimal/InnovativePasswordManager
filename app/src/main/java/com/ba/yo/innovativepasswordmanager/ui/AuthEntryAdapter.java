@@ -31,8 +31,11 @@ public class AuthEntryAdapter extends ArrayAdapter<AuthEntry> {
     private List<AuthEntry> authList = new ArrayList<>();
     private AuthEntryAdapterCallback callback;
 
+    /**
+     * Adapter for the entity list
+     */
     public AuthEntryAdapter(@NonNull Context context, @SuppressLint("SupportAnnotationUsage") @LayoutRes ArrayList<AuthEntry> list) {
-        super(context, 0 , list);
+        super(context, 0, list);
         aContext = context;
         authList = list;
     }
@@ -41,18 +44,21 @@ public class AuthEntryAdapter extends ArrayAdapter<AuthEntry> {
     @Override
     public View getView(int position, @Nullable final View convertView, @NonNull ViewGroup parent) {
         View listItem = convertView;
-        if(listItem == null)
-            listItem = LayoutInflater.from(aContext).inflate(R.layout.list_entry,parent,false);
+        if (listItem == null)
+            listItem = LayoutInflater.from(aContext).inflate(R.layout.list_entry, parent, false);
 
         final AuthEntry currentEntry = authList.get(position);
 
-        ImageView image = (ImageView)listItem.findViewById(R.id.imageView_poster);
+        ImageView image = (ImageView) listItem.findViewById(R.id.imageView_poster);
         image.setImageResource(currentEntry.getaImageDrawable());
 
 
         TextView name = (TextView) listItem.findViewById(R.id.textView_name);
         name.setText(currentEntry.getaName());
 
+        /*
+         * Assign behaviour for the menu button on each list entry in EntitySelect
+         */
         final Button prop_button = (Button) listItem.findViewById(R.id.prop_button);
         prop_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,13 +68,13 @@ public class AuthEntryAdapter extends ArrayAdapter<AuthEntry> {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
-                        if(id==R.id.entity_edit){
-                            if(callback!=null){
+                        if (id == R.id.entity_edit) {
+                            if (callback != null) {
                                 callback.goToEditEntityActivity(currentEntry.getaId());
                             }
                         }
-                        if(id==R.id.entity_delete){
-                            if(callback!=null){
+                        if (id == R.id.entity_delete) {
+                            if (callback != null) {
                                 callback.deleteEntity(currentEntry.getaName(), currentEntry.getaId());
                             }
                         }
@@ -86,7 +92,11 @@ public class AuthEntryAdapter extends ArrayAdapter<AuthEntry> {
         return listItem;
     }
 
-    public void setCallback(AuthEntryAdapterCallback callback){
+    /**
+     * Take reference of the caller activity
+     * @param callback
+     */
+    public void setCallback(AuthEntryAdapterCallback callback) {
 
         this.callback = callback;
     }

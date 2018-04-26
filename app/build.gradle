@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
-}
-
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -13,11 +9,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags "-std=c++14"
-            }
-        }
     }
     buildTypes {
         release {
@@ -25,12 +16,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
-        }
-    }
 }
+
 repositories {
     mavenCentral()
 }

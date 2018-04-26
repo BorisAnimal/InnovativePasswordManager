@@ -33,11 +33,10 @@ public class LoginController implements LoginMVC.Controller {
 
     @Override
     public void check(String login, String password) {
-        if (Objects.equals(login, "") || Objects.equals(password, "")) {
+        if (login == null || Objects.equals(login, "") || password == null || Objects.equals(password, "")) {
             view.showNotification("Login and Password fields can not be empty.");
             return;
         }
-        Log.d(TAG, login + "~" + password);
         CryptoCipher.storeMP(password);
         try {
             Call<LoginResponseModel> call = api.checkUser(RequestBody.create(
@@ -46,12 +45,9 @@ public class LoginController implements LoginMVC.Controller {
             call.enqueue(new Callback<LoginResponseModel>() {
                 @Override
                 public void onResponse(Call<LoginResponseModel> call, Response<LoginResponseModel> response) {
-                    Log.d(TAG, response.toString());
                     if (response.body() != null) {
                         LoginResponseModel resp = response.body();
-                        Log.d(TAG, resp + "");
                         if (resp.getErrorMessage() == null || resp.getErrorMessage().contains("null")) {
-                            Log.d(TAG, response.toString());
                             CryptoCipher.storeToken(resp.getSessionToken());
                             view.showNotification("All good");
                             view.goToEntitySelectActivity();
@@ -77,7 +73,6 @@ public class LoginController implements LoginMVC.Controller {
     }
 
     private String toJson(String login, String password) {
-        Log.d(TAG, login + " " + password);
         return String.format("{\n" +
                 "        \"username\": \"" + login + "\",\n" +
                 "        \"password\": \"" + password + "\"\n" +

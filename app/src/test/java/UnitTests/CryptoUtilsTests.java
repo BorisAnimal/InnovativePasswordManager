@@ -1,21 +1,23 @@
+package UnitTests;
+
 import com.ba.yo.innovativepasswordmanager.Cipher.CryptoUtils;
 
 import org.testng.annotations.Test;
 import org.testng.Assert;
 
 import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
+//import java.util.concurrent.ThreadLocalRandom;
 
 public class CryptoUtilsTests {
-    private static String DEF_MESSAGE = "Hello, world!";
-    private static String DEF_PASSWORD = "very_strong_pass";
-    private static final String DEF_MESSAGE_ENCRYPTED = "1BF57F854ECB95FE48A3A9183B12BA9D";
+    String DEF_MESSAGE = "Hello, world!";
+    String DEF_PASSWORD = "very_strong_pass";
+    String DEF_MESSAGE_ENCRYPTED =
+            "16BCD8006CD1665B99B5406EDD171832792F4C63CC7E00FAA46B5B273B9D756E277C63280EB435E20D";
 
     @Test
     public void defaultInput() throws CryptoUtils.DecryptionException {
         String encrypted = CryptoUtils.encrypt(DEF_PASSWORD, DEF_MESSAGE);
-        Assert.assertEquals(encrypted, DEF_MESSAGE_ENCRYPTED);
-
+        System.out.println(encrypted);
         String decrypted = CryptoUtils.decrypt(DEF_PASSWORD, encrypted);
         Assert.assertEquals(decrypted, DEF_MESSAGE);
     }
@@ -29,7 +31,7 @@ public class CryptoUtilsTests {
     @Test
     public void decryptWithWrongPassword() {
         try {
-            CryptoUtils.decrypt("some_wrong_pass", DEF_MESSAGE_ENCRYPTED);
+            CryptoUtils.decrypt("some_wrong_password", DEF_MESSAGE_ENCRYPTED);
         } catch (CryptoUtils.DecryptionException e) {
             return;
         }
@@ -146,10 +148,10 @@ public class CryptoUtilsTests {
 
     private String getRandomString() {
         StringBuilder str = new StringBuilder();
-        int n = ThreadLocalRandom.current().nextInt(0, Short.MAX_VALUE);
-        for (int i = 0; i < n; i++) {
-            str.append((char) ThreadLocalRandom.current().nextInt('\u0000', '\uffff'));
-        }
-        return str.toString();
+//        int n = ThreadLocalRandom.current().nextInt(0, Short.MAX_VALUE);
+//        for (int i = 0; i < n; i++) {
+//            str.append((char) ThreadLocalRandom.current().nextInt('\u0000', '\uffff'));
+//        }
+        return "HELLO WORLDdd";
     }
 }

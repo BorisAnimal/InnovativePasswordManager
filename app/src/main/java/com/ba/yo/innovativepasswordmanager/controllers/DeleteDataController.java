@@ -29,7 +29,7 @@ public class DeleteDataController implements WipeDataMVC.Controller {
             return;
         }
         String password = view.getMasterPassword();
-        if (password == null) {
+        if (password == null || password.length() < 1) {
             view.showNotification("Enter password!");
             return;
         }

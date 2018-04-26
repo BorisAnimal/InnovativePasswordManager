@@ -32,12 +32,12 @@ public class RegisterAccountController implements RegisterAccountMVC.Controller 
     public void registerAccount() {
         final String login = view.getLogin();
         final String password = view.getPassword();
-        if (login == null) {
-            view.showNotification("Login can not be empty");
+        if (login == null || login.length() < 4) {
+            view.showNotification("Enter long login!");
             return;
         }
-        if (password == null) {
-            view.showNotification("Password can not be empty");
+        if (password == null || password.length() < 4) {
+            view.showNotification("Enter long password!");
             return;
         }
 

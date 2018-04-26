@@ -37,7 +37,7 @@ public class ChangeMasterPasswordController implements ChangeMasterPasswordMVP.C
         //Checking
         final String oldMP = view.getOldMP();
         final String newMP = view.getNewMP();
-        if (newMP == null || newMP.length() < 4 || !newMP.equals(view.getNewMPRepeat())) {
+        if (newMP == null || !newMP.equals(view.getNewMPRepeat())) {
             view.showNotification("New password repeated wrong");
             return;
         }
@@ -58,27 +58,33 @@ public class ChangeMasterPasswordController implements ChangeMasterPasswordMVP.C
                         Log.d(TAG, "Start deciphering:");
                         for (AccountModel a : entities) {
                             //decipher all data
+                            Log.d(TAG, "onResponse: " + a.getLogin() + " " + a.getPassword());
                             a.setLogin(CryptoCipher.decrypt(a.getLogin()));
                             a.setPassword(CryptoCipher.decrypt(a.getPassword()));
                         }
                         //recipher all data
-                        CryptoCipher.storeMP(newMP);
                         for (AccountModel a : entities) {
-                            a.setLogin(CryptoCipher.encrypt(a.getLogin()));
-                            a.setPassword(CryptoCipher.encrypt(a.getPassword()));
+                            Log.d(TAG, "onResponse: " + a.getLogin() + " " + a.getPassword());
+                            a.setLogin(CryptoCipher.encrypt(newMP, a.getLogin()));
+                            a.setPassword(CryptoCipher.encrypt(newMP, a.getPassword()));
                         }
                         //send data and new hashed password to server
                         String accountsJson = new Gson().toJson(entities);
                         Call<ResponseBody> submitCall = api.changeMasterPassowrd(CryptoCipher.getToken(),
                                 CryptoCipher.hash256(newMP), accountsJson);
+                        Log.d(TAG, "onResponse: " + accountsJson);
                         submitCall.enqueue(new Callback<ResponseBody>() {
                             @Override
                             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                                 Log.d(TAG, "Submit new password request:");
                                 if (response.body() != null && response.code() == 200) {
+                                    CryptoCipher.storeMP(newMP);
                                     view.showNotification("Success");
                                     Log.d(TAG, "Response body: " + response.body().toString());
                                     view.goToEntitySelectActivity();
+                                } else {
+                                    Log.e(TAG, "Error while change master password");
+                                    view.showNotification("Error while change master password");
                                 }
                             }
 

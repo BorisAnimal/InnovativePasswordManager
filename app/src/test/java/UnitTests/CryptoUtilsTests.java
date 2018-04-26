@@ -1,7 +1,7 @@
 import com.ba.yo.innovativepasswordmanager.Cipher.CryptoUtils;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.Assert;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
@@ -9,16 +9,22 @@ import java.util.concurrent.ThreadLocalRandom;
 public class CryptoUtilsTests {
     private static String DEF_MESSAGE = "Hello, world!";
     private static String DEF_PASSWORD = "very_strong_pass";
-    private static final String DEF_MESSAGE_ENCRYPTED =
-            "FFAD16DAF69A85CAD4EC7D4DCB4600EC284702FFB14059F69247FC5B0AC5BF9DF3476673DA4938F800";
+    private static final String DEF_MESSAGE_ENCRYPTED = "1BF57F854ECB95FE48A3A9183B12BA9D";
 
     @Test
     public void defaultInput() throws CryptoUtils.DecryptionException {
         String encrypted = CryptoUtils.encrypt(DEF_PASSWORD, DEF_MESSAGE);
+        Assert.assertEquals(encrypted, DEF_MESSAGE_ENCRYPTED);
+
         String decrypted = CryptoUtils.decrypt(DEF_PASSWORD, encrypted);
         Assert.assertEquals(decrypted, DEF_MESSAGE);
     }
 
+    @Test
+    public void decryptDefaultInput() throws CryptoUtils.DecryptionException {
+        String decrypted = CryptoUtils.decrypt(DEF_PASSWORD, DEF_MESSAGE_ENCRYPTED);
+        Assert.assertEquals(decrypted, DEF_MESSAGE);
+    }
 
     @Test
     public void decryptWithWrongPassword() {
@@ -136,12 +142,6 @@ public class CryptoUtilsTests {
     @Test
     public void randomPasswordAndMessage() throws CryptoUtils.DecryptionException {
         encryptAndDecrypt(getRandomString(), getRandomString());
-    }
-
-    @Test
-    public void decryptDefaultInput() throws CryptoUtils.DecryptionException {
-        String decrypted = CryptoUtils.decrypt(DEF_PASSWORD, DEF_MESSAGE_ENCRYPTED);
-        Assert.assertEquals(decrypted, DEF_MESSAGE);
     }
 
     private String getRandomString() {

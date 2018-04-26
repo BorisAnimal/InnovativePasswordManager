@@ -1,15 +1,10 @@
 package MainGuiTests;
 
-import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.IdlingPolicies;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.rule.ActivityTestRule;
 
 import com.ba.yo.innovativepasswordmanager.R;
-import com.ba.yo.innovativepasswordmanager.ui.EditEntryActivity;
 import com.ba.yo.innovativepasswordmanager.ui.EntitySelectActivity;
 import com.ba.yo.innovativepasswordmanager.ui.LoginActivity;
 
@@ -19,11 +14,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
-
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -31,17 +21,12 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Checks.checkNotNull;
-import static android.support.test.espresso.intent.Intents.init;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.release;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.CoreMatchers.anything;
 
 /**
@@ -53,12 +38,13 @@ public class MainGuiTests {
     public ActivityTestRule<LoginActivity> testRule = new ActivityTestRule<>(LoginActivity.class);
 
     private String login, password;
-    private String eLogin = "modbrin", ePass = "qwe";
+    private static String eLogin = getRandomString(), ePass = getRandomString();
+
     @Test
-    public void a_shouldBeAbleToRegister(){
+    public void a_shouldBeAbleToRegister() {
         Intents.init();
-        login = getRandomString();
-        password = getRandomString();
+        login = eLogin;
+        password = ePass;
         onView(withId(R.id.btn_create_account)).perform(click());
         onView(withId(R.id.login_register)).perform(typeText(login));
         onView(withId(R.id.pass_register)).perform(typeText(password));
@@ -70,8 +56,7 @@ public class MainGuiTests {
     }
 
     @Test
-    public void b_shouldBeAbleToLogin()
-    {
+    public void b_shouldBeAbleToLogin() {
         Intents.init();
         onView(withId(R.id.master_login)).perform(typeText(eLogin));
         onView(withId(R.id.master_password)).perform(typeText(ePass), closeSoftKeyboard());
@@ -106,7 +91,7 @@ public class MainGuiTests {
     }
 
     @Test
-    public void d_shouldBeAbleToSelect(){
+    public void d_shouldBeAbleToSelect() {
         onView(withId(R.id.master_login)).perform(typeText(eLogin));
         onView(withId(R.id.master_password)).perform(typeText(ePass), closeSoftKeyboard());
         onView(withId(R.id.master_button)).perform(click());
@@ -126,7 +111,7 @@ public class MainGuiTests {
     }
 
     @Test
-    public void e_shouldBeAbleToWipe(){
+    public void e_shouldBeAbleToWipe() {
         onView(withId(R.id.master_login)).perform(typeText(eLogin));
         onView(withId(R.id.master_password)).perform(typeText(ePass), closeSoftKeyboard());
         onView(withId(R.id.master_button)).perform(click());
@@ -153,7 +138,7 @@ public class MainGuiTests {
         onView(withId(R.id.entry_selector)).check(matches(isDisplayed()));
     }
 
-    String getRandomString(){
+    static String getRandomString() {
         return RandomStringUtils.randomAlphanumeric(10);
     }
 }

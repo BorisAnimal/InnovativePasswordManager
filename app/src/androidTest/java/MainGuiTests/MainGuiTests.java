@@ -53,10 +53,9 @@ public class MainGuiTests {
     public ActivityTestRule<LoginActivity> testRule = new ActivityTestRule<>(LoginActivity.class);
 
     private String login, password;
-    private String eLogin = "modbrin", ePass = "qwe";
+    private String eLogin = "modbrin", ePass = "qwerty";
     @Test
     public void a_shouldBeAbleToRegister(){
-        Intents.init();
         login = getRandomString();
         password = getRandomString();
         onView(withId(R.id.btn_create_account)).perform(click());
@@ -66,7 +65,6 @@ public class MainGuiTests {
         //Check fields on login page to match newly created account
         onView(withId(R.id.master_login)).check(matches(withText(login)));
         onView(withId(R.id.master_password)).check(matches(withText(password)));
-        Intents.release();
     }
 
     @Test
@@ -102,7 +100,7 @@ public class MainGuiTests {
             intended(hasComponent(EntitySelectActivity.class.getName()));
         }
 
-        release();
+        Intents.release();
     }
 
     @Test

@@ -133,7 +133,7 @@ public class CryptoUtils {
         return res;
     }
 
-    protected static String toHex(byte[] buf) {
+    public static String toHex(byte[] buf) {
         if (buf == null)
             return "";
         StringBuffer res = new StringBuffer(2 * buf.length);

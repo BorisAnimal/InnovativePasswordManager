@@ -1,28 +1,28 @@
 package com.ba.yo.innovativepasswordmanager.ui;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Shader;
-import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.TextClock;
 import android.widget.TextView;
 
-import com.ba.yo.innovativepasswordmanager.Transition;
-import com.ba.yo.innovativepasswordmanager.controllers.LoginController;
+import com.ba.yo.innovativepasswordmanager.Cipher.CryptoCipher;
 import com.ba.yo.innovativepasswordmanager.LoginMVC;
 import com.ba.yo.innovativepasswordmanager.R;
+import com.ba.yo.innovativepasswordmanager.controllers.LoginController;
 
-import org.apache.commons.lang3.ObjectUtils;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +37,26 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
     private TextView mainLabel;
     private TextView registerLabel;
     private LoginMVC.Controller controller;
+    private final String TAG = "KEK";
+
+    public String getGarbledString(String string, byte[] salt, int iterations, int derivedKeyLength) {
+        SecretKeyFactory f = null;
+        try {
+            f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "getGarbledString: " + e.getLocalizedMessage());
+        }
+        KeySpec spec = new PBEKeySpec(string.toCharArray(), salt, iterations, derivedKeyLength * 8);
+        SecretKey key = null;
+        try {
+            key = f.generateSecret(spec);
+        } catch (InvalidKeySpecException e) {
+            Log.e(TAG, "getGarbledString: " + e.getLocalizedMessage());
+        }
+        String hexStr = CryptoCipher.toHex(key.getEncoded());
+        return hexStr;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +65,9 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
 
         // Bind all elements that annotated above
         ButterKnife.bind(this);
+
+        String cr = getGarbledString("1000000000", "salt".getBytes(), 100000, 32);
+        Log.d("KEK", cr);
 
         controller = new LoginController(this);
 
@@ -72,6 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
             }
         });
     }
+
     /**
      * Proceed to main activity, i.e. EntitySelect
      */
@@ -91,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
 
     /**
      * Show notification in the bottom of activity as a "Snackbar"
+     *
      * @param notificationText - string that user should read
      */
     public void showNotification(String notificationText) {
@@ -101,27 +126,29 @@ public class LoginActivity extends AppCompatActivity implements LoginMVC.View {
 
     /**
      * Handle return values from register activity
+     *
      * @param data intent that was constructed in register activity, contains parameters
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_OK){
-            try{
+        if (resultCode == RESULT_OK) {
+            try {
                 String returnLogin = data.getStringExtra("LOGIN");
                 String returnPass = data.getStringExtra("PASSWORD");
                 setExisting(returnLogin, returnPass);
-            }catch (NullPointerException e){
-                Log.d("ACTIVITY_TRANSITION","Register Activity return null data.");
+            } catch (NullPointerException e) {
+                Log.d("ACTIVITY_TRANSITION", "Register Activity return null data.");
             }
-        }else if(resultCode==RESULT_CANCELED){
+        } else if (resultCode == RESULT_CANCELED) {
             Log.d("ACTIVITY_TRANSITION", "Registration cancelled");
         }
     }
 
     /**
      * Set existing values in activity
-     * @param login login value
+     *
+     * @param login   login value
      * @param pasword password value
      */
     @Override
